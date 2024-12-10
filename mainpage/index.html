@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <img src="../resources/krilo-logo.png" alt="KriLo Logo" class="logo">
+        <button class="create-btn">Create</button>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <span class="clear-icon">&times;</span>
+        </div>
+        <button class="login-btn">Log In</button>
+        <button class="signup-btn">Sign Up</button>
+    </header>
+    <div class="suggestions">
+        <div class="suggestions-box">
+            <div class="food-item">
+                <img src="../resources/pizza.jpg" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/meal-icon.png" alt="Food Title">
+                <p>Breakfast, Lunch and Dinner:</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/meal-icon.png" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/meal-icon.png" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/pizza.jpg" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/meal-icon.png" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/meal-icon.png" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/meal-icon.png" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+            <div class="food-item">
+                <img src="../resources/pizza.jpg" alt="Food Title">
+                <p>Food Title</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="foodModal" class="modal">
+        <div class="modal-content">
+            <h2 id="foodTitle">Food Title</h2>
+            <img id="foodImage" src="" alt="Food Image">
+            <p id="foodIngredients">Ingredients</p>
+            <div id="modal-buttons">
+                <button id="favoriteBtn">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <a href="../account/index.html">
+                    <button id="instructionsBtn">Step-By-Step</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
