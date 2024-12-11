@@ -9,11 +9,11 @@ body {
 .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Ensures the elements are spaced out correctly */
+    justify-content: space-between;
     background-color: #f4c8b4;
     padding: 10px 20px;
-    width: 100%; /* Forces the navbar to span the full width of the viewport */
-    box-sizing: border-box; /* Includes padding in the total width calculation */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .logo {
@@ -70,21 +70,32 @@ body {
     color: #aaa;
 }
 
-.profile-icon .profile-img {
+.profile-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-img {
     height: 50px;
     width: 50px;
+    object-fit: cover;
     border-radius: 50%;
-    cursor: pointer;
+    pointer-events: none;
 }
 
 .layout {
     display: flex;
-    flex-direction: row; /* Positions the cards horizontally */
-    align-items: flex-start; /* Aligns items to the top */
-    justify-content: center; /* Centers the content */
-    gap: 20px; /* Adds spacing between the cards */
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
     padding: 20px;
-    width: 100%; /* Ensures layout spans the full width */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -101,7 +112,7 @@ body {
 
 .food-image {
     width: 100%;
-    aspect-ratio: 8/8; /* Enforces consistent aspect ratio */
+    aspect-ratio: 8/8;
     background-color: #dcdcdc;
     display: flex;
     justify-content: center;
