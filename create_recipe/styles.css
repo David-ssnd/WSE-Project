@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4e0d9;
+    color: #333;
+    justify-content: space-between;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f4c8b4;
+    padding: 10px 20px;
+}
+
+.logo {
+    height: 50px;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+.create-btn {
+    height: 50px;
+    width: 100px;
+    padding: 8px 15px;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    background-color: #e66c2c;
+    color: white;
+    cursor: pointer;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 20px;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+.search-bar input:focus {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-bar .clear-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    cursor: pointer;
+    color: #aaa;
+    user-select: none;
+}
+
+.profile-icon .profile-img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.food-card {
+    width: 20%;
+    min-height: 25px;
+    margin-left: 20%;
+    margin-top: 5%;
+    background-color: #fac9b7;
+    border-radius: 10px;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.food-image {
+    width: 99.5%;
+    aspect-ratio: 4/3;
+    background-color: #dcdcdc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #aaa;
+}
+
+.food-title {
+    position: relative;
+    top: 0;
+    left: 0;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.layout {
+    width: 100%;
+    display: flex;
+    position: relative;
+    padding: 20px;
+}
