@@ -22,14 +22,31 @@
     <div class="layout">
         <div class="food-card">
             <div class="food-image">
-
                 <p>Upload Image *</p>
             </div>
-            <div class="food-title">
-                <p>Food Title</p>
+            <div class="food-details">
+                <div class="food-title">Food Title</div>
+                <div class="food-author">By ${author_name}</div>
             </div>
         </div>
-        
+
+        <div class="ingredients-card">
+            <div class="ingredients-header">
+                <h3>Ingredients:</h3>
+            </div>
+            <div class="ingredient-list">
+                <div class="ingredient-item">
+                    <span class="ingredient-name">Flour 500g</span>
+                    <div class="ingredient-actions">
+                        <button class="edit-button">✏️</button>
+                        <button class="delete-button">➖</button>
+                    </div>
+                </div>
+                <div class="add-ingredient">
+                    <button class="add-button">+</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
