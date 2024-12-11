@@ -26,8 +26,44 @@
             <button class="signup-btn">Sign Up</button>
         </a>
     </header>
-    <div class="suggestions">
-        <div class="suggestions-box">
+    <div class="mainpage">
+        <div class="fridge-area">
+            <div class="fridge">
+                <img src="../resources/fridge.png">
+            </div>
+            <div class="fridge-search">
+                <table id="fridge-table">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ingredient">
+                                <input type="text" placeholder="Ingredient">
+                            </td>
+                            <td class="amount">
+                                <input type="text" placeholder="Amount">
+                            </td>
+                            <td class="actions">
+                                <button class="remove-btn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <button id="fridge-add-btn">Add Ingredient</button>
+                                <button id="fridge-search-button">Search</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="suggestions">
             <div class="food-item">
                 <img src="../resources/pizza.jpg" alt="Food Title">
                 <p>Food Title</p>
@@ -66,7 +102,7 @@
             </div>
         </div>
     </div>
-
+    
     <div id="foodModal" class="modal">
         <div class="modal-content">
             <h2 id="foodTitle">Food Title</h2>

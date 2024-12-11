@@ -26,3 +26,20 @@ window.addEventListener('click', (event) => {
         modal.style.display = 'none';
     }
 });
+
+// Table - fridge
+document.addEventListener("DOMContentLoaded", () => {
+    const table = document.getElementById("fridge-table").querySelector("tbody");
+
+    table.addEventListener("click", (event) => {
+        if (event.target.classList.contains("fridge-add-btn")) {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>New Row, Col 1</td>
+                <td>New Row, Col 2</td>
+                <td><button class="fridge-add-btn">+</button></td>
+            `;
+            table.appendChild(newRow);
+        }
+    });
+});
