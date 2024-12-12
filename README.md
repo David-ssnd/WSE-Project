@@ -7,7 +7,6 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ## Technológie
 - **Frontend**: HTML, CSS, JavaScript
-- **Backend**: JavaScript, PostgreSQL, PHP
 
 ---
 
