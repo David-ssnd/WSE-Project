@@ -7,7 +7,6 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ## Technológie
 - **Frontend**: HTML, CSS, JavaScript
-- **Backend**: JavaScript, PostgreSQL, PHP
 
 ---
 
@@ -99,14 +98,16 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 2. Klikne na tlačidlo pridať recenziu a napíše recenziu/  vyberie si počet hviezdičiek ktoré chce receptu dať a klikne na toľkú hviezdičku zľava, koľko ich chce dať
 3. Hodnotenie sa uloží do databázy a zväčší sa počet hodnotení/recenzia sa uloží do databázy.
 
-### 2. Hodnotenie a recenzie receptov
-- Len prihlásení používatelia môžu pridávať hodnotenia a recenzie k receptom.
-
-### 3. Pridanie receptu
+### 2. Pridanie receptu
 1. Používateľ sa prihlási.
 2. Klikne na tlačidlo "Create" a presunie sa na stránku na pridávanie receptov.
 3. Vyplní názov, ingrediencie, postup a pridá obrázok.
 4. Recept sa uloží do databázy a sprístupní na stránke.
+
+### 3. Hodnotenie a recenzie receptov
+- Len prihlásení používatelia môžu:
+  - pridávať hodnotenia
+  - pridávať recenzie
 
 ---
 
@@ -120,20 +121,10 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ---
 
-## Inštalácia a spustenie
-1. Klonujte tento repozitár:
+## Klonujte tento repozitár:
    ```bash
    git clone https://github.com/username/krilo-recipes.git
    ```
-2. Nainštalujte potrebné závislosti:
-   ```bash
-   npm install
-   ```
-3. Spustite lokálny server:
-   ```bash
-   npm start
-   ```
-
 ---
 
 ## Prispievanie
