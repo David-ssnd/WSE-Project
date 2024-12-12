@@ -96,14 +96,16 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 - Používatelia zadajú suroviny, ktoré majú k dispozícii.
 - Zobrazia sa recepty, ktoré môžu pripraviť s týmito ingredienciami.
 
-### 2. Hodnotenie a recenzie receptov
-- Len prihlásení používatelia môžu pridávať hodnotenia a recenzie k receptom.
-
-### 3. Pridanie receptu
+### 2. Pridanie receptu
 1. Používateľ sa prihlási.
 2. Klikne na tlačidlo "Create" a presunie sa na stránku na pridávanie receptov.
 3. Vyplní názov, ingrediencie, postup a pridá obrázok.
 4. Recept sa uloží do databázy a sprístupní na stránke.
+
+### 3. Hodnotenie a recenzie receptov
+- Len prihlásení používatelia môžu:
+  - pridávať hodnotenia
+  - pridávať recenzie
 
 ---
 
@@ -117,20 +119,10 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ---
 
-## Inštalácia a spustenie
-1. Klonujte tento repozitár:
+## Klonujte tento repozitár:
    ```bash
    git clone https://github.com/username/krilo-recipes.git
    ```
-2. Nainštalujte potrebné závislosti:
-   ```bash
-   npm install
-   ```
-3. Spustite lokálny server:
-   ```bash
-   npm start
-   ```
-
 ---
 
 ## Prispievanie
