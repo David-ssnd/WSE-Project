@@ -237,6 +237,7 @@ body {
 
 .fridge-search-bar {
     margin-top: 3px;
+    gap: 10px;
     display: flex;
     justify-content: space-between;
 }
@@ -249,11 +250,11 @@ body {
     width: 100%;
     height: 50px;
     border-radius: 25px;
-    margin: 5px;
     overflow: hidden;
 }
 
 #fridge-switcher input {
+    cursor: pointer;
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
@@ -272,7 +273,7 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: #ffffff;
+    color: white;
 }
 
 #fridge-switcher input:before {
@@ -290,21 +291,14 @@ body {
 #fridge-switcher label {
     z-index: 1;
     position: absolute;
-    /* top: 10px; */
-    /* bottom: 10px; */
     border-radius: 20px;
-    /* background: #1e1e1e;
-    transition: left 0.5s, right 0.5s; */
 }
 
 #fridge-switcher input:checked {
-    background-color: #ffffff;
+    background-color: white;
 }
 
 #fridge-switcher input:checked + label {
-/*  left: 10px;
-    right: 100px;
-    transition: left 0.5s, right 0.5s; */
     background: white;
     -webkit-animation: turn-on 0.5s ease-out;
             animation: turn-on 0.5s ease-out;
@@ -332,10 +326,6 @@ body {
 }
 
 #fridge-switcher input:not(:checked) + label {
-    /* left: 100px;
-    right: 10px;
-    background: #ffffff;
-    transition: left 0.5s, right 0.5s; */
     background: #1e1e1e;
     -webkit-animation: turn-off 0.5s ease-out;
             animation: turn-off 0.5s ease-out;
@@ -365,6 +355,8 @@ body {
     height: 50px;
     border-radius: 25px;
 }
+
+/* Fridge Search Button */
 
 #fridge-search-button {
     width: 50px;
