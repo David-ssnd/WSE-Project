@@ -95,6 +95,9 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 ### 1. Vyhľadanie receptov podľa surovín
 - Používatelia zadajú suroviny, ktoré majú k dispozícii.
 - Zobrazia sa recepty, ktoré môžu pripraviť s týmito ingredienciami.
+1. Používateľ sa prihlási.
+2. Klikne na tlačidlo pridať recenziu a napíše recenziu/  vyberie si počet hviezdičiek ktoré chce receptu dať a klikne na toľkú hviezdičku zľava, koľko ich chce dať
+3. Hodnotenie sa uloží do databázy a zväčší sa počet hodnotení/recenzia sa uloží do databázy.
 
 ### 2. Hodnotenie a recenzie receptov
 - Len prihlásení používatelia môžu pridávať hodnotenia a recenzie k receptom.
