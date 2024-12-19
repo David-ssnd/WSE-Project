@@ -12,7 +12,8 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ## Hlavné funkcie
 - Prezeranie a vyhľadávanie receptov
-- Pridávanie receptov do databázy
+- Vytváranie receptov
+- Pridávanie receptov do "obľúbených"
 - Hodnotenie receptov
 - Registrácia/prihlásenie používateľa
 - Filtrácia receptov podľa surovín
@@ -46,7 +47,8 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 #### Možnosti:
 - Všetky funkcie neprihláseného používateľa
 - Pridávanie hodnotenia a komentárov k receptom
-- Pridávanie vlastných receptov
+- Vytváranie vlastných receptov
+- Pridávanie receptov do "obľúbených"
 - Generovanie receptov (pomocou vlastného Gemini API kľúča)
 
 ---
@@ -54,9 +56,19 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 ## Stránky a ich funkcie
 
 ### 1. **Hlavná stránka**
+- Možnosť prihlásenia/registrácie vpravo hore
 - Vyhľadávanie receptov podľa surovín alebo názvu
 - Zobrazenie niekoľkých receptov vedľa seba na šírke stránky (PC)
-- Možnosť prihlásenia/registrácie vpravo hore
+- Kliknúť na recept (vyskočí popup)
+
+### Popup
+**Prihlasovacie vyskakovacie okno**
+- Zadanie prihlasovacích údajov
+- Možnosť prechodu na registračnú stránku
+
+**Registračné vyskakovacie okno**
+- Zadanie prezývky, e-mailu a hesla
+- Registrácia nového používateľa
 
 ### 2. **Profil používateľa** (Prihlásený používateľ)
 - Zobrazenie uložených "obľúbených" receptov
@@ -73,15 +85,7 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 - Hodnotenie receptu, recenzie a možnosť pridať hodnotenie
 - Možnosť pridania receptu do "obľúbených"
 
-### 5. **Prihlasovacia stránka**
-- Zadanie prihlasovacích údajov
-- Možnosť prechodu na registračnú stránku
-
-### 6. **Registračná stránka**
-- Zadanie prezývky, e-mailu a hesla
-- Registrácia nového používateľa
-
-### 7. **Stránka na pridávanie receptov**
+### 5. **Stránka na vytváranie receptov**
 - Pridanie obrázka
 - Zadanie názvu receptu
 - Pridanie a upravovanie ingrediencií
@@ -98,16 +102,16 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 2. Klikne na tlačidlo pridať recenziu a napíše recenziu/  vyberie si počet hviezdičiek ktoré chce receptu dať a klikne na toľkú hviezdičku zľava, koľko ich chce dať
 3. Hodnotenie sa uloží do databázy a zväčší sa počet hodnotení/recenzia sa uloží do databázy.
 
-### 2. Pridanie receptu
+### 2. Vytvorenie receptu
 1. Používateľ sa prihlási.
-2. Klikne na tlačidlo "Create" a presunie sa na stránku na pridávanie receptov.
+2. Klikne na tlačidlo "Create" a presunie sa na stránku na vytváranie receptov.
 3. Vyplní názov, ingrediencie, postup a pridá obrázok.
 4. Recept sa uloží do databázy a sprístupní na stránke.
 
 ### 3. Hodnotenie a recenzie receptov
-- Len prihlásení používatelia môžu:
-  - pridávať hodnotenia
-  - pridávať recenzie
+   - Len prihlásení používatelia môžu:
+   - pridávať hodnotenia
+   - pridávať recenzie
 
 ---
 
