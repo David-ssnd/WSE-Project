@@ -14,7 +14,7 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 - Prezeranie a vyhľadávanie receptov
 - Pridávanie receptov do databázy
 - Hodnotenie receptov
-- Registrácia/prihlásenie používateľa na pridávanie receptov a ich hodnotenie
+- Registrácia/prihlásenie používateľa
 - Filtrácia receptov podľa surovín
 - Generovanie receptov s pomocou AI (Gemini API)
 
@@ -47,7 +47,7 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 - Všetky funkcie neprihláseného používateľa
 - Pridávanie hodnotenia a komentárov k receptom
 - Pridávanie vlastných receptov
-- Generovanie receptov
+- Generovanie receptov (pomocou vlastného Gemini API kľúča)
 
 ---
 
@@ -55,7 +55,7 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ### 1. **Hlavná stránka**
 - Vyhľadávanie receptov podľa surovín alebo názvu
-- Zobrazenie 3 receptov vedľa seba na šírke stránky (PC)
+- Zobrazenie niekoľkých receptov vedľa seba na šírke stránky (PC)
 - Možnosť prihlásenia/registrácie vpravo hore
 
 ### 2. **Profil používateľa** (Prihlásený používateľ)
