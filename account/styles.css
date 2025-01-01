@@ -1,16 +1,31 @@
+:root {
+    --background: #f4e0d9;
+    --navbar: #f4c8b4;
+    --primary: #333;
+    --button-bg: #e66c2c;
+    --button: white;
+    --search-bar-placeholder: #aaa;
+    --search-bar: white;
+    --profile-name: #e66c2c;
+    --food-item-bg: white;
+    --modal-bg: white;
+    --modal-title: #e66c2c;
+    --modal-ingredients: #333;
+  }
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4e0d9;
-    color: #333;
+    background-color: var(--background);
+    color: var(--primary);
 }
 
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f4c8b4;
+    background-color: var(--navbar);
     padding: 10px 20px;
 }
 
@@ -31,9 +46,15 @@ body {
     font-weight: bold;
     border: none;
     border-radius: 25px;
-    background-color: #e66c2c;
-    color: white;
+    background-color: var(--button-bg);
+    color: var(--button);
     cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.create-btn:hover {
+    background-color: var(--button);
+    color: var(--button-bg);
 }
 
 .search-bar {
@@ -51,13 +72,13 @@ body {
     padding: 0 20px;
     border: none;
     outline: none;
-    background-color: #fff;
+    background-color: var(--search-bar);
     font-size: 16px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar input::placeholder {
-    color: #aaa;
+    color: var(--search-bar-placeholder);
     font-style: italic;
 }
 
@@ -72,7 +93,7 @@ body {
     transform: translateY(-50%);
     font-size: 16px;
     cursor: pointer;
-    color: #aaa;
+    color: var(--search-bar-placeholder);
     user-select: none;
 }
 
@@ -113,7 +134,7 @@ body {
 }
 
 .profile-header h2 {
-    color: #e66c2c;
+    color: var(--profile-name);
 }
 
 .follow-stats {
@@ -131,15 +152,15 @@ body {
     padding: 8px 15px;
     border: none;
     border-radius: 5px;
-    background-color: white;
+    background-color: var(--button);
     cursor: pointer;
     margin: 5px;
     transition: background-color 0.3s ease;
 }
 
 .tab-btn:hover {
-    background-color: #e66c2c;
-    color: white;
+    background-color: var(--button-bg);
+    color: var(--button);
 }
 
 .profile-content {
@@ -154,13 +175,11 @@ body {
     padding: 10px;
     text-align: center;
     border-radius: 10px;
-    background-color: #f8f8f8;
+    background-color: var(--food-item-bg);
     cursor: pointer;
 }
 
 .food-item:hover {
-    /* transform: scale(1.05);
-    transition: transform 0.2s ease; */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -194,7 +213,7 @@ body {
 }
 
 .modal-content {
-    background: #fff;
+    background: var(--modal-bg);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -203,7 +222,7 @@ body {
 }
 
 #foodTitle {
-    color: #e66c2c;
+    color: var(--modal-title);
 }
 
 #foodImage {
@@ -216,5 +235,5 @@ body {
 #foodIngredients {
     margin-top: 10px;
     font-size: 16px;
-    color: #555;
+    color: var(--modal-ingredients);
 }
