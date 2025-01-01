@@ -1,4 +1,3 @@
-// Príklad dát
 const recipes = [
     {
         "nazov": "Pizza Margherita",
@@ -17,14 +16,13 @@ const recipes = [
     }
 ];
 
-// Po načítaní stránky vykonaj zobrazenie receptov
 window.onload = function() {
     displayRecipes(recipes);
 };
 
 function displayRecipes(recipes) {
     const profileContent = document.querySelector('.profile-content');
-    profileContent.innerHTML = ''; // Vymaže predchádzajúci obsah
+    profileContent.innerHTML = '';
 
     recipes.forEach(recipe => {
         const foodItem = document.createElement('div');
@@ -37,7 +35,6 @@ function displayRecipes(recipes) {
         const foodName = document.createElement('p');
         foodName.textContent = recipe.nazov;
 
-        // Pridanie kliknutia na recept, ktoré otvorí popup
         foodItem.addEventListener('click', function() {
             openModal(recipe);
         });
@@ -54,22 +51,13 @@ function openModal(recipe) {
     const foodImage = document.getElementById('foodImage');
     const foodIngredients = document.getElementById('foodIngredients');
 
-    // Nastav obsah modálu
     foodTitle.textContent = recipe.nazov;
     foodImage.src = recipe.foto;
     foodImage.alt = recipe.nazov;
     foodIngredients.textContent = "Ingrediencie: " + recipe.ingrediencie.join(', ');
 
-    // Zobrazenie modálu
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
 
-    // Zatvorenie modálu pri kliknutí na krížik
-    const closeModal = document.querySelector('.auth-close-btn');
-    closeModal.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    // Zatvorenie modálu pri kliknutí mimo okna
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
