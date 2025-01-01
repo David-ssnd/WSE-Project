@@ -1,0 +1,17 @@
+[
+    {
+        "nazov": "Pizza Margherita",
+        "ingrediencie": ["cesto", "paradajky", "mozzarella", "bazalka", "olivový olej"],
+        "foto": "https://via.placeholder.com/150?text=Pizza+Margherita"
+    },
+    {
+        "nazov": "Spaghetti Carbonara",
+        "ingrediencie": ["špagety", "slanina", "parmezán", "vajcia", "cesnak"],
+        "foto": "https://via.placeholder.com/150?text=Spaghetti+Carbonara"
+    },
+    {
+        "nazov": "Hranolky",
+        "ingrediencie": ["zemiaky", "soľ", "olej"],
+        "foto": "https://via.placeholder.com/150?text=Fries"
+    }
+]
