@@ -18,12 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     ];
 
-    // Funkcia na zobrazenie jedál
     function displayRecipes() {
         const suggestionsContainer = document.querySelector(".suggestions");
-        suggestionsContainer.innerHTML = ""; // Vymaže predchádzajúce návrhy
+        suggestionsContainer.innerHTML = "";
 
-        // Pre každý recept v JSON dáta
         recipes.forEach(recipe => {
             const foodItem = document.createElement("div");
             foodItem.classList.add("food-item");
@@ -35,21 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const foodName = document.createElement("p");
             foodName.textContent = recipe.nazov;
 
-            // Pridaj fotku a názov do foodItem
             foodItem.appendChild(foodImage);
             foodItem.appendChild(foodName);
 
-            // Pridaj foodItem do kontajnera
             suggestionsContainer.appendChild(foodItem);
 
-            // Po kliknutí na jedlo, zobrazí detail
             foodItem.addEventListener("click", function() {
                 displayFoodModal(recipe);
             });
         });
     }
 
-    // Funkcia na zobrazenie modálneho okna s detailmi jedla
     function displayFoodModal(recipe) {
         const foodModal = document.getElementById("foodModal");
         const foodTitle = document.getElementById("foodTitle");
@@ -60,10 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
         foodImage.src = recipe.foto;
         foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
 
-        foodModal.style.display = "flex"; // Zobraz modálne okno
+        foodModal.style.display = "flex";
     }
 
-    // Zavolaj funkciu na zobrazenie jedál pri načítaní stránky
+
     displayRecipes();
 
 
