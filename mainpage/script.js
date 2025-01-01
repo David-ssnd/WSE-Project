@@ -32,14 +32,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("fridge-table").querySelector("tbody");
 
     table.addEventListener("click", (event) => {
-        if (event.target.classList.contains("fridge-add-btn")) {
+        if (event.target.id === "fridge-add-btn") {
             const newRow = document.createElement("tr");
             newRow.innerHTML = `
-                <td>New Row, Col 1</td>
-                <td>New Row, Col 2</td>
-                <td><button class="fridge-add-btn">+</button></td>
+                <td class="ingredient">
+                    <input type="text" placeholder="Ingredient">
+                </td>
+                <td class="amount">
+                    <input type="text" placeholder="Amount">
+                </td>
+                <td class="actions">
+                    <button class="remove-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
             `;
-            table.appendChild(newRow);
+            table.insertBefore(newRow, table.lastElementChild);
+        }
+
+        if (event.target.classList.contains("remove-btn")) {
+            event.target.closest("tr").remove();
         }
     });
 });
