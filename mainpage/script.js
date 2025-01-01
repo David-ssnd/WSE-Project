@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         foodImage.src = recipe.foto;
         foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
 
-        foodModal.style.display = "block"; // Zobraz modálne okno
+        foodModal.style.display = "flex"; // Zobraz modálne okno
     }
 
     // Zavolaj funkciu na zobrazenie jedál pri načítaní stránky
