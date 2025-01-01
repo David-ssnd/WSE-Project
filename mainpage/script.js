@@ -55,3 +55,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+
+
+// modal 2 
+// Modals
+const loginModal = document.getElementById("loginModal");
+const signupModal = document.getElementById("signupModal");
+
+// Buttons
+const loginBtn = document.querySelector(".login-btn");
+const signupBtn = document.querySelector(".signup-btn");
+
+// Close buttons
+const closeBtns = document.querySelectorAll(".close-btn");
+
+// Event Listeners for opening modals
+loginBtn.addEventListener("click", () => {
+    loginModal.style.display = "block";
+});
+
+signupBtn.addEventListener("click", () => {
+    signupModal.style.display = "block";
+});
+
+// Event Listeners for closing modals
+closeBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        loginModal.style.display = "none";
+        signupModal.style.display = "none";
+    });
+});
+
+// Close modal when clicking outside
+window.addEventListener("click", (e) => {
+    if (e.target === loginModal) {
+        loginModal.style.display = "none";
+    }
+    if (e.target === signupModal) {
+        signupModal.style.display = "none";
+    }
+});
+
+// Handle login form submission
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Login Successful!");
+    loginModal.style.display = "none";
+});
+
+// Handle signup form submission
+document.getElementById("signupForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Sign Up Successful!");
+    signupModal.style.display = "none";
+});
