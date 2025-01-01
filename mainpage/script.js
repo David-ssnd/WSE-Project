@@ -46,7 +46,7 @@ foodItems.forEach((item) => {
         foodTitle.innerText = title;
         foodIngredients.innerText = `Ingredients: ${ingredients}`;
         instructionsBtn.target = "../account/index.html";
-        modal.style.display = 'flex';
+        foodModal.style.display = 'flex';
     });
 });
 
@@ -71,15 +71,6 @@ signupBtn.addEventListener("click", () => {
     signupModal.style.display = "flex";
 });
 
-// Event Listeners for closing modals
-closeBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        loginModal.style.display = "none";
-        signupModal.style.display = "none";
-    });
-});
-
-// Close modal when clicking outside
 window.addEventListener("click", (e) => {
     if (e.target === loginModal) {
         loginModal.style.display = "none";
@@ -89,14 +80,12 @@ window.addEventListener("click", (e) => {
     }
 });
 
-// Handle login form submission
 document.getElementById("loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
     alert("Login Successful!");
     loginModal.style.display = "none";
 });
 
-// Handle signup form submission
 document.getElementById("signupForm").addEventListener("submit", (e) => {
     e.preventDefault();
     alert("Sign Up Successful!");
