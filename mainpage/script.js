@@ -1,32 +1,3 @@
-// Modal
-const modal = document.getElementById('foodModal');
-const foodTitle = document.getElementById('foodTitle');
-const foodIngredients = document.getElementById('foodIngredients');
-const foodImage = document.getElementById('foodImage');
-const instructionsBtn = document.getElementById('instructionsBtn');
-
-const foodItems = document.querySelectorAll('.food-item');
-
-foodItems.forEach((item) => {
-    item.addEventListener('click', () => {
-        const title = item.querySelector('p').innerText;
-        const ingredients = item.getAttribute('data-ingredients');
-        const image = item.querySelector('img').src;
-
-        foodImage.src = image;
-        foodTitle.innerText = title;
-        foodIngredients.innerText = `Ingredients: ${ingredients}`;
-        instructionsBtn.target = "../account/index.html";
-        modal.style.display = 'flex';
-    });
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
 // Table - fridge
 document.addEventListener("DOMContentLoaded", () => {
     const recipes = [
@@ -123,28 +94,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Food Modal
+const foodModal = document.getElementById('foodModal');
+const foodTitle = document.getElementById('foodTitle');
+const foodIngredients = document.getElementById('foodIngredients');
+const foodImage = document.getElementById('foodImage');
+const instructionsBtn = document.getElementById('instructionsBtn');
 
+const foodItems = document.querySelectorAll('.food-item');
 
+foodItems.forEach((item) => {
+    item.addEventListener('click', () => {
+        const title = item.querySelector('p').innerText;
+        const ingredients = item.getAttribute('data-ingredients');
+        const image = item.querySelector('img').src;
 
-// modal 2 
-// Modals
+        foodImage.src = image;
+        foodTitle.innerText = title;
+        foodIngredients.innerText = `Ingredients: ${ingredients}`;
+        instructionsBtn.target = "../account/index.html";
+        modal.style.display = 'flex';
+    });
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === foodModal) {
+        foodModal.style.display = 'none';
+    }
+});
+
+// Login and Signup Modals
 const loginModal = document.getElementById("loginModal");
 const signupModal = document.getElementById("signupModal");
 
-// Buttons
 const loginBtn = document.querySelector(".login-btn");
 const signupBtn = document.querySelector(".signup-btn");
 
-// Close buttons
-const closeBtns = document.querySelectorAll(".close-btn");
-
-// Event Listeners for opening modals
 loginBtn.addEventListener("click", () => {
-    loginModal.style.display = "block";
+    loginModal.style.display = "flex";
 });
 
 signupBtn.addEventListener("click", () => {
-    signupModal.style.display = "block";
+    signupModal.style.display = "flex";
 });
 
 // Event Listeners for closing modals
