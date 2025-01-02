@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foodModal.style.display = 'none';
         }
     });
-    jabl
+    
     displayRecipes();
 
     // Table - fridge
