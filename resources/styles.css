@@ -217,6 +217,13 @@ body {
     position: relative;
 }
 
+.login-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+}
+
 #modal-buttons {
     position: absolute;
     bottom: 1.25rem;
