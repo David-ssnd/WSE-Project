@@ -13,6 +13,11 @@ const recipes = [
         "nazov": "Hranolky",
         "ingrediencie": ["zemiaky", "soľ", "olej"],
         "foto": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg"
+    },
+    {
+        "nazov": "Hranolky",
+        "ingrediencie": ["zemiaky", "soľ", "olej"],
+        "foto": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg"
     }
 ];
 
