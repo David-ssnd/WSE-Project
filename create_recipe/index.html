@@ -26,34 +26,44 @@
     </header>
 
     <div class="layout">
+        <!-- Food Card Section -->
         <div class="food-card">
             <div class="food-image">
                 <p>Upload Image *</p>
+                <input type="file" id="uploadImage" accept="image/*" onchange="previewImage(event)">
+                <img id="previewImg" src="" alt="Image Preview" style="display: none; width: 100%; max-height: 300px; object-fit: cover;">
             </div>
             <div class="food-details">
-                <div class="food-title">Food Title</div>
-                <div class="food-author">By ${author_name}</div>
+                <input type="text" id="foodTitle" placeholder="Enter food title" class="food-title">
             </div>
         </div>
 
+        <!-- Ingredients Card Section -->
         <div class="ingredients-card">
             <div class="ingredients-header">
                 <h3>Ingredients:</h3>
             </div>
-            <div class="ingredient-list">
-                <div class="ingredient-item">
-                    <span class="ingredient-name">Flour 500g</span>
-                    <div class="ingredient-actions">
-                        <button class="btn edit-button">✏️</button>
-                        <button class="btn delete-button">➖</button>
-                    </div>
-                </div>
-                <div class="add-ingredient">
-                    <button class="btn add-button">+</button>
-                </div>
+            <div class="ingredient-list" id="ingredientList">
+                <!-- Zoznam ingrediencií sa bude generovať dynamicky -->
+            </div>
+            <div class="add-ingredient">
+                <button class="btn add-button" onclick="addIngredient()">+</button>
+            </div>
+        </div>
+
+        <div class="steps-card">
+            <div class="steps-header">
+                <h3>Instructions:</h3>
+            </div>
+            <div class="steps-list" id="stepsList">
+                <!-- Tu sa budú dynamicky pridávať kroky -->
+            </div>
+            <div class="add-step">
+                <button class="btn add-button" onclick="addStep()">+</button>
             </div>
         </div>
     </div>
+
 
     <script src="script.js"></script>
 </body>
