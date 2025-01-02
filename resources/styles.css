@@ -255,7 +255,8 @@ body {
 }
 
 .signup-login form button:hover {
-    background-color: darken(var(--button-bg), 10%);
+    background-color: var(--button);
+    color: var(--button-bg);
 }
 
 #modal-buttons {
