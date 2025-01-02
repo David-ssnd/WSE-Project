@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             table.insertBefore(newRow, table.lastElementChild);
         }
 
-        else if (event.target.classList.contains("remove-btn")) {
+        else if (event.target.closest(".remove-btn")) {
             event.target.closest("tr").remove();
         }
     });
@@ -125,6 +125,15 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
 });
 
 document.getElementById("signupForm").addEventListener("submit", (e) => {
+    var password1 = document.getElementById("password1").value;
+    var password2 = document.getElementById("password2").value;
+
+    if (password1 !== password2) {
+        alert("Heslá sa musia zhodovať.");
+        event.preventDefault();
+        return;
+    }
+
     e.preventDefault();
     alert("Sign Up Successful!");
     signupModal.style.display = "none";

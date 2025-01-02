@@ -67,7 +67,7 @@
     </div>
     
     <div id="loginModal" class="modal">
-        <div class="modal-content login-content">
+        <div class="modal-content signup-login">
             <h2>Log In</h2>
             <form id="loginForm">
                 <input type="text" placeholder="Username / Email" required>
@@ -78,13 +78,13 @@
     </div>
     
     <div id="signupModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content signup-login">
             <h2>Sign Up</h2>
             <form id="signupForm">
-                <input type="text" placeholder="Username" required>
+                <input type="text" placeholder="Username" minlength="3" maxlength="20" required>
                 <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
+                <input type="password" placeholder="Password" minlength="6" id="password1" required>
+                <input type="password" placeholder="Confirm Password" minlength="6" id="password2" required>
                 <button type="submit">Sign Up</button>
             </form>
         </div>

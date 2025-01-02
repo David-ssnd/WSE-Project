@@ -217,11 +217,46 @@ body {
     position: relative;
 }
 
-.login-content form {
+.signup-login form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
     align-items: center;
+    background-color: var(--background); /* Jemné pozadie */
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-login form input,
+.signup-login form button {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 2px solid var(--secondary);
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.signup-login form input {
+    background-color: var(--search-bar);
+    color: var(--primary);
+}
+
+.signup-login form input::placeholder {
+    color: var(--search-bar-placeholder);
+}
+
+.signup-login form button {
+    background-color: var(--button-bg);
+    color: var(--button);
+    border: none;
+    cursor: pointer;
+}
+
+.signup-login form button:hover {
+    background-color: var(--button);
+    color: var(--button-bg);
 }
 
 #modal-buttons {
