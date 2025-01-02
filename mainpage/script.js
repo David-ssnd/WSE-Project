@@ -92,6 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
             event.target.closest("tr").remove();
         }
     });
+
+    const searchInput = document.querySelector(".search-bar input");
+    const clearIcon = document.querySelector(".clear-icon");
+
+    clearIcon.addEventListener("click", () => {
+        searchInput.value = "";
+    });
 });
 
 // Login and Signup Modals
