@@ -26,6 +26,40 @@ body {
     color: var(--primary);
 }
 
+.btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 2rem;
+    background-color: var(--button-bg);
+    color: var(--button);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--button);
+    color: var(--button-bg);
+}
+
+.btn-reverse {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 0.125rem solid var(--button-bg);
+    border-radius: 2rem;
+    background-color: var(--button);
+    color: var(--button-bg);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-reverse:hover {
+    background-color: var(--button-bg);
+    color: var(--button);
+}
+
 /* Navbar */
 
 .navbar {
@@ -34,8 +68,6 @@ body {
     justify-content: space-between;
     background-color: var(--navbar);
     padding: 0.625rem 1.25rem;
-    /* width: 100%;
-    box-sizing: border-box; */
 }
 
 .logo {
@@ -46,21 +78,7 @@ body {
 .create-btn {
     height: 3.125rem;
     width: 6.25rem;
-    padding: 0.5rem 0.9375rem;
     margin-left: 1.25rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 1.5625rem;
-    background-color: var(--button-bg);
-    color: var(--button);
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.create-btn:hover {
-    background-color: var(--button);
-    color: var(--button-bg);
 }
 
 .search-bar {
@@ -124,28 +142,12 @@ body {
 .login-btn {
     height: 3.125rem;
     width: 6.25rem;
-    padding: 0.5rem 0.9375rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: 0.125rem solid var(--button-bg);
-    border-radius: 1.5625rem;
-    background-color: var(--button);
-    color: var(--button-bg);
-    cursor: pointer;
 }
 
 .signup-btn {
     height: 3.125rem;
     width: 6.25rem;
-    padding: 0.5rem 0.9375rem;
     margin-left: 1.25rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 1.5625rem;
-    background-color: var(--button-bg);
-    color: var(--button);
-    cursor: pointer;
 }
 
 /* FEED */
@@ -268,7 +270,7 @@ body {
     align-items: center;
 }
 
-#favoriteBtn {
+.favoriteBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -276,41 +278,25 @@ body {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    color: var(--button);
-    background-color: var(--button-bg);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
 }
 
-#favoriteBtn:hover {
+.favoriteBtn:hover {
     background-color: var(--favorite);
-    transform: scale(1.1);
+    color: var(--button);
 }
 
-#favoriteBtn i {
+.favoriteBtn i {
     font-size: 1.125rem;
     text-align: center;
 }
 
-#instructionsBtn {
+.instructionsBtn {
     height: 2.5rem;
     width: 7.8125rem;
     font-size: 0.875rem;
-    font-weight: bold;
-    border: 0.125rem solid var(--button-bg);
-    border-radius: 1.5625rem;
-    background-color: var(--button);
-    color: var(--button-bg);
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
 }
 
-#instructionsBtn:hover {
-    transform: scale(1.1);
-}
-
-#instructionsBtn i {
+.instructionsBtn i {
     font-size: 1.5rem;
 }
 
@@ -546,18 +532,7 @@ body {
 }
 
 .tab-btn {
-    padding: 0.5rem 0.938rem;
-    border: none;
-    border-radius: 0.313rem;
-    background-color: var(--button);
-    cursor: pointer;
-    margin: 0.313rem;
-    transition: background-color 0.3s ease;
-}
-
-.tab-btn:hover {
-    background-color: var(--button-bg);
-    color: var(--button);
+    margin: 0.5rem;
 }
 
 /* Create Recipe Page */
@@ -664,14 +639,6 @@ body {
 
 .edit-button, .delete-button {
     background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: var(--primary);
-}
-
-.edit-button:hover, .delete-button:hover {
-    color: var(--secondary);
 }
 
 .add-ingredient {
