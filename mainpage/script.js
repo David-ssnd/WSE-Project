@@ -1,4 +1,3 @@
-// Table - fridge
 document.addEventListener("DOMContentLoaded", () => {
     const recipes = [
         {
@@ -57,10 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
         foodModal.style.display = "flex";
     }
 
+    // Close modal
+    window.addEventListener('click', (event) => {
+        if (event.target === foodModal) {
+            foodModal.style.display = 'none';
+        }
+    });
 
     displayRecipes();
 
-
+    // Table - fridge
     const table = document.getElementById("fridge-table").querySelector("tbody");
 
     table.addEventListener("click", (event) => {
@@ -86,35 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
             event.target.closest("tr").remove();
         }
     });
-});
-
-// Food Modal
-const foodModal = document.getElementById('foodModal');
-const foodTitle = document.getElementById('foodTitle');
-const foodIngredients = document.getElementById('foodIngredients');
-const foodImage = document.getElementById('foodImage');
-const instructionsBtn = document.getElementById('instructionsBtn');
-
-const foodItems = document.querySelectorAll('.food-item');
-
-foodItems.forEach((item) => {
-    item.addEventListener('click', () => {
-        const title = item.querySelector('p').innerText;
-        const ingredients = item.getAttribute('data-ingredients');
-        const image = item.querySelector('img').src;
-
-        foodImage.src = image;
-        foodTitle.innerText = title;
-        foodIngredients.innerText = `Ingredients: ${ingredients}`;
-        instructionsBtn.target = "../account/";
-        foodModal.style.display = 'flex';
-    });
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === foodModal) {
-        foodModal.style.display = 'none';
-    }
 });
 
 // Login and Signup Modals
