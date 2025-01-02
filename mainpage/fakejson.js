@@ -1,4 +1,4 @@
-[
+export const recipes = [
     {
         "nazov": "Pizza Margherita",
         "ingrediencie": ["cesto", "paradajky", "mozzarella", "bazalka", "olivový olej"],
@@ -89,4 +89,4 @@
         "ingrediencie": ["sushi ryža", "ryba", "morská riasa", "avokádo", "sójová omáčka"],
         "foto": "https://example.com/sushi-set.jpg"
     }    
-]
+];

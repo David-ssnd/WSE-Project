@@ -43,6 +43,12 @@ function displayRecipes(recipes) {
         foodItem.appendChild(foodName);
         feed.appendChild(foodItem);
     });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
 }
 
 function openModal(recipe) {
@@ -57,10 +63,4 @@ function openModal(recipe) {
     foodIngredients.textContent = "Ingrediencie: " + recipe.ingrediencie.join(', ');
 
     modal.style.display = 'flex';
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
 }
