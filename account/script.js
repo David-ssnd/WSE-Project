@@ -49,6 +49,7 @@ function displayRecipes(recipes) {
         feed.appendChild(foodItem);
     });
 
+    const modal = document.getElementById('foodModal');
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
