@@ -12,22 +12,50 @@
             <img src="../resources/krilo-logo.png" alt="KriLo Logo" class="logo">
         </a>
         <a href="../create_recipe/">
-            <button class="create-btn">Create</button>
+            <button class="btn create-btn">Create</button>
         </a>
         <div class="search-bar">
             <input type="text" placeholder="Search">
             <span class="clear-icon">&times;</span>
         </div>
-        <button class="login-btn">Log In</button>
-        <button class="signup-btn">Sign Up</button>
+        <button class="btn-reverse login-btn">Log In</button>
+        <button class="btn signup-btn">Sign Up</button>
     </header>
 
     <div class="content-area recipe-page">
-        <div class="recipe-header">
+        <div class="recipe-preview">
+            <div class="food-item">
+                <img src="https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg" alt="Caesar šalát">
+                <p>Caesar šalát</p>
+            </div>
             <div class="recipe-info">
-                <h2>Recipe Title</h2>
-                <p>by <strong>Author</strong></p>
+                <div class="recipe-ingredients">
+
+                </div>
+                <div class="nutriscore">
+
+                </div>
+            </div>
+        </div>
+        <div class="recipe-steps">
+            <div class="step">
+                <img src="https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg" alt="KriLo Logo" class="logo">
+                <div class="step-info">
+                    <h3>Step 1</h3>
+                    <p>description</p>
+                </div>
+            </div>
+        </div>        
     </div>
+    <div class="ratings">
+        <!-- sem sa nacitaju ratingy -->
+         <div class="rating">
+            <h3>Name</h3>
+            <p>stars</p>
+            <p>comment...</p>
+         </div>
+    </div>
+
     <script type="module" src="script.js"></script>
 </body>
 </html>
