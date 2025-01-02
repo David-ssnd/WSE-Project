@@ -25,6 +25,7 @@ window.onload = function() {
     displayRecipes(recipes);
 };
 
+// Display loaded recipes
 function displayRecipes(recipes) {
     const feed = document.querySelector('.recipes-feed');
     feed.innerHTML = '';
@@ -57,6 +58,7 @@ function displayRecipes(recipes) {
     });
 }
 
+//Modal
 function openModal(recipe) {
     const modal = document.getElementById('foodModal');
     const foodTitle = document.getElementById('foodTitle');
@@ -71,16 +73,17 @@ function openModal(recipe) {
     modal.style.display = 'flex';
 }
 
+//change profile image
 function previewImage(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = function(e) {
-        const profileImage = document.getElementById('profileImage');
-        profileImage.src = e.target.result;  // Nastavenie obrázka do elementu profilovej fotky
+        const profileImage = document.getElementsByClassName('avatar-img');
+        profileImage[0].src = e.target.result;  // Nastavenie obrázka do elementu profilovej fotky
     }
 
     if (file) {
-        reader.readAsDataURL(file);  // Načíta obrázok ako dátový URL
+        reader.readAsDataURL(file);
     }
 }
