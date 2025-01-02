@@ -1,6 +1,21 @@
 import { recipes } from './fakejson.js';
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.ingredient input').forEach(input => {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Zá-žÁ-Ž ]/g, ''); // Povolené len písmená a medzery
+        });
+    });
+
+    // Validácia pre pole Amount
+    document.querySelectorAll('.amount input').forEach(input => {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, ''); // Povolené len čísla
+        });
+    });
+
+
+
     // recipes are in fakejson.js
 
     function displayRecipes() {
@@ -48,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foodModal.style.display = 'none';
         }
     });
-
+    jabl
     displayRecipes();
 
     // Table - fridge
