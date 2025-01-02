@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     function displayRecipes() {
-        const suggestionsContainer = document.querySelector(".suggestions");
-        suggestionsContainer.innerHTML = "";
+        const feed = document.querySelector(".recipes-feed");
+        feed.innerHTML = "";
 
         recipes.forEach(recipe => {
             const foodItem = document.createElement("div");
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foodItem.appendChild(foodImage);
             foodItem.appendChild(foodName);
 
-            suggestionsContainer.appendChild(foodItem);
+            feed.appendChild(foodItem);
 
             foodItem.addEventListener("click", function() {
                 displayFoodModal(recipe);
@@ -106,7 +106,7 @@ foodItems.forEach((item) => {
         foodImage.src = image;
         foodTitle.innerText = title;
         foodIngredients.innerText = `Ingredients: ${ingredients}`;
-        instructionsBtn.target = "../account/index.html";
+        instructionsBtn.target = "../account/";
         foodModal.style.display = 'flex';
     });
 });

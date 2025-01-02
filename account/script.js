@@ -21,8 +21,8 @@ window.onload = function() {
 };
 
 function displayRecipes(recipes) {
-    const profileContent = document.querySelector('.profile-content');
-    profileContent.innerHTML = '';
+    const feed = document.querySelector('.recipes-feed');
+    feed.innerHTML = '';
 
     recipes.forEach(recipe => {
         const foodItem = document.createElement('div');
@@ -41,7 +41,7 @@ function displayRecipes(recipes) {
 
         foodItem.appendChild(foodImage);
         foodItem.appendChild(foodName);
-        profileContent.appendChild(foodItem);
+        feed.appendChild(foodItem);
     });
 }
 
