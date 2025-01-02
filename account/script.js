@@ -70,3 +70,17 @@ function openModal(recipe) {
 
     modal.style.display = 'flex';
 }
+
+function previewImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const profileImage = document.getElementById('profileImage');
+        profileImage.src = e.target.result;  // Nastavenie obrázka do elementu profilovej fotky
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);  // Načíta obrázok ako dátový URL
+    }
+}
