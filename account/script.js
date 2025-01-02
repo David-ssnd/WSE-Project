@@ -80,7 +80,10 @@ function previewImage(event) {
 
     reader.onload = function(e) {
         const profileImage = document.getElementsByClassName('avatar-img');
-        profileImage[0].src = e.target.result;  // Nastavenie obrázka do elementu profilovej fotky
+        profileImage[0].src = e.target.result;
+
+        const navbarImage = document.getElementsByClassName('profile-img');
+        navbarImage[0].src = e.target.result;
     }
 
     if (file) {
