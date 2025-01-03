@@ -1,4 +1,7 @@
-const recipes = [
+//import { recipesCreated } from './fakejson-created.js';
+//import { recipesSaved } from './fakejson-saved.js';
+
+const recipesCreated = [
     {
         "nazov": "Pizza Margherita",
         "ingrediencie": ["cesto", "paradajky", "mozzarella", "bazalka", "olivový olej"],
@@ -21,8 +24,31 @@ const recipes = [
     }
 ];
 
+const recipesSaved = [
+    {
+        "nazov": "Pizza Margherita",
+        "ingrediencie": ["cesto", "paradajky", "mozzarella", "bazalka", "olivový olej"],
+        "foto": "https://kuchynalidla.sk/storage/app/uploads/public/5fa/c0e/2a5/5fac0e2a571e1460216977.jpg"
+    },
+    {
+        "nazov": "Spaghetti Carbonara",
+        "ingrediencie": ["špagety", "slanina", "parmezán", "vajcia", "cesnak"],
+        "foto": "https://kuchynalidla.sk/storage/app/uploads/public/5fa/c0e/2a5/5fac0e2a571e1460216977.jpg"
+    },
+    {
+        "nazov": "Hranolky",
+        "ingrediencie": ["zemiaky", "soľ", "olej"],
+        "foto": "https://kuchynalidla.sk/storage/app/uploads/public/5fa/c0e/2a5/5fac0e2a571e1460216977.jpg"
+    },
+    {
+        "nazov": "Hranolky",
+        "ingrediencie": ["zemiaky", "soľ", "olej"],
+        "foto": "https://kuchynalidla.sk/storage/app/uploads/public/5fa/c0e/2a5/5fac0e2a571e1460216977.jpg"
+    }
+];
+
 window.onload = function() {
-    displayRecipes(recipes);
+    displayRecipes(recipesCreated);
 };
 
 // Display loaded recipes
@@ -57,6 +83,25 @@ function displayRecipes(recipes) {
         }
     });
 }
+
+function changeRecipes(number) {
+    if(number == 1) {
+        recipes = recipesCreated;
+    }
+    else {
+        recipes = recipesSaved;
+    }
+    displayRecipes(recipes);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector(".search-bar input");
+    const clearIcon = document.querySelector(".clear-icon");
+
+    clearIcon.addEventListener("click", () => {
+        searchInput.value = "";
+    });
+});
 
 //Modal
 function openModal(recipe) {
