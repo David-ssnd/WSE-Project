@@ -1,5 +1,13 @@
 import { recipes } from './fakejson.js';
 
+//vymazanie textu zo search baru - rovnake pre vsetky stranky
+const searchInput = document.querySelector(".search-bar input");
+const clearIcon = document.querySelector(".clear-icon");
+
+clearIcon.addEventListener("click", () => {
+    searchInput.value = "";
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.ingredient input').forEach(input => {
         input.addEventListener('input', function () {
@@ -65,40 +73,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     displayRecipes();
+});
+    
+// Table - add and remove ingredients
+const table = document.getElementsByClassName("fridge-table")[0].querySelector("tbody");
 
-    // Table - fridge
-    const table = document.getElementById("fridge-table").querySelector("tbody");
-
-    table.addEventListener("click", (event) => {
-        if (event.target.id === "fridge-add-btn") {
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td class="ingredient">
-                    <input type="text" placeholder="Ingredient">
-                </td>
-                <td class="amount">
-                    <input type="text" placeholder="Amount">
-                </td>
-                <td class="actions">
-                    <button class="remove-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </td>
-            `;
-            table.insertBefore(newRow, table.lastElementChild);
+table.addEventListener("click", (event) => {
+    if (event.target.classList.contains("fridge-add-btn")) {
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+            <td class="ingredient">
+                <input type="text" placeholder="Ingredient">
+            </td>
+            <td class="amount">
+                <input type="text" placeholder="Amount">
+            </td>
+            <td class="actions">
+                <button class="remove-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </td>
+        `;
+        table.insertBefore(newRow, table.lastElementChild);
+    }
+    else if (event.target.closest(".remove-btn")) {
+        const row = event.target.closest("tr");
+        if (row) {
+            row.remove();
         }
-
-        else if (event.target.closest(".remove-btn")) {
-            event.target.closest("tr").remove();
-        }
-    });
-
-    const searchInput = document.querySelector(".search-bar input");
-    const clearIcon = document.querySelector(".clear-icon");
-
-    clearIcon.addEventListener("click", () => {
-        searchInput.value = "";
-    });
+    }
 });
 
 // Login and Signup Modals

@@ -22,45 +22,97 @@
         </button>
     </header>
 
-    <div class="layout">
-        <!-- Food Card Section -->
-        <div class="food-card">
-            <div class="food-image">
-                <p>Upload Image *</p>
-                <input type="file" id="uploadImage" accept="image/*" onchange="previewImage(event)">
-                <img id="previewImg" src="" alt="Image Preview" style="display: none; width: 100%; max-height: 300px; object-fit: cover;">
+    <div class="content-area create-page">
+        <div class="recipe-info">
+            <div class="food-item create-recipe-food-item">
+                <div class="food-image">
+                    <img class="image-preview" alt="Image Preview">
+                    <button class="btn upload-btn">Upload Image</button>
+                    <input type="file" class="create-recipe-file-input" accept="image/*">
+                </div>
+                <div class="food-details">
+                    <input type="text" placeholder="Enter food title" class="food-title">
+                </div>
             </div>
-            <div class="food-details">
-                <input type="text" id="foodTitle" placeholder="Enter food title" class="food-title">
+            <table class="fridge-table">
+                <thead>
+                    <tr>
+                        <th>Ingredient</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ingredient">
+                            <input type="text" placeholder="Ingredient">
+                        </td>
+                        <td class="amount">
+                            <input type="text" placeholder="Amount">
+                        </td>
+                        <td class="actions">
+                            <button class="btn remove-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <button class="fridge-add-btn">Add Ingredient</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            
+        <div class="recipe-steps">
+            <div class="step">
+                <div class="food-image">
+                    <img class="image-preview" alt="Image Preview">
+                    <button class="btn upload-btn">Upload Image</button>
+                    <input type="file" class="create-recipe-file-input" accept="image/*">
+                </div>
+                <div class="step-info">
+                    <h3>Step 1</h3>
+                    <p>description</p>
+                </div>
             </div>
         </div>
-
-        <!-- Ingredients Card Section -->
-        <div class="ingredients-card">
-            <div class="ingredients-header">
-                <h3>Ingredients:</h3>
-            </div>
-            <div class="ingredient-list" id="ingredientList">
-                <!-- Zoznam ingrediencií sa bude generovať dynamicky -->
-            </div>
-            <div class="add-ingredient">
-                <button class="btn add-button" onclick="addIngredient()">+</button>
-            </div>
-        </div>
-
-        <div class="steps-card">
-            <div class="steps-header">
-                <h3>Instructions:</h3>
-            </div>
-            <div class="steps-list" id="stepsList">
-                <!-- Tu sa budú dynamicky pridávať kroky -->
-            </div>
-            <div class="add-step">
-                <button class="btn add-button" onclick="addStep()">+</button>
-            </div>
+        <div class="add-step">
+            <button class="btn add-step-btn">Add Step</button>
         </div>
     </div>
 
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Discover amazing recipes and share your favorites with the world. Join our community of food lovers!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../mainpage/">Home</a></li>
+                    <li><a href="../create_recipe/">Create Recipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/SkolaBoscaNDCa" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/spojenaskola/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/elonmusk" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: freizeit.krilo@gmail.com</p>
+                <p>Phone: +421 908 199 904</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Krilo Recipes. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
