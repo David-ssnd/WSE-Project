@@ -64,21 +64,23 @@
             </table>
         </div>
             
-        <div class="recipe-steps">
+        <div class="recipe-steps" id="stepsList">
             <div class="step">
                 <div class="food-image">
-                    <img class="image-preview" alt="Image Preview">
-                    <button class="btn upload-btn">Upload Image</button>
-                    <input type="file" class="create-recipe-file-input" accept="image/*">
+                  <img class="image-preview" alt="Image Preview" style="display: none;">
+                  <button class="btn upload-btn">Upload Image</button>
+                  <input type="file" class="create-recipe-file-input" accept="image/*" style="display: none;">
                 </div>
                 <div class="step-info">
-                    <h3>Step 1</h3>
-                    <p>description</p>
+                  <h3>Step 1</h3>
+                  <textarea class="step-textarea" placeholder="Step description..." style="width: 60%; height: 100px;"></textarea>
                 </div>
+                <button class="btn remove-btn" onclick="removeStep(this)">
+                  <i class="fas fa-times"></i>
             </div>
         </div>
         <div class="add-step">
-            <button class="btn add-step-btn">Add Step</button>
+            <button class="btn add-step-btn" onclick="addStep()">Add Step</button>
         </div>
     </div>
 
