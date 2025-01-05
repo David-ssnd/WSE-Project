@@ -704,6 +704,11 @@ body {
     object-fit: cover;
     border-radius: 0;
     border-top-left-radius: 0.625rem;
+    border-top-right-radius: 0.625rem;
+}
+
+.step .food-image .image-preview {
+    border-top-right-radius: 0;
 }
 
 .upload-btn {
