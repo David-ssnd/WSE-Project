@@ -39,12 +39,13 @@ table.addEventListener("click", (event) => {
 
 
 // add image
-const uploadBtns = Array.from(document.getElementsByClassName('upload-btn'));
+const foodImages = Array.from(document.getElementsByClassName('food-image'));
 const fileInputs = Array.from(document.getElementsByClassName('create-recipe-file-input'));
 const imagePreviews = Array.from(document.getElementsByClassName('image-preview'));
 
-uploadBtns.forEach((uploadBtn, index) => {
-  uploadBtn.addEventListener('click', () => {
+foodImages.forEach((foodImage, index) => {
+  foodImage.addEventListener('click', () => {
+    if (event.target === imagePreviews[index]) return;
     if (fileInputs[index]) fileInputs[index].click();
   });
 });

@@ -26,7 +26,9 @@
         <div class="recipe-info">
             <div class="food-item create-recipe-food-item">
                 <div class="food-image">
-                    <img class="image-preview" alt="Image Preview">
+                    <div class="step-img-container">
+                        <img class="image-preview" alt="Image Preview">
+                    </div>
                     <button class="btn upload-btn">Upload Image</button>
                     <input type="file" class="create-recipe-file-input" accept="image/*">
                 </div>
@@ -67,13 +69,15 @@
         <div class="recipe-steps">
             <div class="step">
                 <div class="food-image">
-                    <img class="image-preview" alt="Image Preview">
+                    <div class="step-img-container">
+                        <img class="image-preview" alt="Image Preview">
+                    </div>
                     <button class="btn upload-btn">Upload Image</button>
                     <input type="file" class="create-recipe-file-input" accept="image/*">
                 </div>
                 <div class="step-info">
                     <h3>Step 1</h3>
-                    <p>description</p>
+                    <textarea placeholder="Enter step description"></textarea>
                 </div>
             </div>
         </div>
