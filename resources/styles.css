@@ -694,7 +694,7 @@ body {
 .step .food-image {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    width: 10rem;
+    width: 20rem;
     padding: 0;
     margin: 0;
 }
