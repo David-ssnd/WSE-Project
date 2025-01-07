@@ -10,7 +10,7 @@ const recipesCreated = [
     {
         "nazov": "Spaghetti Carbonara",
         "ingrediencie": ["špagety", "slanina", "parmezán", "vajcia", "cesnak"],
-        "foto": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg"
+        "foto": "https://kuchynalidla.sk/storage/app/uploads/public/5fa/c0e/2a5/5fac0e2a571e1460216977.jpg"
     },
     {
         "nazov": "Hranolky",
@@ -33,7 +33,7 @@ const recipesSaved = [
     {
         "nazov": "Spaghetti Carbonara",
         "ingrediencie": ["špagety", "slanina", "parmezán", "vajcia", "cesnak"],
-        "foto": "https://kuchynalidla.sk/storage/app/uploads/public/5fa/c0e/2a5/5fac0e2a571e1460216977.jpg"
+        "foto": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg"
     },
     {
         "nazov": "Hranolky",

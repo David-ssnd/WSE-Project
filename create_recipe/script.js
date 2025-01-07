@@ -126,4 +126,3 @@ function reNumerate() {
   for (let i = 0; i < steps.length; i++) {
       steps[i].querySelector('h3').innerText = 'Step ' + (i + 1);
   }
-}

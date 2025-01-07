@@ -607,10 +607,33 @@ body {
 .step-info h3 {
     margin: 0;
     margin-top: 1rem;
+    margin-left: 1.25rem;
 }
 
-.step-info p {
-    margin: 0;
+.step .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--secondary);
+    padding: 0.3125rem;
+    margin: 0.3125rem;
+    border-radius: 0.1875rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.step .remove-btn:hover {
+    background-color: var(--button-bg);
+    color: var(--button);
+}
+
+.step-info .step-textarea {
+    margin: 0rem;
+    height: 100px;
+    margin-Bottom: 2rem;
+    margin-Left: 1rem;
+    min-width: 61rem;
+    max-width: 61rem;
 }
 
 .ratings {
