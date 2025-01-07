@@ -92,7 +92,10 @@ function addStep() {
 
 function removeStep(button) {
     const step = button.closest('.step');
-    if (step) step.remove();
+    if (step) {
+      step.remove();
+      reNumerate();
+    }
 }
 
 function reNumerate() {
