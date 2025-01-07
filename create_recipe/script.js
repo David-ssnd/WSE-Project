@@ -88,6 +88,29 @@ function addStep() {
         <i class="fas fa-times"></i>
     `;
     steps.appendChild(newStep);
+
+    // Add event listeners for new step
+    const foodImage = newStep.querySelector('.food-image');
+    const imagePreview = newStep.querySelector('.image-preview');
+    const fileInput = newStep.querySelector('.create-recipe-file-input');
+    const uploadBtn = newStep.querySelector('.upload-btn');
+
+    foodImage.addEventListener('click', (event) => {
+        if (event.target === imagePreview) return;
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }
 
 function removeStep(button) {
