@@ -94,3 +94,10 @@ function removeStep(button) {
     const step = button.closest('.step');
     if (step) step.remove();
 }
+
+function reNumerate() {
+  const steps = document.getElementsByClassName('step');
+  for (let i = 0; i < steps.length; i++) {
+      steps[i].querySelector('h3').innerText = 'Step ' + (i + 1);
+  }
+}
