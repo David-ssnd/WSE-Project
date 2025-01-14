@@ -155,8 +155,7 @@ body {
 .recipes-feed {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: calc(40% / 9);
+    justify-content: space-between;
 }
 
 /* food item */
@@ -789,7 +788,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 1.25rem;
-    max-width: 70rem;
+    max-width: 70%;
     margin: 0 auto;
 }
 
