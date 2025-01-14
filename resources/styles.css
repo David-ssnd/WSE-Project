@@ -155,12 +155,17 @@ body {
 .recipes-feed {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: 3rem; /* maybe? */
+    justify-content: flex-start;
 }
 
 /* food item */
 
 .food-item {
+/*    max-width: calc(25% - 3rem); 
+    flex-grow: 1;
+    min-width: 200px;
+*/
     width: 20%;
     margin: 2% 0;
     padding: 0.4rem;
