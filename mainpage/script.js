@@ -1,5 +1,3 @@
-import { recipes } from './fakejson.js';
-
 //vymazanie textu zo search baru - rovnake pre vsetky stranky
 const searchInput = document.querySelector(".search-bar input");
 const clearIcon = document.querySelector(".clear-icon");
@@ -22,57 +20,68 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Fetching recipes
+    fetch('recipes.json')
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const recipes = data;
 
-
-    // recipes are in fakejson.js
-
-    function displayRecipes() {
-        const feed = document.querySelector(".recipes-feed");
-        feed.innerHTML = "";
-
-        recipes.forEach(recipe => {
-            const foodItem = document.createElement("div");
-            foodItem.classList.add("food-item");
-
-            const foodImage = document.createElement("img");
-            foodImage.src = recipe.foto;
-            foodImage.alt = recipe.nazov;
-
-            const foodName = document.createElement("p");
-            foodName.textContent = recipe.nazov;
-
-            foodItem.appendChild(foodImage);
-            foodItem.appendChild(foodName);
-
-            feed.appendChild(foodItem);
-
-            foodItem.addEventListener("click", function() {
-                displayFoodModal(recipe);
+            function displayRecipes() {
+                const feed = document.querySelector(".recipes-feed");
+                feed.innerHTML = "";
+        
+                recipes.forEach(recipe => {
+                    const foodItem = document.createElement("div");
+                    foodItem.classList.add("food-item");
+        
+                    const foodImage = document.createElement("img");
+                    foodImage.src = recipe.foto;
+                    foodImage.alt = recipe.nazov;
+        
+                    const foodName = document.createElement("p");
+                    foodName.textContent = recipe.nazov;
+        
+                    foodItem.appendChild(foodImage);
+                    foodItem.appendChild(foodName);
+        
+                    feed.appendChild(foodItem);
+        
+                    foodItem.addEventListener("click", function() {
+                        displayFoodModal(recipe);
+                    });
+                });
+            }
+        
+            function displayFoodModal(recipe) {
+                const foodModal = document.getElementById("foodModal");
+                const foodTitle = document.getElementById("foodTitle");
+                const foodImage = document.getElementById("foodImage");
+                const foodIngredients = document.getElementById("foodIngredients");
+        
+                foodTitle.textContent = recipe.nazov;
+                foodImage.src = recipe.foto;
+                foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
+        
+                foodModal.style.display = "flex";
+            }
+        
+            // Close modal
+            window.addEventListener('click', (event) => {
+                if (event.target === foodModal) {
+                    foodModal.style.display = 'none';
+                }
             });
+
+            displayRecipes();
+        })
+        .catch(error => {
+            console.error('There has been a problem with fetch operation:', error);
         });
-    }
-
-    function displayFoodModal(recipe) {
-        const foodModal = document.getElementById("foodModal");
-        const foodTitle = document.getElementById("foodTitle");
-        const foodImage = document.getElementById("foodImage");
-        const foodIngredients = document.getElementById("foodIngredients");
-
-        foodTitle.textContent = recipe.nazov;
-        foodImage.src = recipe.foto;
-        foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
-
-        foodModal.style.display = "flex";
-    }
-
-    // Close modal
-    window.addEventListener('click', (event) => {
-        if (event.target === foodModal) {
-            foodModal.style.display = 'none';
-        }
-    });
-    
-    displayRecipes();
 });
     
 // Table - add and remove ingredients
