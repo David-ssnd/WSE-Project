@@ -198,7 +198,7 @@ body {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     border-radius: 0.625rem;
     background-color: var(--food-item-bg);
     cursor: pointer;
@@ -753,9 +753,6 @@ body {
     width: 100%;
     height: auto;
     border-radius: 0;
-    /* border-top-left-radius: 0.625rem;
-    border-top-right-radius: 0.625rem; */
-    /* neviem sa rozhodnut co s tym border radiusom */
 }
 
 /* recipe details */
@@ -763,8 +760,10 @@ body {
 .recipe-details-container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
+    gap: 1rem;
     margin-top: 2rem;
     padding: 1rem;
     width: calc(100% - 2rem);
@@ -773,23 +772,23 @@ body {
     position: relative;
 }
 
+.recipe-details-container h3 {
+    color: var(--primary);
+}
+
 .recipe-details {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 1rem;
     width: 100%;
 }
 
-.recipe-details h3 {
-    margin-bottom: 1rem;
-    color: var(--primary);
-}
-
 .detail-item {
     flex: 1;
-    min-width: 5rem;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
@@ -997,85 +996,6 @@ body {
     padding-top: 1rem;
     font-size: 0.875rem;
     color: var(--secondary);
-}
-
-/* recipe details */
-
-.recipe-details-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding: 1rem;
-    width: calc(100% - 2rem);
-    border-radius: 0.625rem;
-    background-color: var(--navbar);
-    position: relative;
-}
-
-.recipe-details {
-    display: flex;
-    width: 100%;
-}
-
-.recipe-details h3 {
-    margin-bottom: 1rem;
-    color: var(--primary);
-}
-
-.detail-item {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
-    gap: 0.5rem;
-}
-
-.detail-item label {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: var(--secondary);
-}
-
-.detail-item input {
-    padding: 0.5rem;
-    border: 1px solid var(--secondary);
-    border-radius: 0.3125rem;
-    font-size: 1rem;
-    background-color: var(--search-bar);
-    width: 4rem;
-}
-
-.recipe-details .recipe {
-    padding: 2rem;
-    background-color: var(--navbar);
-    color: var(--primary);
-}
-
-.recipe-details h3 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--primary);
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.detail-item p {
-    font-size: 2rem;
-    color: var(--primary);
-    margin: 0;
-}
-
-.detail-item {
-    background-color: var(--food-item-bg);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    width: 13rem;
 }
 
 .add-rating {
