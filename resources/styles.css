@@ -193,14 +193,14 @@ body {
 
 .food-item {
     width: 100%;
-    margin: 2% 0;
     padding-bottom: 0;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     border-radius: 0.625rem;
     background-color: var(--food-item-bg);
+    position: relative;
     cursor: pointer;
 }
 
@@ -210,15 +210,17 @@ body {
 
 .food-item img {
     height: 80%;
-    width: calc(100% - 0.3rem * 4);
-    margin: 0.65rem;
+    width: calc(100%);
     object-fit: cover;
-    border-radius: 0.625rem;
+    border-radius: 0.625rem 0.625rem 0 0;
     align-self: center;
 }
 
 .food-item p {
-    margin: 0.4rem;
+    margin: 0rem;
+    flex: 1;
+    align-content: center;
+    padding: 0.625rem;
     font-weight: bold;
     font-size: 1.25rem;
     overflow: hidden;
@@ -588,6 +590,12 @@ body {
 
 .recipe-food-item:hover {
     box-shadow: inherit;
+}
+
+.recipe-food-item p {
+    padding: 1rem;
+    font-size: 2rem;
+    text-wrap: wrap;
 }
 
 .recipe-ingredients {
