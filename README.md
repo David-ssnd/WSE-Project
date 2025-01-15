@@ -17,7 +17,6 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 - Hodnotenie receptov
 - Registrácia/prihlásenie používateľa
 - Filtrácia receptov podľa surovín
-//- Generovanie receptov s pomocou AI (Gemini API)
 
 ---
 
@@ -49,7 +48,6 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 - Pridávanie hodnotenia a komentárov k receptom
 - Vytváranie vlastných receptov
 - Pridávanie receptov do "obľúbených"
-//- Generovanie receptov (pomocou vlastného Gemini API kľúča)
 
 ---
 
@@ -64,7 +62,6 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 ### Popup
 **Prihlasovacie vyskakovacie okno**
 - Zadanie prihlasovacích údajov
-//- Možnosť prechodu na registračnú stránku
 
 **Registračné vyskakovacie okno**
 - Zadanie prezývky, e-mailu a hesla
@@ -73,25 +70,19 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 ### 2. **Profil používateľa** (Prihlásený používateľ)
 - Zobrazenie uložených "obľúbených" receptov
 - Zobrazenie receptov pridaných používateľom
-- Pridávanie nových receptov -- toto je na každej stránke :/
-- Zobrazenie počtu sledovateľov a sledovaných -- neviem či to necháme
+- Pridávanie nových receptov 
+- Zobrazenie počtu sledovateľov a sledovaných 
 - Možnosť sledovania iných používateľov
 
-//### 3. **Stránka na generovanie receptov**
-//- Generovanie receptov pomocou Gemini API
-
-### 4. **Stránka receptu**
+### 3. **Stránka receptu**
 - Obrázky jedla, postup prípravy a ingrediencie
 - Hodnotenie receptu, recenzie a možnosť pridať hodnotenie
-- Možnosť pridania receptu do "obľúbených" --dorobiť
---Výživové hodnoty
 
-### 5. **Stránka na vytváranie receptov**
+### 4. **Stránka na vytváranie receptov**
 - Pridanie obrázka
 - Zadanie názvu receptu
 - Pridanie a upravovanie ingrediencií
 - Napísanie postupu
---Výživové hodnoty
 
 ---
 
@@ -129,7 +120,7 @@ Webová stránka s širokou ponukou receptov, navrhnutá pre používateľov s c
 
 ## Klonujte tento repozitár:
    ```bash
-   git clone https://github.com/username/krilo-recipes.git
+   git clone https://github.com/David-ssnd/WSE-Project.git
    ```
 ---
 
