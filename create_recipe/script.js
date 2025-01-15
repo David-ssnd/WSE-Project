@@ -127,3 +127,11 @@ function reNumerate() {
       steps[i].querySelector('h3').innerText = 'Step ' + (i + 1);
   }
 }
+
+document.querySelectorAll('input[type="number"]').forEach(input => {
+  input.addEventListener('input', () => {
+      if (input.value < 1) {
+          input.value = ''; // Vymaže neplatnú hodnotu
+      }
+  });
+});
