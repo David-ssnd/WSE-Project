@@ -193,14 +193,14 @@ body {
 
 .food-item {
     width: 100%;
-    margin: 2% 0;
     padding-bottom: 0;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     border-radius: 0.625rem;
     background-color: var(--food-item-bg);
+    position: relative;
     cursor: pointer;
 }
 
@@ -210,15 +210,17 @@ body {
 
 .food-item img {
     height: 80%;
-    width: calc(100% - 0.3rem * 4);
-    margin: 0.65rem;
+    width: calc(100%);
     object-fit: cover;
-    border-radius: 0.625rem;
+    border-radius: 0.625rem 0.625rem 0 0;
     align-self: center;
 }
 
 .food-item p {
-    margin: 0.4rem;
+    margin: 0rem;
+    flex: 1;
+    align-content: center;
+    padding: 0.625rem;
     font-weight: bold;
     font-size: 1.25rem;
     overflow: hidden;
@@ -590,6 +592,12 @@ body {
     box-shadow: inherit;
 }
 
+.recipe-food-item p {
+    padding: 1rem;
+    font-size: 2rem;
+    text-wrap: wrap;
+}
+
 .recipe-ingredients {
     flex: 1;
     display: flex;
@@ -803,6 +811,27 @@ body {
 .detail-item label {
     font-weight: bold;
     color: var(--secondary);
+}
+
+.detail-item input {
+    text-align: center;
+    max-width: calc(40% - 1rem - 2px);
+    padding: 0.5rem;
+    border: 1px solid var(--secondary);
+    border-radius: 0.3125rem;
+    background-color: var(--search-bar);
+    color: var(--primary);
+}
+
+/* for removing arrows in input */
+.detail-item input[type="number"]::-webkit-inner-spin-button,
+.detail-item input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.detail-item input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 .detail-item p {
