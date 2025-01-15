@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
     })
     .then(data => {
-        const recipesCreated = data;
+        recipesCreated = data;
         changeRecipes(1)
         
         function displayRecipes() {
@@ -170,18 +170,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     fetch('saved.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        const recipesSaved = data;
-    })
-    .catch(error => {
-        console.error('There has been a problem with fetch operation:', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            recipesSaved = data;
+        })
+        .catch(error => {
+            console.error('There has been a problem with fetch operation:', error);
+        });
 });
 
 function displayRecipes() {
