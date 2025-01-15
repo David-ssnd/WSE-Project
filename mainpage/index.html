@@ -12,9 +12,7 @@
         <a href="../mainpage/">
             <img src="../resources/krilo-logo.png" alt="KriLo Logo" class="logo">
         </a>
-        <a href="../create_recipe/">
-            <button class="btn create-btn">Create</button>
-        </a>
+        <button class="btn create-btn" onclick="location.href='../create_recipe/'">Create</button>
         <div class="search-bar">
             <input type="text" placeholder="Search">
             <span class="clear-icon">&times;</span>
@@ -25,7 +23,7 @@
     <div class="content-area main-page">
         <div class="fridge-area">
             <div class="fridge">
-                <img src="../resources/fridge.png">
+                <img src="../resources/fridge.png" alt = "Fridge">
             </div>
             <div class="fridge-search">
                 <table class="fridge-table">
@@ -58,7 +56,7 @@
                 </table>
                 <div class="fridge-search-bar">
                     <p>Search</p>
-                    <button><img src="../resources/magnifier.png"></button>
+                    <button><img src="../resources/magnifier.png" alt = "magnifier"></button>
                 </div>
             </div>
         </div>
@@ -94,15 +92,13 @@
     <div id="foodModal" class="modal">
         <div class="modal-content">
             <h2 id="foodTitle">Food Title</h2>
-            <img id="foodImage" src="" alt="Food Image">
+            <img id="foodImage" src="." alt="Food Image">
             <p id="foodIngredients">Ingredients</p>
             <div id="modal-buttons">
                 <button class="btn favoriteBtn">
                     <i class="fas fa-heart"></i>
                 </button>
-                <a href="../recipe-page/">
-                    <button class="btn-reverse instructionsBtn">Step-By-Step</button>
-                </a>
+                <button class="btn-reverse instructionsBtn" onclick="location.href='../recipe-page/'">Step-By-Step</button>
             </div>
         </div>
     </div>
