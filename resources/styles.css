@@ -885,14 +885,23 @@ body {
 
 /* recipe details */
 
-.recipe-details {
+.recipe-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
     margin-top: 2rem;
     padding: 1rem;
-    background-color: var(--food-item-bg);
-    border-radius: 0.625rem;
-    text-align: center;
     width: calc(100% - 2rem);
+    border-radius: 0.625rem;
     background-color: var(--navbar);
+    position: relative;
+}
+
+.recipe-details {
+    display: flex;
+    width: 100%;
 }
 
 .recipe-details h3 {
