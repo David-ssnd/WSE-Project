@@ -181,7 +181,7 @@ body {
 
 .recipes-feed {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0rem, 1fr));
     flex-wrap: wrap;
     width: 100%;
     gap: 3rem; /* maybe? */
@@ -216,10 +216,25 @@ body {
     align-self: center;
 }
 
+.food-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.625rem;
+    text-align: left;
+}
+
+.name-heart, .author-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .food-item p {
+    text-align: left;
     margin: 0rem;
     flex: 1;
-    align-content: center;
+    /* align-content: center; */
     padding: 0.625rem;
     font-weight: bold;
     font-size: 1.25rem;
