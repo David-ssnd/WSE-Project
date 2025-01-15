@@ -1,0 +1,93 @@
+{
+    "recipe": {
+      "name": "Caesar šalát",
+      "image": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg",
+      "ingredients": [
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka",
+        "1/2 hlávky ľadového šalátu",
+        "1/2 ks kur",
+        "1/2 ks paradajka"
+      ],
+      "details": {
+        "preparation_time": 30,
+        "cooking_time": 30,
+        "cooking_temperature": 180,
+        "servings": 4
+      },
+      "steps": [
+        {
+          "image": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg",
+          "step_number": 1,
+          "description": "description"
+        },
+        {
+          "image": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg",
+          "step_number": 2,
+          "description": "description"
+        },
+        {
+          "image": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg",
+          "step_number": 3,
+          "description": "description"
+        },
+        {
+          "image": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg",
+          "step_number": 4,
+          "description": "description"
+        },
+        {
+          "image": "https://api.ketodiet.cz/data/files/de/349/ae1ce5956e8b2fa8463fea7ce9d4c1ae4bc/spagety-s-domacim-pestem-hlavni-foto.jpg",
+          "step_number": 5,
+          "description": "description"
+        }
+      ],
+      "ratings": [
+        {
+          "name": "Dávid",
+          "stars": 5,
+          "comment": "Najlepšia kapustová polivka, ktorú som kedy jedol. Dokonca lepšia ako tá od mojej babičky. 10/10",
+          "date": "2021-05-05"
+        },
+        {
+          "name": "Name",
+          "stars": 4,
+          "comment": "comment..."
+        },
+        {
+          "name": "Name",
+          "stars": 3,
+          "comment": "comment..."
+        }
+      ]
+    }
+  }
+  
