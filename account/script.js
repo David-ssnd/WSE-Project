@@ -83,9 +83,9 @@
 //         }
 //     });
 // }
-var recipesCreated
-var recipesSaved
-var recipes
+var recipesCreated;
+var recipesSaved;
+var recipes;
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(data => {
         recipesCreated = data;
-        changeRecipes(1)
+        changeRecipes(1);
         
         function displayRecipes() {
             const feed = document.querySelector(".recipes-feed");
@@ -260,7 +260,7 @@ function previewImage(event) {
 
         const navbarImage = document.getElementsByClassName('profile-img');
         navbarImage[0].src = e.target.result;
-    }
+    };
 
     if (file) {
         reader.readAsDataURL(file);

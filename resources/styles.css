@@ -210,10 +210,11 @@ body {
 
 .food-item img {
     height: 80%;
-    width: calc(100%-0.4rem*4);
-    margin: 0.4rem;
+    width: calc(100% - 0.3rem * 4);
+    margin: 0.65rem;
     object-fit: cover;
     border-radius: 0.625rem;
+    align-self: center;
 }
 
 .food-item p {
@@ -564,6 +565,7 @@ body {
 
 .tab-btn {
     margin: 0.5rem;
+    width: 6.25rem;
 }
 
 /* Recipe page */
