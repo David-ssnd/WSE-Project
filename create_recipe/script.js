@@ -1,4 +1,4 @@
-//search bar vymazanie textu - rovnake pre vsetky stranky
+//search bar - clear icon
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector(".search-bar input");
     const clearIcon = document.querySelector(".clear-icon");
@@ -131,7 +131,7 @@ function reNumerate() {
 document.querySelectorAll('input[type="number"]').forEach(input => {
   input.addEventListener('input', () => {
       if (input.value < 1) {
-          input.value = ''; // Vymaže neplatnú hodnotu
+          input.value = '';
       }
   });
 });
