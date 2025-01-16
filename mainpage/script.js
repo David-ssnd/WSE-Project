@@ -1,4 +1,4 @@
-//vymazanie textu zo search baru - rovnake pre vsetky stranky
+//search bar - clear icon
 const searchInput = document.querySelector(".search-bar input");
 const clearIcon = document.querySelector(".clear-icon");
 
@@ -9,14 +9,13 @@ clearIcon.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.ingredient input').forEach(input => {
         input.addEventListener('input', function () {
-            this.value = this.value.replace(/[^a-zA-Zá-žÁ-Ž ]/g, ''); // Povolené len písmená a medzery
+            this.value = this.value.replace(/[^a-zA-Zá-žÁ-Ž ]/g, '');
         });
     });
 
-    // Validácia pre pole Amount
     document.querySelectorAll('.amount input').forEach(input => {
         input.addEventListener('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, ''); // Povolené len čísla
+            this.value = this.value.replace(/[^0-9]/g, '');
         });
     });
 
