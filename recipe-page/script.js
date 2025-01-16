@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", async () => {
     const searchInput = document.querySelector(".search-bar input");
     const clearIcon = document.querySelector(".clear-icon");
