@@ -24,23 +24,33 @@ document.addEventListener("DOMContentLoaded", () => {
         function displayRecipes() {
             const feed = document.querySelector(".recipes-feed");
             feed.innerHTML = "";
-            
+    
             recipes.forEach(recipe => {
                 const foodItem = document.createElement("div");
                 foodItem.classList.add("food-item");
-                
+    
                 const foodImage = document.createElement("img");
                 foodImage.src = recipe.foto;
                 foodImage.alt = recipe.nazov;
-                
+    
                 const foodName = document.createElement("p");
                 foodName.textContent = recipe.nazov;
                 
+                const prepTime = document.createElement("p");
+                prepTime.classList.add("prep-time");
+                const clockIcon = document.createElement("img");
+                clockIcon.src = "../resources/prepTime-clock.svg";
+                clockIcon.alt = "Clock Icon";
+
+                prepTime.textContent = recipe.cas;
+                prepTime.prepend(clockIcon);
+
                 foodItem.appendChild(foodImage);
                 foodItem.appendChild(foodName);
-                
+                foodItem.appendChild(prepTime);
+    
                 feed.appendChild(foodItem);
-                
+    
                 foodItem.addEventListener("click", function() {
                     displayFoodModal(recipe);
                 });
@@ -101,23 +111,33 @@ document.addEventListener("DOMContentLoaded", () => {
 function displayRecipes() {
     const feed = document.querySelector(".recipes-feed");
     feed.innerHTML = "";
-    
+
     recipes.forEach(recipe => {
         const foodItem = document.createElement("div");
         foodItem.classList.add("food-item");
-        
+
         const foodImage = document.createElement("img");
         foodImage.src = recipe.foto;
         foodImage.alt = recipe.nazov;
-        
+
         const foodName = document.createElement("p");
         foodName.textContent = recipe.nazov;
         
+        const prepTime = document.createElement("p");
+        prepTime.classList.add("prep-time");
+        const clockIcon = document.createElement("img");
+        clockIcon.src = "../resources/prepTime-clock.svg";
+        clockIcon.alt = "Clock Icon";
+
+        prepTime.textContent = recipe.cas;
+        prepTime.prepend(clockIcon);
+
         foodItem.appendChild(foodImage);
         foodItem.appendChild(foodName);
-        
+        foodItem.appendChild(prepTime);
+
         feed.appendChild(foodItem);
-        
+
         foodItem.addEventListener("click", function() {
             displayFoodModal(recipe);
         });

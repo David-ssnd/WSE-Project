@@ -44,9 +44,19 @@ document.addEventListener("DOMContentLoaded", () => {
         
                     const foodName = document.createElement("p");
                     foodName.textContent = recipe.nazov;
-        
+                    
+                    const prepTime = document.createElement("p");
+                    prepTime.classList.add("prep-time");
+                    const clockIcon = document.createElement("img");
+                    clockIcon.src = "../resources/prepTime-clock.svg";
+                    clockIcon.alt = "Clock Icon";
+
+                    prepTime.textContent = recipe.cas;
+                    prepTime.prepend(clockIcon);
+
                     foodItem.appendChild(foodImage);
                     foodItem.appendChild(foodName);
+                    foodItem.appendChild(prepTime);
         
                     feed.appendChild(foodItem);
         
