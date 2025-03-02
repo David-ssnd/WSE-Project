@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     clockIcon.src = "../resources/prepTime-clock.svg";
                     clockIcon.alt = "Clock Icon";
 
-                    prepTime.textContent = recipe.cas;
+                    prepTime.textContent = recipe.cas + "'";
                     prepTime.prepend(clockIcon);
 
                     foodItem.appendChild(foodImage);
