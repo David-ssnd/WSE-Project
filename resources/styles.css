@@ -268,11 +268,12 @@ body {
 }
 
 .deleteBtn {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     margin-right: 0.625rem;
     width: 2.5rem;
+    padding: 0;
     height: 2.5rem;
     border-radius: 50%;
     background-color: var(--primary);
