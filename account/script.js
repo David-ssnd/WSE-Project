@@ -188,3 +188,10 @@ function toggleDropdown() {
             dropdown.style.display = "none";
         }
     });
+
+    function deleteRecipe() {
+        if (confirm("Are you sure you want to delete this recipe?")) {
+            // Tu môžeš pridať logiku na odstránenie receptu
+            alert("Recipe deleted!");
+        }
+    }

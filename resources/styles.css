@@ -253,6 +253,26 @@ body {
     position: relative;
 }
 
+.deleteBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.625rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: var(--search-bar);
+    border: none;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    background-color: var(--search-bar);
+    color: var(--primary);
+}
+
+
 .signup-login form {
     display: flex;
     flex-direction: column;
