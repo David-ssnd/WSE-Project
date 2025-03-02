@@ -267,6 +267,26 @@ body {
     position: relative;
 }
 
+.deleteBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.625rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: var(--search-bar);
+    border: none;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    background-color: var(--search-bar);
+    color: var(--primary);
+}
+
+
 .signup-login form {
     display: flex;
     flex-direction: column;
@@ -735,6 +755,14 @@ body {
     box-shadow: inherit;
 }
 
+.create-recipe {
+    width: 100%;
+}
+
+.create-recipe button{
+    font-size: 1.5rem;
+}
+
 .food-image {
     background-color: var(--food-image);
     border-radius: 0.625rem;
@@ -1105,5 +1133,26 @@ body {
 
 .star.hover, .star.selected {
     color: gold;
+}
+
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 5rem;
+    background: var(--button);
+    box-shadow: 0 0.1rem 0.3rem var(--primary);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+.dropdown-menu a {
+    display: block;
+    padding: 0.7rem;
+    text-decoration: none;
+    color: black;
+}
+.dropdown-menu a:hover {
+    background: var(--food-image);
 }
 

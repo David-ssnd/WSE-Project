@@ -17,9 +17,13 @@
             <input type="text" placeholder="Search">
             <span class="clear-icon">&times;</span>
         </div>
-        <button class="profile-icon" onclick="window.location.href='../account/'">
+        <button class="profile-icon" onclick="toggleDropdown()">
             <img src="../resources/avatar.png" alt="Profile" class="profile-img">
         </button>
+        <div id="profileDropdown" class="dropdown-menu">
+            <a href="../account/">My Profile</a>
+            <a href="../logout/">Logout</a>
+        </div>
     </header>
     <div class="content-area account-page">
         <div class="profile-header">
@@ -53,13 +57,17 @@
             <img id="foodImage" src="." alt="Food Image">
             <p id="foodIngredients">Ingredients</p>
             <div id="modal-buttons">
+                <button class="btn deleteBtn" onclick="deleteRecipe()">
+                    <i class="fas fa-trash"></i>
+                </button>
                 <button class="btn favoriteBtn">
                     <i class="fas fa-heart"></i>
                 </button>
-                <button class="btn-reverse instructionsBtn" onclick="location.href='../recipe-page/';">Step-By-Step</button>
+                <button class="btn-reverse instructionsBtn" onclick="location.href='../recipe-page/'">Step-By-Step</button>
             </div>
         </div>
     </div>
+    
 
     <footer class="footer">
         <div class="footer-container">
