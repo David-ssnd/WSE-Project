@@ -6,7 +6,7 @@
 - `POST /api/auth/logout` – Odhlásenie používateľa  
 - `GET /api/user/profile` – získať profil aktuálneho používateľa  
 - `PATCH /api/user/profile` – upraviť profil  
-#
+---
 - `GET /api/user/{id}` – získať verejný profil iného používateľa  
 - `POST /api/user/{id}/follow` – sledovať používateľa  
 - `DELETE /api/user/{id}/unfollow` – prestať sledovať používateľa  
@@ -43,3 +43,6 @@
 ## 🔎 Vyhľadávanie a Filtrovanie
 - `GET /api/search?query={text}` – Vyhľadávanie receptov  
 - `GET /api/recipes?category={id}&ingredient={id}` – Filtrovanie receptov podľa kategórie a ingrediencie 
+
+> [!NOTE]
+> Pri každej ceste je použité /api/, neviem či je to vhodné, ale videl som to použité inde. Možno je to dobré, aby ľudia nedokázali len tak otvoriť stránku, ktorá im vypíše json response.
