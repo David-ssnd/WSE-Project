@@ -1,12 +1,19 @@
-# 📘 API Endpointy – Webová Aplikácia na Recepty
+# 📘 API Endpointy
+
+> [!NOTE]
+> Pri každej ceste je použité `/api/`.
+> Neviem či je to vhodné, ale videl som to použité inde. Možno je to dobré, aby ľudia nedokázali len tak otvoriť stránku, ktorá im vypíše json response.
+
+> [!WARNING]
+> Nie všetky funkcionality sú implementované na frontende, treba dorobiť.
 
 ## 🔐 Autentifikácia
 - `POST /api/auth/register` – Registrácia používateľa  
 - `POST /api/auth/login` – Prihlásenie a získanie tokenu  
 - `POST /api/auth/logout` – Odhlásenie používateľa  
-- `GET /api/user/profile` – získať profil aktuálneho používateľa  
-- `PATCH /api/user/profile` – upraviť profil  
----
+- `GET /api/profile` – získať profil aktuálneho používateľa  
+- `PATCH /api/profile` – upraviť profil
+###
 - `GET /api/user/{id}` – získať verejný profil iného používateľa  
 - `POST /api/user/{id}/follow` – sledovať používateľa  
 - `DELETE /api/user/{id}/unfollow` – prestať sledovať používateľa  
@@ -24,7 +31,7 @@
 - `GET /api/ingredients` – Získanie zoznamu ingrediencií  
 - `GET /api/ingredients/{id}` – Získanie detailu ingrediencie  
 - `POST /api/ingredients` – Pridanie novej ingrediencie  
-- `PUT /api/ingredients/{id}` – Úprava ingrediencie  
+- `PATCH /api/ingredients/{id}` – Úprava ingrediencie  
 - `DELETE /api/ingredients/{id}` – Odstránenie ingrediencie  
 
 ## ⭐ Hodnotenia a Komentáre
@@ -42,7 +49,4 @@
 
 ## 🔎 Vyhľadávanie a Filtrovanie
 - `GET /api/search?query={text}` – Vyhľadávanie receptov  
-- `GET /api/recipes?category={id}&ingredient={id}` – Filtrovanie receptov podľa kategórie a ingrediencie 
-
-> [!NOTE]
-> Pri každej ceste je použité /api/, neviem či je to vhodné, ale videl som to použité inde. Možno je to dobré, aby ľudia nedokázali len tak otvoriť stránku, ktorá im vypíše json response.
+- `GET /api/recipes?ingredient={id}&&tag={id}` – Filtrovanie receptov podľa kategórie a ingrediencie 
