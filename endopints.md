@@ -1,12 +1,14 @@
-# 📘 API Endpointy – Webová Aplikácia na Recepty
+# 📘 API Endpointy
 
 ## 🔐 Autentifikácia
 - `POST /api/auth/register` – Registrácia používateľa  
 - `POST /api/auth/login` – Prihlásenie a získanie tokenu  
 - `POST /api/auth/logout` – Odhlásenie používateľa  
 - `GET /api/user/profile` – získať profil aktuálneho používateľa  
-- `PATCH /api/user/profile` – upraviť profil  
+- `PATCH /api/user/profile` – upraviť profil
+
 #
+
 - `GET /api/user/{id}` – získať verejný profil iného používateľa  
 - `POST /api/user/{id}/follow` – sledovať používateľa  
 - `DELETE /api/user/{id}/unfollow` – prestať sledovať používateľa  
