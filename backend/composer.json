@@ -1,26 +1,35 @@
 {
-  "name": "ssnd/demo_project",
-  "description": "Project Description",
+  "name": "krilo/recipes",
+  "description": "Webová aplikácia pre milovníkov receptov",
   "type": "project",
   "version": "1.0.0",
   "license": "MIT",
   "authors": [
     {
       "name": "Author Name",
-      "email": "author@ssnd.sk"
+      "email": "author@krilo.ssnd.sk"
     }
   ],
   "support": {
-    "email": "suppport@ssnd.sk"
+    "email": "support@krilo.ssnd.sk"
   },
   "require": {
     "php": ">=8.1",
+    "ext-json": "*",
     "firebase/php-jwt": "^6.11",
     "ramsey/uuid": "^4.7"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0"
+  },
   "autoload": {
     "psr-4": {
-      "pwa\\": "src/"
+      "App\\": "src/"
     }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "Composer\\InstalledVersions::reload"
+    ]
   }
 }
