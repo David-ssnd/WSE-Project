@@ -13,6 +13,8 @@ class IngredientController
     public function __construct()
     {
         // TODO: Implement constructor
+        $this->jsonView = new \App\View\JsonView();
+        $this->ingredientModel = new \App\Service\IngredientModel();
     }
 
     /**
