@@ -41,7 +41,7 @@ class SearchController
         if ($recipes || $users || $ingredients) {
             $this->jsonView->render(['recipes' => $recipes, 'users' => $users, 'ingredients' => $ingredients], 200);
         } else {
-            $this->jsonView->sendResponse(['error' => 'No results found'], 404);
+            $this->jsonView->render(['error' => 'No results found'], 404);
         }
     }
 
