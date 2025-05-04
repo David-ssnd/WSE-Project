@@ -13,6 +13,9 @@ class RatingController
     /**
      *
      */
+    private JsonView $jsonView;
+    private RatingModel $ratingModel;
+    
     public function __construct()
     {
         // TODO: Implement constructor
@@ -32,8 +35,7 @@ class RatingController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id']) || !isset($data['rating'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID and rating are required']);
+            $this->jsonView->render(['error' => 'User ID and rating are required'], 400);
             return;
         }
 
@@ -41,8 +43,7 @@ class RatingController
         try {
             $this->ratingModel->addRating($id, $data['user_id'], $data['rating']);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to add rating']);
+            $this->jsonView->render(['error' => 'Failed to add rating'], 500);
             return;
         }
 
@@ -61,12 +62,9 @@ class RatingController
             $ratings = $this->ratingModel->getRatings($id);
             $this->jsonView->render($ratings, 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to get ratings']);
+            $this->jsonView->render(['error' => 'Failed to get ratings'], 500);
             return;
         }
-
-        $this->jsonView->render($ratings, 200);
     }
 
     /**
@@ -81,12 +79,9 @@ class RatingController
             $averageRating = $this->ratingModel->getAverageRating($id);
             $this->jsonView->render(['average_rating' => $averageRating], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to get average rating']);
+            $this->jsonView->render(['error' => 'Failed to get average rating'], 500);
             return;
         }
-
-        $this->jsonView->render(['average_rating' => $averageRating], 200);
     }
 
     /**
@@ -100,14 +95,12 @@ class RatingController
     {
         try {
             $this->ratingModel->deleteRating($id);
-            http_response_code(204); // No Content
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to delete rating']);
+            $this->jsonView->render(['error' => 'Failed to delete rating'], 500);
             return;
         }
 
-        $this->jsonView->render(['message' => 'Rating deleted successfully'], 200);
+        $this->jsonView->render(204);
     }
 
     /**
@@ -122,8 +115,7 @@ class RatingController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['rating'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Rating is required']);
+            $this->jsonView->render(['error' => 'Rating is required'], 400);
             return;
         }
 
@@ -131,8 +123,7 @@ class RatingController
         try {
             $this->ratingModel->updateRating($id, $data['rating']);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to update rating']);
+            $this->jsonView->render(['error' => 'Failed to update rating'], 500);
             return;
         }
 
@@ -151,8 +142,7 @@ class RatingController
             $count = $this->ratingModel->getRatingCount($id);
             $this->jsonView->render(['rating_count' => $count], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to get rating count']);
+            $this->jsonView->render(['error' => 'Failed to get rating count'], 500);
             return;
         }
 
@@ -172,8 +162,7 @@ class RatingController
             $rating = $this->ratingModel->getUserRating($recipeId, $userId);
             $this->jsonView->render(['user_rating' => $rating], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to get user rating']);
+            $this->jsonView->render(['error' => 'Failed to get user rating'], 500);
             return;
         }
 

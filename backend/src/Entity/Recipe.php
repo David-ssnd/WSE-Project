@@ -1,0 +1,49 @@
+use Doctrine\ORM\Mapping as ORM;
+
+<?php
+
+namespace App\Entity;
+
+use Ramsey\Uuid\UuidInterface;
+
+class Recipe
+{
+    private string $name;
+    private ?string $description;
+    private \DateTime $createdAt;
+    private UuidInterface $id;
+
+    public function __construct(string $name, ?string $description = null)
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->createdAt = new \DateTime();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+}

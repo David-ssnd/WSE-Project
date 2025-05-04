@@ -13,6 +13,9 @@ class RecipeController
     /**
      *
      */
+    private JsonView $jsonView;
+    private RecipeModel $recipeModel;
+
     public function __construct()
     {
         // TODO: Implement constructor
@@ -30,7 +33,7 @@ class RecipeController
         if ($recipes) {
             $this->jsonView->render($recipes, 200);
         } else {
-            $this->jsonView->sendResponse(['error' => 'No recipes found'], 404);
+            $this->jsonView->render(['error' => 'No recipes found'], 404);
         }
     }
 
@@ -45,7 +48,7 @@ class RecipeController
         if ($recipe) {
             $this->jsonView->render($recipe, 200);
         } else {
-            $this->jsonView->sendResponse(['error' => 'Recipe not found'], 404);
+            $this->jsonView->render(['error' => 'Recipe not found'], 404);
         }
     }
 
@@ -58,8 +61,7 @@ class RecipeController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['name']) || !isset($data['ingredients']) || !isset($data['instructions'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Name, ingredients, and instructions are required']);
+            $this->jsonView->render(['error' => 'Name, ingredients, and instructions are required'], 400);
             return;
         }
 
@@ -68,8 +70,7 @@ class RecipeController
             $this->recipeModel->createRecipe($data);
             $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to create recipe']);
+            $this->jsonView->render(['error' => 'Failed to create recipe'], 500);
             return;
         }
     }
@@ -84,8 +85,7 @@ class RecipeController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['name']) || !isset($data['ingredients']) || !isset($data['instructions'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Name, ingredients, and instructions are required']);
+            $this->jsonView->render(['error' => 'Name, ingredients, and instructions are required'], 400);
             return;
         }
 
@@ -94,8 +94,7 @@ class RecipeController
             $this->recipeModel->updateRecipe($id, $data);
             $this->jsonView->render(['message' => 'Recipe updated successfully'], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to update recipe']);
+            $this->jsonView->render(['error' => 'Failed to update recipe'], 500);
             return;
         }
     }
@@ -112,8 +111,7 @@ class RecipeController
             $this->recipeModel->deleteRecipe($id);
             $this->jsonView->render(['message' => 'Recipe deleted successfully'], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to delete recipe']);
+            $this->jsonView->render(['error' => 'Failed to delete recipe'], 500);
             return;
         }
     }

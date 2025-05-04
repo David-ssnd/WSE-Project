@@ -5,16 +5,23 @@ namespace App\Controller;
 /**
  *
  */
+use App\View\JsonView;
+use App\Service\FavoriteModel;
+
 class FavoriteController
 {
     /**
      *
      */
+    private JsonView $jsonView;
+    private FavoriteModel $favoriteModel;
+
+
     public function __construct()
     {
         // TODO: Implement constructor
-        $this->jsonView = new \App\View\JsonView();
-        $this->favoriteModel = new \App\Service\FavoriteModel();
+        $this->jsonView = new JsonView();
+        $this->favoriteModel = new FavoriteModel();
     
     }
 
@@ -29,8 +36,7 @@ class FavoriteController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID is required']);
+            $this->jsonView->render(['error' => 'User ID is required'], 400);
             return;
         }
 
@@ -38,8 +44,7 @@ class FavoriteController
         try {
             $this->favoriteModel->addFavorite($id, $data['user_id']);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to add favorite']);
+            $this->jsonView->render(['error' => 'Failed to add favorite'], 500);
             return;
         }
 
@@ -57,8 +62,7 @@ class FavoriteController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID is required']);
+            $this->jsonView->render(['error' => 'User ID is required'], 400);
             return;
         }
 
@@ -66,8 +70,7 @@ class FavoriteController
         try {
             $this->favoriteModel->removeFavorite($id, $data['user_id']);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to remove favorite']);
+            $this->jsonView->render(['error' => 'Failed to remove favorite'], 500);
             return;
         }
 
@@ -84,8 +87,7 @@ class FavoriteController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID is required']);
+            $this->jsonView->render(['error' => 'User ID is required'], 400);
             return;
         }
 
@@ -94,8 +96,7 @@ class FavoriteController
             $favorites = $this->favoriteModel->listFavorites($data['user_id']);
             $this->jsonView->render($favorites, 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to fetch favorites']);
+            $this->jsonView->render(['error' => 'Failed to fetch favorites'], 500);
             return;
         }
     }
@@ -111,8 +112,7 @@ class FavoriteController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID is required']);
+            $this->jsonView->render(['error' => 'User ID is required'], 400);
             return;
         }
 
@@ -121,8 +121,7 @@ class FavoriteController
             $isFavorite = $this->favoriteModel->isFavorite($id, $data['user_id']);
             $this->jsonView->render(['is_favorite' => $isFavorite], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to check favorite status']);
+            $this->jsonView->render(['error' => 'Failed to check favorite'], 500);
             return;
         }
     }
@@ -136,8 +135,7 @@ class FavoriteController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID is required']);
+            $this->jsonView->render(['error' => 'User ID is required'], 400);
             return;
         }
 
@@ -146,8 +144,7 @@ class FavoriteController
             $count = $this->favoriteModel->getFavoriteCount($data['user_id']);
             $this->jsonView->render(['favorite_count' => $count], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to fetch favorite count']);
+            $this->jsonView->render(['error' => 'Failed to fetch favorite count'], 500);
             return;
         }
     }
@@ -161,8 +158,7 @@ class FavoriteController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if (!isset($data['user_id'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'User ID is required']);
+            $this->jsonView->render(['error' => 'User ID is required'], 400);
             return;
         }
 
@@ -171,8 +167,7 @@ class FavoriteController
             $favorites = $this->favoriteModel->getFavoriteByUser($data['user_id']);
             $this->jsonView->render($favorites, 200);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to fetch favorite recipes']);
+            $this->jsonView->render(['error' => 'Failed to fetch favorites'], 500);
             return;
         }
     }
