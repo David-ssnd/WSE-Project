@@ -1,8 +1,8 @@
 <?php
 
-namespace pwa\Service;
+namespace App\Service;
 
-use pwa\Entity\ClientApplication;
+use App\Entity\ClientApplication;
 use PDO;
 
 /**

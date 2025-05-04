@@ -17,7 +17,7 @@ $router = new Router();
 
 $router->post('/api/auth/register', AuthController::class, 'register');
 $router->post('/api/auth/login', AuthController::class, 'login');
-$router->post('/api/auth/logout', AuthController::class, 'logout');
+// Logout is useless in stateless JWT authentication
 $router->get('/api/profile', ProfileController::class, 'getProfile');
 $router->patch('/api/profile', ProfileController::class, 'updateProfile');
 

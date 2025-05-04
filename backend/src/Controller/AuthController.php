@@ -5,6 +5,7 @@ namespace App\Controller;
 use \App\Service\UserModel;
 use \App\Service\AuthService;
 use \App\View\JsonView;
+use Ramsey\Uuid\Uuid;
 
 /**
  *
@@ -17,12 +18,12 @@ class AuthController
      */
     private UserModel $userModel;
     private AuthService $authService;
-    private JsonView $jsonView;
+    private JsonView $view;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
-        $this->jsonView = new JsonView();
+        $this->view = new JsonView();
         $this->authService = new AuthService();
     }
 
@@ -31,11 +32,12 @@ class AuthController
      */
     public function register()
     {
-        // TODO: Implement register() method.
+        if (!$this->validateClientApplication()) return;
+
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if(!isset($data['username']) || !isset($data['password'])) {
-            $this->jsonView->sendResponse(['error' => 'Username and password are required'], 400);
+            $this->view->render(['error' => 'Invalid request'], 400);
             return;
         }
 
@@ -43,11 +45,11 @@ class AuthController
         try {
             $user = $this->userModel->createUser($data['username'], $data['password']);
         }catch (\Exception $e) {
-            $this->jsonView->sendResponse(['error' => 'User already exists'], 409);
+            $this->view->render(['error' => 'User already exists'], 409);
             return;
         }
 
-        $this->jsonView->render($user, 201);
+        $this->view->render($user, 201);
     }
 
     /**
@@ -55,99 +57,80 @@ class AuthController
      */
     public function login()
     {
-        // TODO: Implement login() method.
-        // 1. Get the username and password from the request body
-        // 2. Validate the input data (e.g., check if username and password are not empty)
-        // 3. Check if the user exists in the database using UserModel
-        // 4. Verify the password using AuthService
-        // 5. If the password is correct, generate a JWT token using AuthService
-        // 6. Return the token in the response using JsonView
-        // 7. If the password is incorrect, return an error response using JsonView
-        // 8. If the user does not exist, return an error response using JsonView
-        // 9. Handle any exceptions that may occur during the process and return appropriate error responses
-        // 10. Ensure that the response is in JSON format using JsonView
-        // 11. Set the appropriate HTTP status code for success or failure
-        // 12. Optionally, log the login attempt (success or failure) for auditing purposes
-        // 13. Ensure that the JWT token is signed and has an expiration time
-        // 14. Optionally, implement rate limiting to prevent brute-force attacks on the login endpoint
-        // 15. Ensure that the password is hashed and stored securely in the database
-        // 16. Optionally, implement account lockout after a certain number of failed login attempts
+        if (!$this->validateClientApplication()) return;
 
-        if(!$validateData()){
-            $this->jsonView->sendResponse(['error' => 'Invalid input data'], 400);
-            return;
-        }
-
-        //get the request body
-        $data = json_decode(file_get_contents('php://input'), true);
-
-        if(!isset($data['username']) || !isset($data['password'])) {
-            $this->jsonView->sendResponse(['error' => 'Username and password are required'], 400);
+        // Get the request body
+        $body = json_decode(file_get_contents('php://input'), true);
+        
+        // Check if the request body contains the required fields
+        if (!isset($body['username']) || !isset($body['password'])) {
+            $this->view->render(['error' => 'Invalid request'], 400);
             return;
         }
 
         try {
-            $token = $this->authService->login($data['username'], $data['password']);
+            $token = $this->authService->login($body['username'], $body['password']);
         }catch (\Exception $e) {
-            $this->jsonView->sendResponse(['error' => 'Invalid username or password'], 401);
+            $this->view->render(['error' => 'Invalid username or password'], 401);
             return;
         }
 
-        $this->jsonView->render(['token' => $token], 200);
+        $this->view->render(['token' => $token], 200);
     }
 
     /**
+     * @param string $userId
      * @return void
      */
-    public function logout()
+    public function delete(string $userId): void
     {
-        if(!$this->validateData()){
-            $this->jsonView->sendResponse(['error' => 'Invalid input data'], 400);
-            return;
-        }
-        //get the request body
-        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$this->validateClientApplication()) return;
 
-        if(!isset($data['token'])) {
-            $this->jsonView->sendResponse(['error' => 'Token is required'], 400);
+        if(!Uuid::isValid($userId)){
+            $this->view->render(['error' => 'Invalid request'], 400);
             return;
         }
 
         try {
-            $this->authService->logout($data['token']);
-        }catch (\Exception $e) {
-            $this->jsonView->sendResponse(['error' => 'Invalid token'], 401);
+            $this->userModel->deleteUserById(Uuid::fromString($userId));
+        } catch (\Exception $e) {
+            $this->view->render(['message' => 'User not found'], 404);
             return;
         }
-
-        $this->jsonView->sendResponse(['message' => 'Logged out successfully'], 200);
-        return;
+        
+        $this->view->render([],204);
     }
 
-    private function validateData() : bool
+    /**
+     * Validate the Authorization header $clientId and $clientSecret
+     * that date is base64 encoded and separated by a colon.
+     * If the client is not authorized, return a 401 Unauthorized response.
+     *
+     * @return void
+     */
+    private function validateClientApplication(): bool
     {
-        // Extract headers
         $headers = getallheaders();
-        $authHeader = $headers['Authorization'] ?? null;
-
-        if($authHeader === null) {
-            $this->jsonView->sendResponse(['error' => 'Authorization header not found'], 401);
+        $authorizationHeader = $headers['Authorization'] ?? null;
+        
+        if ($authorizationHeader === null) {
+            $this->view->render(['error' => 'Not allowed'], 403);
             return false;
         }
-
-        // Extract client ID and secret from the Authorization header
-        $authParts = explode(':', base64_decode(substr($authHeader, 6)));
-        if (count($authParts) !== 2) {
-            $this->jsonView->sendResponse(['error' => 'Invalid Authorization header format'], 401);
+        
+        // Extract clientId and clientSecret from the Authorization header
+        if (preg_match('/Basic\s(\S+)/', $authorizationHeader, $matches)) {
+            $decodedAuth = base64_decode($matches[1]);
+            [$clientId, $clientSecret] = explode(':', $decodedAuth, 2);
+        } else {
+            $this->view->render(['error' => 'Invalid request'], 400);
             return false;
         }
-    
-        if (!$this->authService->validateClient($clientId, $clientSecret)) {
-            $this->jsonView->sendResponse(['error' => 'Invalid client credentials'], 401);
+        
+        if (!$this->authService->clientIsAuthorized($clientId, $clientSecret)) {
+            $this->view->render(['error' => 'Invalid client credentials'], 401);
             return false;
         }
-
-
         return true;
     }
 }
