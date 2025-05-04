@@ -5,16 +5,23 @@ namespace App\Controller;
 /**
  *
  */
+
+use App\View\JsonView;
+use App\Service\IngredientModel;
+
 class IngredientController
 {
     /**
      *
      */
+    private JsonView $jsonView;
+    private IngredientModel $ingredientModel;
+
     public function __construct()
     {
         // TODO: Implement constructor
-        $this->jsonView = new \App\View\JsonView();
-        $this->ingredientModel = new \App\Service\IngredientModel();
+        $this->jsonView = new JsonView();
+        $this->ingredientModel = new IngredientModel();
     }
 
     /**

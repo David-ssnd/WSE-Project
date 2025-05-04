@@ -5,16 +5,22 @@ namespace App\Controller;
 /**
  *
  */
+use App\View\JsonView;
+use App\Service\SearchModel;
+
 class SearchController
 {
     /**
      *
      */
+    private $jsonView;
+    private $searchModel;
+
     public function __construct()
     {
         // TODO: Implement constructor
-        $this->jsonView = new \App\View\JsonView();
-        $this->searchModel = new \App\Service\SearchModel();
+        $this->jsonView = new JsonView();
+        $this->searchModel = new SearchModel();
 
     }
 

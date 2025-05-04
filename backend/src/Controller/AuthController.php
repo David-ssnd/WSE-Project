@@ -35,7 +35,7 @@ class AuthController
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
         if(!isset($data['username']) || !isset($data['password'])) {
-            $this->jsonView->sendResponse(['error' => 'Username and password are required'], 400);
+            $this->jsonView->render(['error' => 'Username and password are required'], 400);
             return;
         }
 
@@ -43,7 +43,7 @@ class AuthController
         try {
             $user = $this->userModel->createUser($data['username'], $data['password']);
         }catch (\Exception $e) {
-            $this->jsonView->sendResponse(['error' => 'User already exists'], 409);
+            $this->jsonView->render(['error' => 'User already exists'], 409);
             return;
         }
 
@@ -74,7 +74,7 @@ class AuthController
         // 16. Optionally, implement account lockout after a certain number of failed login attempts
 
         if(!$validateData()){
-            $this->jsonView->sendResponse(['error' => 'Invalid input data'], 400);
+            $this->jsonView->render(['error' => 'Invalid input data'], 400);
             return;
         }
 
@@ -82,14 +82,14 @@ class AuthController
         $data = json_decode(file_get_contents('php://input'), true);
 
         if(!isset($data['username']) || !isset($data['password'])) {
-            $this->jsonView->sendResponse(['error' => 'Username and password are required'], 400);
+            $this->jsonView->render(['error' => 'Username and password are required'], 400);
             return;
         }
 
         try {
             $token = $this->authService->login($data['username'], $data['password']);
         }catch (\Exception $e) {
-            $this->jsonView->sendResponse(['error' => 'Invalid username or password'], 401);
+            $this->jsonView->render(['error' => 'Invalid username or password'], 401);
             return;
         }
 
@@ -102,25 +102,25 @@ class AuthController
     public function logout()
     {
         if(!$this->validateData()){
-            $this->jsonView->sendResponse(['error' => 'Invalid input data'], 400);
+            $this->jsonView->render(['error' => 'Invalid input data'], 400);
             return;
         }
         //get the request body
         $data = json_decode(file_get_contents('php://input'), true);
 
         if(!isset($data['token'])) {
-            $this->jsonView->sendResponse(['error' => 'Token is required'], 400);
+            $this->jsonView->render(['error' => 'Token is required'], 400);
             return;
         }
 
         try {
             $this->authService->logout($data['token']);
         }catch (\Exception $e) {
-            $this->jsonView->sendResponse(['error' => 'Invalid token'], 401);
+            $this->jsonView->render(['error' => 'Invalid token'], 401);
             return;
         }
 
-        $this->jsonView->sendResponse(['message' => 'Logged out successfully'], 200);
+        $this->jsonView->render(['message' => 'Logged out successfully'], 200);
         return;
     }
 
@@ -131,19 +131,19 @@ class AuthController
         $authHeader = $headers['Authorization'] ?? null;
 
         if($authHeader === null) {
-            $this->jsonView->sendResponse(['error' => 'Authorization header not found'], 401);
+            $this->jsonView->render(['error' => 'Authorization header not found'], 401);
             return false;
         }
 
         // Extract client ID and secret from the Authorization header
         $authParts = explode(':', base64_decode(substr($authHeader, 6)));
         if (count($authParts) !== 2) {
-            $this->jsonView->sendResponse(['error' => 'Invalid Authorization header format'], 401);
+            $this->jsonView->render(['error' => 'Invalid Authorization header format'], 401);
             return false;
         }
     
         if (!$this->authService->validateClient($clientId, $clientSecret)) {
-            $this->jsonView->sendResponse(['error' => 'Invalid client credentials'], 401);
+            $this->jsonView->render(['error' => 'Invalid client credentials'], 401);
             return false;
         }
 

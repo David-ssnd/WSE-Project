@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-use App\Database\Connection;
 use App\Model\Comment;
 use App\Model\Recipe;
 use App\Model\User;
@@ -16,7 +15,9 @@ class CommentModel
 
     public function __construct()
     {
-        $this->pdo = Connection::getConnection();
+        $dsn = sprintf(
+            'pgsql:host=%s;port=%s;dbname=%s', 
+            $_ENV['DB_HOST'], $_ENV['DB_NAME']);
     }
 
     public function addComment(string $recipeId, string $comment): void
