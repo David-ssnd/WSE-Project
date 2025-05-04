@@ -6,7 +6,7 @@ namespace App\Service;
 use PDO;
 
 
-class IngredientModel
+class SearchModel
 {
     private PDO $pdo;
 
@@ -34,30 +34,4 @@ class IngredientModel
         $this->pdo = new PDO($dsn, $dbUser, $dbPass, $options);
     }
 
-    
-        public function addIngredient(string $name, string $description): void
-        {
-            try {
-                $stmt = $this->pdo->prepare("INSERT INTO ingredients (name, description) VALUES (:name, :description)");
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':description', $description);
-                $stmt->execute();
-            } catch (\PDOException $e) {
-                throw new \Exception("Failed to add ingredient: " . $e->getMessage());
-            }
-        }
-    
-        public function getIngredientById(string $id): ?array
-        {
-            try {
-                $stmt = $this->pdo->prepare("SELECT * FROM ingredients WHERE id = :id");
-                $stmt->bindParam(':id', $id);
-                $stmt->execute();
-                return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
-            } catch (\PDOException $e) {
-                throw new \Exception("Failed to fetch ingredient: " . $e->getMessage());
-            }
-        }
-    
-        
 }
