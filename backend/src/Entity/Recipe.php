@@ -12,6 +12,7 @@ class Recipe
     private ?string $description;
     private \DateTime $createdAt;
     private UuidInterface $id;
+    private ?string $instructions = null;
 
     public function __construct(string $name, ?string $description = null)
     {
@@ -20,7 +21,7 @@ class Recipe
         $this->createdAt = new \DateTime();
     }
 
-    public function getId(): ?int
+    public function getId(): ?UuidInterface
     {
         return $this->id;
     }
@@ -45,5 +46,21 @@ class Recipe
     {
         $this->description = $description;
         return $this;
+    }
+
+    public function getInstructions(): ?string
+    {
+        return $this->instructions;
+    }
+
+    public function setInstructions(?string $instructions): self
+    {
+        $this->instructions = $instructions;
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
     }
 }
