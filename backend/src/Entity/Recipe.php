@@ -4,6 +4,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Ramsey\Uuid\UuidInterface;
 
 class Recipe
@@ -13,6 +14,7 @@ class Recipe
     private \DateTime $createdAt;
     private UuidInterface $id;
     private ?string $instructions = null;
+    private User $user;
 
     public function __construct(string $name, ?string $description = null)
     {
@@ -34,6 +36,17 @@ class Recipe
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
         return $this;
     }
 

@@ -52,18 +52,68 @@ class UserModel
      */
     public function getUserByUsername(string $userName): User
     {
-        $stmt = $this->pdo->prepare("SELECT id, password_hash FROM users WHERE username = :username LIMIT 1");
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
         $stmt->bindParam(':username', $userName, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$userData) {
             throw new \Exception('User not found');
         }
+
         $userId = Uuid::fromString($userData['id']);
-        $user =  new User($userId, $userName, $userData['password_hash']);
-        
+        $user = new User(
+            $userId,
+            $userData['username'],
+            $userData['password_hash'],
+            $userData['fullname'] ?? null,
+            $userData['email'] ?? null,
+            $userData['phone'] ?? null
+        );
+
         return $user;
+    }
+
+    /**
+     * Update user details by username.
+     *
+     * @param string $userName
+     * @param array $data
+     * @throws \Exception
+     */
+    public function updateUserByUsername(string $userName, array $data): void
+    {
+        // Allowed fields for update
+        $allowedFields = ['fullname', 'email', 'phone'];
+
+        // Validate input data
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $allowedFields, true)) {
+                throw new \Exception("Invalid field: $key");
+            }
+        }
+
+        // Build the SQL query dynamically
+        $setClause = [];
+        foreach ($data as $key => $value) {
+            $setClause[] = "$key = :$key";
+        }
+        $setClauseString = implode(', ', $setClause);
+
+        // Prepare the SQL statement
+        $sql = "UPDATE users SET $setClauseString WHERE username = :username";
+        $stmt = $this->pdo->prepare($sql);
+
+        // Bind parameters
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(":$key", $value, PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':username', $userName, PDO::PARAM_STR);
+
+        // Execute the query
+        if (!$stmt->execute()) {
+            throw new \Exception('Failed to update user');
+        }
     }
     
     /**

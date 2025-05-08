@@ -49,7 +49,7 @@ class AuthController
             return;
         }
 
-        $this->view->render($user, 201);
+        $this->view->render($user, 201); // 201 - Created, returns username
     }
 
     /**

@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
-use App\Service\ClientApplicationModel;
-
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use PDO;
+
+use App\Service\ClientApplicationModel;
+use App\Service\UserModel;
+use App\Entity\User;
 
 /**
  *
@@ -145,5 +146,39 @@ class AuthService
         
         return $data;
         
+    }
+
+    /**
+     * @return User
+     * @throws \Exception
+     */
+    public function getUserFromToken(): User
+    {
+        
+        $data = $this->validateToken();
+
+        if (isset($data->krilo) && isset($data->krilo->username)) {
+            return $this->userModel->getUserByUsername($data->krilo->username);
+        }
+        
+        throw new \Exception('Invalid token or user not found');
+    }
+
+    /**
+     * @param array $data
+     * @return User
+     * @throws \Exception
+     */
+    public function updateUserByToken($body) : User
+    {
+        $token = $this->validateToken();
+        
+        if (!isset($token->krilo) || !isset($token->krilo->username)) {
+            throw new \Exception('Invalid token or user not found');
+        }
+
+        $this->userModel->updateUserByUsername($token->krilo->username, $body);
+
+        return $this->userModel->getUserByUsername($token->krilo->username);
     }
 }

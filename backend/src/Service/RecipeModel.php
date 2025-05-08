@@ -2,12 +2,9 @@
 
 namespace App\Service;
 
-use App\Database\Connection;
-use App\Model\Ingredient;
-use App\Model\Comment;
-use App\Model\User;
-use PDO;
+use App\Entity\User;
 use App\Entity\Recipe;
+use PDO;
 
 class RecipeModel
 {
@@ -57,6 +54,20 @@ class RecipeModel
             return $stmt->fetchObject(Recipe::class) ?: null;
         } catch (\PDOException $e) {
             throw new \Exception("Failed to fetch recipe: " . $e->getMessage());
+        }
+    }
+
+    public function getRecipesByUser(User $user, int $offset, int $limit): array
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM recipes WHERE user_id = :user_id LIMIT :limit OFFSET :offset ORDER BY created_at DESC");
+            $stmt->bindValue(':user_id', $user->getId(), PDO::PARAM_INT);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_CLASS, Recipe::class);
+        } catch (\PDOException $e) {
+            throw new \Exception("Failed to fetch user's recipes: " . $e->getMessage());
         }
     }
 

@@ -15,11 +15,11 @@ use App\Controller\SearchController;
 
 $router = new Router();
 
-$router->post('/api/auth/register', AuthController::class, 'register');
-$router->post('/api/auth/login', AuthController::class, 'login');
+$router->post('/api/auth/register', AuthController::class, 'register');                 //✅
+$router->post('/api/auth/login', AuthController::class, 'login');                       //✅
 // Logout is useless in stateless JWT authentication
-$router->get('/api/profile', ProfileController::class, 'getProfile');
-$router->patch('/api/profile', ProfileController::class, 'updateProfile');
+$router->get('/api/profile', ProfileController::class, 'getProfile');                   //✅
+$router->patch('/api/profile', ProfileController::class, 'updateProfile');              //✅
 
 $router->get('/api/user/{id:uuid}', UserController::class, 'getPublicProfile');
 $router->post('/api/user/{id:uuid}/follow', UserController::class, 'follow');
