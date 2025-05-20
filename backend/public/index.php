@@ -21,11 +21,11 @@ $router->post('/api/auth/login', AuthController::class, 'login');               
 $router->get('/api/profile', ProfileController::class, 'getProfile');                   //✅
 $router->patch('/api/profile', ProfileController::class, 'updateProfile');              //✅
 
-$router->get('/api/user/{id:uuid}', UserController::class, 'getPublicProfile');
-$router->post('/api/user/{id:uuid}/follow', UserController::class, 'follow');
-$router->delete('/api/user/{id:uuid}/unfollow', UserController::class, 'unfollow');
-$router->get('/api/user/{id:uuid}/followers', UserController::class, 'getFollowers');
-$router->get('/api/user/{id:uuid}/following', UserController::class, 'getFollowing');
+$router->get('/api/user/{username}', UserController::class, 'getPublicProfile');        //✅
+$router->post('/api/user/{username}/follow', UserController::class, 'follow');
+$router->delete('/api/user/{username}/unfollow', UserController::class, 'unfollow');
+$router->get('/api/user/{username}/followers', UserController::class, 'getFollowers');
+$router->get('/api/user/{username}/following', UserController::class, 'getFollowing');
 
 $router->get('/api/recipes', RecipeController::class, 'list');
 $router->get('/api/recipes/{id:uuid}', RecipeController::class, 'detail');

@@ -2,35 +2,66 @@
 
 namespace App\Controller;
 
+use App\View\JsonView;
+use App\Service\UserModel;
+use App\Service\AuthService;
+
 /**
  *
  */
 class UserController
 {
+    private JsonView $view;
+    private UserModel $userModel;
+    private AuthService $authService;
+
     /**
      *
      */
     public function __construct()
     {
-        // TODO: Implement constructor
+        $this->view = new JsonView();
+        $this->userModel = new UserModel();
+        $this->authService = new AuthService();
     }
 
     /**
-     * @param string $id
+     * @param string $username
      * @return void
      */
-    public function getPublicProfile(string $id): void
+    public function getPublicProfile(string $username): void
     {
-        // TODO: Implement getPublicProfile() method.
+        // Validation is in getUserFromToken method
+
+        try {
+            $follower = $this->authService->getUserFromToken();
+        } catch (\Exception $e) {
+            $this->view->render(['error' => $e->getMessage()], 401);
+            return;
+        }
+
+        try {
+            $followed = $this->userModel->getUserByUsername($username);
+        } catch (\Exception $e) {
+            $this->view->render(['error' => $e->getMessage()], 401);
+            return;
+        }
+
+        $this->view->render(204);
     }
 
     /**
-     * @param string $id
+     * @param string $username
      * @return void
      */
-    public function follow(string $id): void
+    public function follow(string $username): void
     {
-        // TODO: Implement follow() method.
+        try {
+            $user = $this->userModel->getUserByUsername($username);
+        } catch (\Exception $e) {
+            $this->view->render(['error' => $e->getMessage()], 401);
+            return;
+        }
     }
 
     /**

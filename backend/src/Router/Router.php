@@ -106,7 +106,11 @@ class Router
     /**
      * Parses a route string and converts dynamic segments to regex.
      *
-     * Supported dynamic parameter syntax: {name:int} or {name:uuid}
+     * Supported dynamic parameter syntax:
+     *   - {name}          → default string
+     *   - {name:string}   → string
+     *   - {name:int}      → digits only
+     *   - {name:uuid}     → UUID format
      *
      * @param string $path The route pattern (e.g. "/users/{id:int}")
      * @return array An array with the regex pattern and list of parameter names.
@@ -114,21 +118,23 @@ class Router
     private function parseRoute(string $path): array
     {
         $parameterNames = [];
-        // Replace dynamic segments with named capture groups.
-        $regex = preg_replace_callback('/\{(\w+):(int|uuid)\}/', function ($matches) use (&$parameterNames) {
+
+        $regex = preg_replace_callback('/\{(\w+)(?::(int|uuid|string))?\}/', function ($matches) use (&$parameterNames) {
             $parameterNames[] = $matches[1];
-            if ($matches[2] === 'int') {
-                return '(?P<' . $matches[1] . '>\d+)';
-            } elseif ($matches[2] === 'uuid') {
-                return '(?P<' . $matches[1] . '>[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})';
-            }
-            throw new \InvalidArgumentException('Only int and uuid parameter types are supported.');
+            $type = $matches[2] ?? 'string';
+
+            return match ($type) {
+                'int' => '(?P<' . $matches[1] . '>\d+)',
+                'uuid' => '(?P<' . $matches[1] . '>[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})',
+                'string' => '(?P<' . $matches[1] . '>[^/]+)',
+                default => throw new \InvalidArgumentException("Unsupported parameter type: {$type}"),
+            };
         }, $path);
-        
-        // Ensure the regex matches the entire path.
+
         $regex = "#^" . $regex . "$#";
         return [$regex, $parameterNames];
     }
+
     
     /**
      * Dispatches the current request by matching the HTTP method and URL path.
