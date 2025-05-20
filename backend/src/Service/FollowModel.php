@@ -84,4 +84,40 @@ class FollowModel
         $stmt->bindParam(':followedId', $followedId, PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    /**
+     * @param UuidInterface $userId
+     * @return array
+     */
+    public function getFollowers(UuidInterface $followedId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT u.username
+            FROM public.follows f
+            JOIN users u ON u.id = f.follower_id
+            WHERE f.followed_id = :followedId
+            ORDER BY u.username;
+        ");
+        $stmt->bindParam(':followedId', $followedId, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param UuidInterface $userId
+     * @return array
+     */
+    public function getFollowing(UuidInterface $followerId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT u.username
+            FROM public.follows f
+            JOIN users u ON u.id = f.followed_id
+            WHERE f.follower_id = :followerId
+            ORDER BY u.username;
+        ");
+        $stmt->bindParam(':followerId', $followerId, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
