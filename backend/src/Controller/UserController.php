@@ -148,11 +148,22 @@ class UserController
     }
 
     /**
-     * @param string $id
+     * @param string $username
      * @return void
      */
-    public function getFollowing(string $id): void
+    public function getFollowing(string $username): void
     {
-        // TODO: Implement getFollowing() methods.
+        // Validation is in getUserFromToken method
+
+        try {
+            $user = $this->userModel->getUserByUsername($username);
+        } catch (\Exception $e) {
+            $this->view->render(['error' => $e->getMessage()], 401);
+            return;
+        }
+
+        // Get following
+        $following = $this->followModel->getFollowing($user->getId());
+        $this->view->render($following, 200);
     }
 }
