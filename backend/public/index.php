@@ -22,8 +22,8 @@ $router->get('/api/profile', ProfileController::class, 'getProfile');           
 $router->patch('/api/profile', ProfileController::class, 'updateProfile');              //✅
 
 $router->get('/api/user/{username}', UserController::class, 'getPublicProfile');        //✅
-$router->post('/api/user/{username}/follow', UserController::class, 'follow');
-$router->delete('/api/user/{username}/unfollow', UserController::class, 'unfollow');
+$router->post('/api/user/{username}/follow', UserController::class, 'follow');          //✅
+$router->delete('/api/user/{username}/unfollow', UserController::class, 'unfollow');    //✅
 $router->get('/api/user/{username}/followers', UserController::class, 'getFollowers');
 $router->get('/api/user/{username}/following', UserController::class, 'getFollowing');
 
