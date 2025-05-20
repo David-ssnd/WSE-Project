@@ -27,7 +27,7 @@ $router->delete('/api/user/{username}/unfollow', UserController::class, 'unfollo
 $router->get('/api/user/{username}/followers', UserController::class, 'getFollowers');  //✅
 $router->get('/api/user/{username}/following', UserController::class, 'getFollowing');  //✅
 
-$router->get('/api/recipes', RecipeController::class, 'list');
+$router->get('/api/recipes', RecipeController::class, 'list');                          //✅
 $router->get('/api/recipes/{id:uuid}', RecipeController::class, 'detail');
 $router->post('/api/recipes', RecipeController::class, 'create');
 $router->patch('/api/recipes/{id:uuid}', RecipeController::class, 'update');

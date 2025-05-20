@@ -1,5 +1,3 @@
-use Doctrine\ORM\Mapping as ORM;
-
 <?php
 
 namespace App\Entity;
@@ -9,71 +7,105 @@ use Ramsey\Uuid\UuidInterface;
 
 class Recipe
 {
-    private string $name;
-    private ?string $description;
-    private \DateTime $createdAt;
     private UuidInterface $id;
+    private UuidInterface $user_id;
+    private string $title;
+    private ?string $description;
+    private \DateTime $created_at;
+    private int $cook_time;
     private ?string $instructions = null;
-    private User $user;
 
-    public function __construct(string $name, ?string $description = null)
-    {
-        $this->name = $name;
+    public function __construct(
+        $id,
+        $user_id,
+        string $title,
+        ?string $description,
+        \DateTime $created_at,
+        int $cook_time,
+        ?string $instructions = null
+    ) {
+        if (is_string($id)) {
+            $id = \Ramsey\Uuid\Uuid::fromString($user_id);
+        }
+        $this->id = $id;
+        if (is_string($user_id)) {
+            $user_id = \Ramsey\Uuid\Uuid::fromString($user_id);
+        }
+        $this->user_id = $user_id;
+        $this->title = $title;
         $this->description = $description;
-        $this->createdAt = new \DateTime();
+        $this->created_at = $created_at;
+        $this->cook_time = $cook_time;
+        $this->instructions = $instructions;
     }
 
-    public function getId(): ?UuidInterface
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
-
-    public function getName(): string
+    public function setId(UuidInterface $id): void
     {
-        return $this->name;
+        $this->id = $id;
     }
 
-    public function setName(string $name): self
+    public function getUserId(): UuidInterface
     {
-        $this->name = $name;
-        return $this;
+        return $this->user_id;
     }
 
-    public function getUser(): User
+    /**
+     * @param UuidInterface|string $user_id
+     */
+    public function setUserId($user_id): void
     {
-        return $this->user;
+        if (is_string($user_id)) {
+            $user_id = \Ramsey\Uuid\Uuid::fromString($user_id);
+        }
+        $this->user_id = $user_id;
     }
 
-    public function setUser(User $user): self
+    public function getTitle(): string
     {
-        $this->user = $user;
-        return $this;
+        return $this->title;
+    }
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 
     public function getDescription(): ?string
     {
         return $this->description;
     }
-
-    public function setDescription(?string $description): self
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
-        return $this;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->created_at;
+    }
+    public function setCreatedAt(\DateTime $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    public function getCookTime(): int
+    {
+        return $this->cook_time;
+    }
+    public function setCookTime(int $cook_time): void
+    {
+        $this->cook_time = $cook_time;
     }
 
     public function getInstructions(): ?string
     {
         return $this->instructions;
     }
-
-    public function setInstructions(?string $instructions): self
+    public function setInstructions(?string $instructions): void
     {
         $this->instructions = $instructions;
-        return $this;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
     }
 }
