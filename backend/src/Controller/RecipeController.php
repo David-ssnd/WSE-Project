@@ -79,18 +79,45 @@ class RecipeController
     }
 }
 
-    public function update(string $id): void
-    {
-        // Implementation for updating a recipe
-        // This would typically involve parsing the request body for updated recipe data,
-        // validating it, and then calling the model to update it in the database.
+public function update(string $id): void
+{
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    if (!$data || !isset($data['title'])) {
+        $this->jsonView->render(['error' => 'Title is required'], 400);
+        return;
     }
 
-    public function delete(string $id): void
-    {
-        // Implementation for deleting a recipe
-        // This would typically involve calling the model to delete the recipe from the database.
+    try {
+        $existingRecipe = $this->recipeModel->getRecipeById($id);
+        if (!$existingRecipe) {
+            $this->jsonView->render(['error' => 'Recipe not found'], 404);
+            return;
+        }
+
+        // Update mutable fields
+        $existingRecipe->setTitle($data['title']);
+        $existingRecipe->setDescription($data['description'] ?? null);
+        $existingRecipe->setCookTime($data['cook_time'] ?? 0);
+        $existingRecipe->setInstructions($data['instructions'] ?? null);
+
+        $this->recipeModel->updateRecipe($existingRecipe);
+
+        $this->jsonView->render(['message' => 'Recipe updated successfully'], 200);
+    } catch (\Exception $e) {
+        $this->jsonView->render(['error' => $e->getMessage()], 500);
     }
+}
+
+public function delete(string $id): void
+{
+    try {
+        $this->recipeModel->deleteRecipe($id);
+        $this->jsonView->render(['message' => 'Recipe deleted successfully'], 200);
+    } catch (\Exception $e) {
+        $this->jsonView->render(['error' => $e->getMessage()], 500);
+    }
+}
 }
 
 

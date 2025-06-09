@@ -31,15 +31,15 @@ $router->get('/api/user/{username}/followers', UserController::class, 'getFollow
 $router->get('/api/user/{username}/following', UserController::class, 'getFollowing');  //✅
 
 $router->get('/api/recipes', RecipeController::class, 'list');                          //✅
-$router->get('/api/recipes/{id:uuid}', RecipeController::class, 'detail');
-$router->post('/api/recipes', RecipeController::class, 'create');
-$router->patch('/api/recipes/{id:uuid}', RecipeController::class, 'update');
-$router->delete('/api/recipes/{id:uuid}', RecipeController::class, 'delete');
+$router->get('/api/recipes/{id:uuid}', RecipeController::class, 'detail');              //✅
+$router->post('/api/recipes', RecipeController::class, 'create');                       //✅
+$router->patch('/api/recipes/{id:uuid}', RecipeController::class, 'update');            //✅
+$router->delete('/api/recipes/{id:uuid}', RecipeController::class, 'delete');           //✅
 
 // ingredients routes
 $router->get('/api/ingredients', IngredientController::class, 'list');
 $router->get('/api/ingredients/{id:uuid}', IngredientController::class, 'detail');
-$router->post('/api/ingredients', IngredientController::class, 'create');
+$router->post('/api/ingredients', IngredientController::class, 'create');               
 $router->patch('/api/ingredients/{id:uuid}', IngredientController::class, 'update');
 $router->delete('/api/ingredients/{id:uuid}', IngredientController::class, 'delete');
 
