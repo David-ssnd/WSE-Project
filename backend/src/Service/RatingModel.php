@@ -3,10 +3,12 @@
 namespace App\Service;
 
 use PDO;
+use App\Service\AuthService;
 
 class RatingModel
 {
     private PDO $pdo;
+    private AuthService $authService;
 
     public function __construct()
     {
@@ -30,13 +32,15 @@ class RatingModel
         
         // create a new PDO - PHP Data Objects instance
         $this->pdo = new PDO($dsn, $dbUser, $dbPass, $options);
+        $this->authService = new AuthService();
     }
 
-    public function addRating(string $recipeId, int $rating): void
+    public function addRating(string $recipeId, string $user_id, int $rating): void
     {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO ratings (recipe_id, rating) VALUES (:recipe_id, :rating)");
+            $stmt = $this->pdo->prepare("INSERT INTO ratings (recipe_id, user_id, rating) VALUES (:recipe_id, :user_id, :rating)");
             $stmt->bindParam(':recipe_id', $recipeId);
+            $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':rating', $rating);
             $stmt->execute();
         } catch (\PDOException $e) {
@@ -47,7 +51,7 @@ class RatingModel
     public function getRatings(string $recipeId): array
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM ratings WHERE recipe_id = :recipe_id");
+            $stmt = $this->pdo->prepare("SELECT user_id, rating FROM ratings WHERE recipe_id = :recipe_id");
             $stmt->bindParam(':recipe_id', $recipeId);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -56,11 +60,13 @@ class RatingModel
         }
     }
 
-    public function deleteRating(int $ratingId): void
+    public function deleteRating(string $recipeId): void
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM ratings WHERE id = :rating_id");
-            $stmt->bindParam(':rating_id', $ratingId, \PDO::PARAM_INT);
+            $userId = $this->authService->getUserFromToken()->getId();
+            $stmt = $this->pdo->prepare("DELETE FROM ratings WHERE recipe_id = :recipe_id AND user_id = :user_id");
+            $stmt->bindParam(':recipe_id', $recipeId);
+            $stmt->bindParam(':user_id', $userId);
             $stmt->execute();
         } catch (\PDOException $e) {
             throw new \Exception("Failed to delete rating: " . $e->getMessage());
