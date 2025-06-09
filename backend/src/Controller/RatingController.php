@@ -40,17 +40,16 @@ class RatingController
             return;
         }
 
-        // get from jwt token
         $user_id = $this->authService->getUserFromToken()->getId();
 
         try {
             $this->ratingModel->addRating($recipe_id, $user_id, (int) $data['rating']);
         } catch (\Exception $e) {
-            $this->jsonView->render(['error' => 'Failed to add rating'], 500);
+            $this->jsonView->render(['error' => $e->getMessage()], 500);
             return;
         }
 
-        $this->jsonView->render(['message' => 'Recipe rated successfully'], 201);
+        $this->jsonView->render(['message' => 'Rating saved successfully'], 201);
     }
 
     /**

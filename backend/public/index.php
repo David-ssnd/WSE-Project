@@ -44,8 +44,8 @@ $router->patch('/api/ingredients/{id:uuid}', IngredientController::class, 'updat
 $router->delete('/api/ingredients/{id:uuid}', IngredientController::class, 'delete');
 
 // ratings and comments routes
-$router->post('/api/recipes/{id:uuid}/rate', RatingController::class, 'rate');
-$router->get('/api/recipes/{id:uuid}/ratings', RatingController::class, 'getRatings');
+$router->post('/api/recipes/{id:uuid}/rate', RatingController::class, 'rate');          //✅
+$router->get('/api/recipes/{id:uuid}/ratings', RatingController::class, 'getRatings');  //✅
 $router->post('/api/recipes/{id:uuid}/comments', CommentController::class, 'add');
 $router->get('/api/recipes/{id:uuid}/comments', CommentController::class, 'get');
 $router->delete('/api/comments/{id:uuid}', CommentController::class, 'delete');
@@ -56,7 +56,6 @@ $router->delete('/api/recipes/{id:uuid}/favorite', FavoriteController::class, 'r
 $router->get('/api/user/favorites', FavoriteController::class, 'list');
 
 // search routes
-$router->get('/api/search', SearchController::class, 'search');
-$router->get('/api/recipes/filter', RecipeController::class, 'filter');
+$router->get('/api/search/recipes', SearchController::class, 'searchRecipes');          //✅
 
 $router->dispatch();

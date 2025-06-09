@@ -47,7 +47,9 @@ class RecipeModel
                 $row['description'] ?? null,
                 new \DateTime($row['created_at']),
                 $row['cook_time'] ?? 0,
-                $row['instructions'] ?? null
+                $row['instructions'] ?? null,
+                $row['rating_count'] ?? 0,
+                $row['average_rating'] ?? 0.0
             );
         }
         return $recipes;
@@ -71,7 +73,9 @@ class RecipeModel
             $row['description'] ?? null,
             new \DateTime($row['created_at']),
             $row['cook_time'] ?? 0,
-            $row['instructions'] ?? null
+            $row['instructions'] ?? null,
+            $row['rating_count'] ?? 0,
+            $row['average_rating'] ?? 0.0
         );
     }
 
@@ -86,7 +90,9 @@ class RecipeModel
             $data['description'] ?? null,
             new \DateTime(),
             $data['cook_time'] ?? 0,
-            $data['instructions'] ?? null
+            $data['instructions'] ?? null,
+            0, // rating_count
+            0.0 // average_rating
         );
 
         $this->insertRecipe($recipe);
@@ -95,8 +101,8 @@ class RecipeModel
     private function insertRecipe(Recipe $recipe): void
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, instructions)
-             VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :instructions)'
+            'INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, instructions, rating_count, average_rating)
+             VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :instructions, :rating_count, :average_rating)'
         );
 
         $stmt->execute([
@@ -107,13 +113,15 @@ class RecipeModel
             ':created_at' => $recipe->getCreatedAt()->format('Y-m-d H:i:s'),
             ':cook_time' => $recipe->getCookTime(),
             ':instructions' => $recipe->getInstructions(),
+            ':rating_count' => $recipe->getRatingCount(),
+            ':average_rating' => $recipe->getAverageRating()
         ]);
     }
 
     public function updateRecipe(Recipe $recipe): void
     {
         $stmt = $this->pdo->prepare(
-            'UPDATE recipes SET title = :title, description = :description, cook_time = :cook_time, instructions = :instructions WHERE id = :id'
+            'UPDATE recipes SET title = :title, description = :description, cook_time = :cook_time, instructions = :instructions, rating_count = :rating_count, average_rating = :average_rating WHERE id = :id'
         );
 
         $stmt->execute([
@@ -122,6 +130,8 @@ class RecipeModel
             ':description' => $recipe->getDescription(),
             ':cook_time' => $recipe->getCookTime(),
             ':instructions' => $recipe->getInstructions(),
+            ':rating_count' => $recipe->getRatingCount(),
+            ':average_rating' => $recipe->getAverageRating()
         ]);
     }
 

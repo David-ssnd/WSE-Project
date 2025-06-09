@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Service;
 
 use PDO;
-
 
 class SearchModel
 {
@@ -14,24 +12,39 @@ class SearchModel
     {
         $dsn = sprintf(
             'pgsql:host=%s;port=%s;dbname=%s',
-            getenv('POSTGRES_HOST') ? getenv('POSTGRES_HOST') : 'localhost',
-            getenv('POSTGRES_PORT') ? getenv('POSTGRES_PORT') : 5432,
-            getenv('POSTGRES_DB') ? getenv('POSTGRES_DB') : 'your_database'
+            getenv('POSTGRES_HOST') ?: 'localhost',
+            getenv('POSTGRES_PORT') ?: 5432,
+            getenv('POSTGRES_DB') ?: 'your_database'
         );
-        
-        // setup DB connection options
+
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-        
-        // get username and password from the environment
+
         $dbUser = getenv('POSTGRES_USER') ?? 'default_user';
         $dbPass = getenv('POSTGRES_PASSWORD') ?? 'default_password';
-        
-        // create a new PDO - PHP Data Objects instance
+
         $this->pdo = new PDO($dsn, $dbUser, $dbPass, $options);
     }
 
+    public function searchRecipes(string $query): array
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "SELECT *, GREATEST(similarity(title, :query), similarity(description, :query)) AS sim
+                 FROM recipes
+                 WHERE title % :query OR description % :query
+                 ORDER BY sim DESC
+                 LIMIT 20"
+            );
+
+            $stmt->bindParam(':query', $query);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            throw new \Exception("Search failed: " . $e->getMessage());
+        }
+    }
 }

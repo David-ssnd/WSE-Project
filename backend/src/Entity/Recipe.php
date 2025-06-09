@@ -14,6 +14,8 @@ class Recipe implements \JsonSerializable
     private \DateTime $created_at;
     private int $cook_time;
     private ?string $instructions = null;
+    private int $rating_count = 0;
+    private float $average_rating = 0.0;
 
     public function __construct(
         $id,
@@ -22,7 +24,9 @@ class Recipe implements \JsonSerializable
         ?string $description,
         \DateTime $created_at,
         int $cook_time,
-        ?string $instructions = null
+        ?string $instructions = null,
+        int $rating_count = 0,
+        float $average_rating = 0.0
     ) {
         $this->id = is_string($id) ? Uuid::fromString($id) : $id;
         $this->user_id = is_string($user_id) ? Uuid::fromString($user_id) : $user_id;
@@ -31,6 +35,8 @@ class Recipe implements \JsonSerializable
         $this->created_at = $created_at;
         $this->cook_time = $cook_time;
         $this->instructions = $instructions;
+        $this->rating_count = $rating_count;
+        $this->average_rating = $average_rating;
     }
 
     public function getId(): UuidInterface
@@ -103,6 +109,26 @@ class Recipe implements \JsonSerializable
         $this->instructions = $instructions;
     }
 
+    public function getRatingCount(): int
+    {
+        return $this->rating_count;
+    }
+
+    public function setRatingCount(int $rating_count): void
+    {
+        $this->rating_count = $rating_count;
+    }
+
+    public function getAverageRating(): float
+    {
+        return $this->average_rating;
+    }
+
+    public function setAverageRating(float $average_rating): void
+    {
+        $this->average_rating = $average_rating;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -113,6 +139,8 @@ class Recipe implements \JsonSerializable
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'cook_time' => $this->cook_time,
             'instructions' => $this->instructions,
+            'rating_count' => $this->rating_count,
+            'average_rating' => $this->average_rating,
         ];
     }
 }
