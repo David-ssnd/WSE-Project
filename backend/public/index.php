@@ -46,14 +46,14 @@ $router->delete('/api/ingredients/{id:uuid}', IngredientController::class, 'dele
 // ratings and comments routes
 $router->post('/api/recipes/{id:uuid}/rate', RatingController::class, 'rate');          //✅
 $router->get('/api/recipes/{id:uuid}/ratings', RatingController::class, 'getRatings');  //✅
-$router->post('/api/recipes/{id:uuid}/comments', CommentController::class, 'add');
-$router->get('/api/recipes/{id:uuid}/comments', CommentController::class, 'get');
-$router->delete('/api/comments/{id:uuid}', CommentController::class, 'delete');
+$router->post('/api/recipes/{id:uuid}/comments', CommentController::class, 'add');      //✅
+$router->get('/api/recipes/{id:uuid}/comments', CommentController::class, 'get');       //✅
+$router->delete('/api/comments/{id:uuid}', CommentController::class, 'delete');         //✅ neimplementovane na FE
 
 // favorites routes
-$router->post('/api/recipes/{id:uuid}/favorite', FavoriteController::class, 'add');
-$router->delete('/api/recipes/{id:uuid}/favorite', FavoriteController::class, 'remove');
-$router->get('/api/user/favorites', FavoriteController::class, 'list');
+$router->post('/api/recipes/{id:uuid}/favorite', FavoriteController::class, 'add');     //✅
+$router->delete('/api/recipes/{id:uuid}/favorite', FavoriteController::class, 'remove');//✅
+$router->get('/api/profile/favorites', FavoriteController::class, 'list');              //✅
 
 // search routes
 $router->get('/api/search/recipes', SearchController::class, 'searchRecipes');          //✅

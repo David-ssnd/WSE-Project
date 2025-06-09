@@ -58,7 +58,7 @@ class UserModel
 
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$userData) {
-            throw new \Exception('User not found');
+            throw new \Exception('User not found: ' . $userName);
         }
 
         $userId = Uuid::fromString($userData['id']);

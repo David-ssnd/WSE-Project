@@ -2,88 +2,60 @@
 
 namespace App\Controller;
 
-/**
- *
- */
-
+use App\Service\AuthService;
 use App\View\JsonView;
 use App\Service\CommentModel;
 
 class CommentController
 {
-    /**
-     *
-     */
     private JsonView $jsonView;
     private CommentModel $commentModel;
+    private AuthService $authService;
 
     public function __construct()
     {
-        // TODO: Implement constructor
         $this->jsonView = new JsonView();
         $this->commentModel = new CommentModel();
+        $this->authService = new AuthService();
     }
 
-    /**
-     * Add a comment to a recipe
-     *
-     * @param string $recipeId
-     * @return void
-     */
-    public function add(string $recipeId): void
+    public function add(string $id): void
     {
-        //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
-        if (!isset($data['comment'])) {
-            $this->jsonView->render(['error' => 'Comment is required'], 400);
+        if (!isset($data['comment']) || trim($data['comment']) === '') {
+            $this->jsonView->render(['error' => 'Comment text is required'], 400);
             return;
         }
 
-        //send to model
+        $userId = $this->authService->getUserFromToken()->getId();
+
         try {
-            $commentModel = new \App\Service\CommentModel();
-            $commentModel->addComment($recipeId, $data['comment']);
+            $this->commentModel->addComment($id, $userId, $data['comment']);
+            $this->jsonView->render(['message' => 'Comment added successfully'], 201);
         } catch (\Exception $e) {
-            $this->jsonView->render(['error' => 'Failed to add comment'], 500);
-            return;
+            $this->jsonView->render(['error' => $e->getMessage()], 500);
         }
-
-        $this->jsonView->render($user, 201);
     }
 
-    /**
-     * Get comments for a recipe
-     *
-     * @param string $recipeId
-     * @return void
-     */
-    public function get(string $recipeId): void
+    public function get(string $id): void
     {
-        // TODO: Implement get method
         try {
-            $comments = $this->commentModel->getComments($recipeId);
+            $comments = $this->commentModel->getComments($id);
+            $this->jsonView->render($comments, 200);
         } catch (\Exception $e) {
-            $this->jsonView->render(['error' => 'Failed to retrieve comments'], 500);
-            return;
+            $this->jsonView->render(['error' => 'Failed to get comments'], 500);
         }
-
-        $this->jsonView->render($comments, 200);
     }
 
-    /**
-     * Delete a comment
-     *
-     * @param string $commentId
-     * @return void
-     */
-    public function delete(string $commentId): void
+    public function delete(string $id): void
     {
+        $userId = $this->authService->getUserFromToken()->getId();
+
         try {
-            $this->commentModel->deleteComment($commentId);
+            $this->commentModel->deleteComment($id, $userId);
+            $this->jsonView->render(['message' => 'Comment deleted'], 204);
         } catch (\Exception $e) {
-            $this->jsonView->render(['error' => 'Failed to delete comment'], 500);
-            return;
+            $this->jsonView->render(['error' => $e->getMessage()], 500);
         }
-        $this->jsonView->render(['message' => 'Comment deleted successfully'], 200);
     }
 }
