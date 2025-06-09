@@ -56,4 +56,87 @@ class RecipeModel
         }
         return $recipes;
     }
+
+public function getRecipeById(string $id): ?Recipe
+{
+    $stmt = $this->pdo->prepare('SELECT * FROM recipes WHERE id = :id LIMIT 1');
+    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->execute();
+    
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row) {
+        return null;
+    }
+    
+    return new Recipe(
+        $row['id'],
+        $row['user_id'],
+        $row['title'],
+        $row['description'] ?? null,
+        new \DateTime($row['created_at']) ?? new \DateTime(),
+        $row['cook_time'] ?? 0,
+        $row['instructions'] ?? null
+    );
+}
+
+    public function createRecipe(Recipe $recipe): void
+    {
+        $stmt = $this->pdo->prepare('INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, instructions) VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :instructions)');
+        $stmt->bindParam(':id', $recipe->getId(), PDO::PARAM_STR);
+        $stmt->bindParam(':user_id', $recipe->getUserId(), PDO::PARAM_STR);
+        $stmt->bindParam(':title', $recipe->getTitle(), PDO::PARAM_STR);
+        $stmt->bindParam(':description', $recipe->getDescription(), PDO::PARAM_STR);
+        $stmt->bindValue(':created_at', (new \DateTime())->format('Y-m-d H:i:s'));
+        $stmt->bindValue(':cook_time', $recipe->getCookTime(), PDO::PARAM_INT);
+        $stmt->bindParam(':instructions', $recipe->getInstructions(), PDO::PARAM_STR);
+        
+        if (!$stmt->execute()) {
+            throw new \Exception('Failed to create recipe');
+        }
+    }
+
+    public function updateRecipe(Recipe $recipe): void
+    {
+        $stmt = $this->pdo->prepare('UPDATE recipes SET title = :title, description = :description, cook_time = :cook_time, instructions = :instructions WHERE id = :id');
+        $stmt->bindParam(':id', $recipe->getId(), PDO::PARAM_STR);
+        $stmt->bindParam(':title', $recipe->getTitle(), PDO::PARAM_STR);
+        $stmt->bindParam(':description', $recipe->getDescription(), PDO::PARAM_STR);
+        $stmt->bindValue(':cook_time', $recipe->getCookTime(), PDO::PARAM_INT);
+        $stmt->bindParam(':instructions', $recipe->getInstructions(), PDO::PARAM_STR);
+        
+        if (!$stmt->execute()) {
+            throw new \Exception('Failed to update recipe');
+        }
+    }
+
+    public function deleteRecipe(string $id): void
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM recipes WHERE id = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        
+        if (!$stmt->execute()) {
+            throw new \Exception('Failed to delete recipe');
+        }
+    }
+
+
+    public function getTotalRecipesCount(): int
+    {
+        $stmt = $this->pdo->query('SELECT COUNT(*) FROM recipes');
+        return (int) $stmt->fetchColumn();
+    }
+
+    /**
+     * @param string $userId
+     * @return void
+     */
+    public function deleteRecipesByUser(string $userId): void
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM recipes WHERE user_id = :user_id');
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_STR);
+        
+        if (!$stmt->execute()) {
+            throw new \Exception('Failed to delete recipes for user');
+        }
+    }
 }
