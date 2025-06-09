@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\User;
 use App\Entity\Recipe;
 use PDO;
 use Ramsey\Uuid\Uuid;
@@ -15,9 +14,9 @@ class RecipeModel
     {
         $dsn = sprintf(
             'pgsql:host=%s;port=%s;dbname=%s',
-            getenv('POSTGRES_HOST') ? getenv('POSTGRES_HOST') : 'localhost',
-            getenv('POSTGRES_PORT') ? getenv('POSTGRES_PORT') : 5432,
-            getenv('POSTGRES_DB') ? getenv('POSTGRES_DB') : 'your_database'
+            getenv('POSTGRES_HOST') ?: 'localhost',
+            getenv('POSTGRES_PORT') ?: 5432,
+            getenv('POSTGRES_DB') ?: 'your_database'
         );
 
         $options = [
@@ -26,8 +25,8 @@ class RecipeModel
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
-        $dbUser = getenv('POSTGRES_USER') ?? 'default_user';
-        $dbPass = getenv('POSTGRES_PASSWORD') ?? 'default_password';
+        $dbUser = getenv('POSTGRES_USER') ?: 'default_user';
+        $dbPass = getenv('POSTGRES_PASSWORD') ?: 'default_password';
 
         $this->pdo = new PDO($dsn, $dbUser, $dbPass, $options);
     }
@@ -40,17 +39,16 @@ class RecipeModel
         $stmt->execute();
 
         $recipes = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $recipe = new Recipe(
+        while ($row = $stmt->fetch()) {
+            $recipes[] = new Recipe(
                 $row['id'],
                 $row['user_id'],
                 $row['title'],
                 $row['description'] ?? null,
-                new \DateTime($row['created_at']) ?? new \DateTime(),
+                new \DateTime($row['created_at']),
                 $row['cook_time'] ?? 0,
                 $row['instructions'] ?? null
             );
-            $recipes[] = $recipe;
         }
         return $recipes;
     }
@@ -61,7 +59,7 @@ class RecipeModel
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch();
         if (!$row) {
             return null;
         }
@@ -71,58 +69,60 @@ class RecipeModel
             $row['user_id'],
             $row['title'],
             $row['description'] ?? null,
-            new \DateTime($row['created_at']) ?? new \DateTime(),
+            new \DateTime($row['created_at']),
             $row['cook_time'] ?? 0,
             $row['instructions'] ?? null
         );
     }
 
-    public function createRecipe(Recipe $recipe): void
-    {
-        $stmt = $this->pdo->prepare('INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, instructions) VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :instructions)');
-        $stmt->bindParam(':id', $recipe->getId(), PDO::PARAM_STR);
-        $stmt->bindParam(':user_id', $recipe->getUserId(), PDO::PARAM_STR);
-        $stmt->bindParam(':title', $recipe->getTitle(), PDO::PARAM_STR);
-        $stmt->bindParam(':description', $recipe->getDescription(), PDO::PARAM_STR);
-        $stmt->bindValue(':created_at', $recipe->getCreatedAt()->format('Y-m-d H:i:s'));
-        $stmt->bindValue(':cook_time', $recipe->getCookTime(), PDO::PARAM_INT);
-        $stmt->bindParam(':instructions', $recipe->getInstructions(), PDO::PARAM_STR);
-
-        if (!$stmt->execute()) {
-            throw new \Exception('Failed to create recipe');
-        }
-    }
-
     public function createRecipeFromData(array $data): void
     {
         $id = $this->generateUniqueRamseyUUID();
-        $createdAt = new \DateTime();
 
         $recipe = new Recipe(
             $id,
             $data['user_id'],
             $data['title'],
             $data['description'] ?? null,
-            $createdAt,
+            new \DateTime(),
             $data['cook_time'] ?? 0,
             $data['instructions'] ?? null
         );
 
-        $this->createRecipe($recipe);
+        $this->insertRecipe($recipe);
+    }
+
+    private function insertRecipe(Recipe $recipe): void
+    {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, instructions)
+             VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :instructions)'
+        );
+
+        $stmt->execute([
+            ':id' => $recipe->getId(),
+            ':user_id' => $recipe->getUserId(),
+            ':title' => $recipe->getTitle(),
+            ':description' => $recipe->getDescription(),
+            ':created_at' => $recipe->getCreatedAt()->format('Y-m-d H:i:s'),
+            ':cook_time' => $recipe->getCookTime(),
+            ':instructions' => $recipe->getInstructions(),
+        ]);
     }
 
     public function updateRecipe(Recipe $recipe): void
     {
-        $stmt = $this->pdo->prepare('UPDATE recipes SET title = :title, description = :description, cook_time = :cook_time, instructions = :instructions WHERE id = :id');
-        $stmt->bindParam(':id', $recipe->getId(), PDO::PARAM_STR);
-        $stmt->bindParam(':title', $recipe->getTitle(), PDO::PARAM_STR);
-        $stmt->bindParam(':description', $recipe->getDescription(), PDO::PARAM_STR);
-        $stmt->bindValue(':cook_time', $recipe->getCookTime(), PDO::PARAM_INT);
-        $stmt->bindParam(':instructions', $recipe->getInstructions(), PDO::PARAM_STR);
+        $stmt = $this->pdo->prepare(
+            'UPDATE recipes SET title = :title, description = :description, cook_time = :cook_time, instructions = :instructions WHERE id = :id'
+        );
 
-        if (!$stmt->execute()) {
-            throw new \Exception('Failed to update recipe');
-        }
+        $stmt->execute([
+            ':id' => $recipe->getId(),
+            ':title' => $recipe->getTitle(),
+            ':description' => $recipe->getDescription(),
+            ':cook_time' => $recipe->getCookTime(),
+            ':instructions' => $recipe->getInstructions(),
+        ]);
     }
 
     public function deleteRecipe(string $id): void
@@ -150,17 +150,18 @@ class RecipeModel
             throw new \Exception('Failed to delete recipes for user');
         }
     }
-
     private function generateUniqueRamseyUUID(): string
-    {
-        do {
-            $uuid = Uuid::uuid4()->toString();
-            $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM recipes WHERE id = :id');
-            $stmt->bindParam(':id', $uuid, PDO::PARAM_STR);
-            $stmt->execute();
-            $count = (int) $stmt->fetchColumn();
-        } while ($count > 0);
+{
+    do {
+        $uuid = Uuid::uuid4()->toString();
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM recipes WHERE id = :id');
+        $stmt->execute([':id' => $uuid]);
+        $count = (int) $stmt->fetchColumn();
+    } while ($count > 0);
 
-        return $uuid;
-    }
+    error_log("Generated UUID: " . $uuid); // log it
+    return $uuid;
+}
+    
+
 }

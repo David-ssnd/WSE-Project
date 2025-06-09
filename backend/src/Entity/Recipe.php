@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\User;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-class Recipe
+class Recipe implements \JsonSerializable
 {
     private UuidInterface $id;
     private UuidInterface $user_id;
@@ -24,14 +24,8 @@ class Recipe
         int $cook_time,
         ?string $instructions = null
     ) {
-        if (is_string($id)) {
-            $id = \Ramsey\Uuid\Uuid::fromString($user_id);
-        }
-        $this->id = $id;
-        if (is_string($user_id)) {
-            $user_id = \Ramsey\Uuid\Uuid::fromString($user_id);
-        }
-        $this->user_id = $user_id;
+        $this->id = is_string($id) ? Uuid::fromString($id) : $id;
+        $this->user_id = is_string($user_id) ? Uuid::fromString($user_id) : $user_id;
         $this->title = $title;
         $this->description = $description;
         $this->created_at = $created_at;
@@ -43,6 +37,7 @@ class Recipe
     {
         return $this->id;
     }
+
     public function setId(UuidInterface $id): void
     {
         $this->id = $id;
@@ -53,21 +48,16 @@ class Recipe
         return $this->user_id;
     }
 
-    /**
-     * @param UuidInterface|string $user_id
-     */
     public function setUserId($user_id): void
     {
-        if (is_string($user_id)) {
-            $user_id = \Ramsey\Uuid\Uuid::fromString($user_id);
-        }
-        $this->user_id = $user_id;
+        $this->user_id = is_string($user_id) ? Uuid::fromString($user_id) : $user_id;
     }
 
     public function getTitle(): string
     {
         return $this->title;
     }
+
     public function setTitle(string $title): void
     {
         $this->title = $title;
@@ -77,6 +67,7 @@ class Recipe
     {
         return $this->description;
     }
+
     public function setDescription(?string $description): void
     {
         $this->description = $description;
@@ -86,6 +77,7 @@ class Recipe
     {
         return $this->created_at;
     }
+
     public function setCreatedAt(\DateTime $created_at): void
     {
         $this->created_at = $created_at;
@@ -95,6 +87,7 @@ class Recipe
     {
         return $this->cook_time;
     }
+
     public function setCookTime(int $cook_time): void
     {
         $this->cook_time = $cook_time;
@@ -104,8 +97,22 @@ class Recipe
     {
         return $this->instructions;
     }
+
     public function setInstructions(?string $instructions): void
     {
         $this->instructions = $instructions;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id->toString(),
+            'user_id' => $this->user_id->toString(),
+            'title' => $this->title,
+            'description' => $this->description,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'cook_time' => $this->cook_time,
+            'instructions' => $this->instructions,
+        ];
     }
 }
