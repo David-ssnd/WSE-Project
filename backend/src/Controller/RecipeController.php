@@ -56,4 +56,41 @@ class RecipeController
             $this->jsonView->render(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function create(): void
+{
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    // Validate required fields
+    if (!isset($data['title']) || !isset($data['user_id'])) {
+        $this->jsonView->render(['error' => 'Title and User ID are required'], 400);
+        return;
+    }
+
+    try {
+        // Create a Recipe object
+        $this->recipeModel->createRecipeFromData($data);
+
+        // Respond with success
+        $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
+    } catch (\Exception $e) {
+        // Handle errors
+        $this->jsonView->render(['error' => $e->getMessage()], 500);
+    }
 }
+
+    public function update(string $id): void
+    {
+        // Implementation for updating a recipe
+        // This would typically involve parsing the request body for updated recipe data,
+        // validating it, and then calling the model to update it in the database.
+    }
+
+    public function delete(string $id): void
+    {
+        // Implementation for deleting a recipe
+        // This would typically involve calling the model to delete the recipe from the database.
+    }
+}
+
+
