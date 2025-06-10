@@ -39,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     foodItem.classList.add("food-item");
         
                     const foodImage = document.createElement("img");
-                    foodImage.src = recipe.foto;
-                    foodImage.alt = recipe.nazov;
+                    foodImage.src = recipe.thumbnail_image;
+                    foodImage.alt = recipe.title;
         
                     const foodName = document.createElement("p");
-                    foodName.textContent = recipe.nazov;
+                    foodName.textContent = recipe.title;
         
                     foodItem.appendChild(foodImage);
                     foodItem.appendChild(foodName);
@@ -62,9 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const foodImage = document.getElementById("foodImage");
                 const foodIngredients = document.getElementById("foodIngredients");
         
-                foodTitle.textContent = recipe.nazov;
-                foodImage.src = recipe.foto;
-                foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
+                foodTitle.textContent = recipe.title;
+                foodImage.src = recipe.thumbnail_image;
+                foodIngredients.textContent = recipe.description;
         
                 foodModal.style.display = "flex";
             }

@@ -16,6 +16,7 @@ class Recipe implements \JsonSerializable
     private ?string $instructions = null;
     private int $rating_count = 0;
     private float $average_rating = 0.0;
+    private ?string $thumbnail_image = null;
 
     public function __construct(
         $id,
@@ -26,7 +27,8 @@ class Recipe implements \JsonSerializable
         int $cook_time,
         ?string $instructions = null,
         int $rating_count = 0,
-        float $average_rating = 0.0
+        float $average_rating = 0.0,
+        ?string $thumbnail_image = null
     ) {
         $this->id = is_string($id) ? Uuid::fromString($id) : $id;
         $this->user_id = is_string($user_id) ? Uuid::fromString($user_id) : $user_id;
@@ -37,6 +39,7 @@ class Recipe implements \JsonSerializable
         $this->instructions = $instructions;
         $this->rating_count = $rating_count;
         $this->average_rating = $average_rating;
+        $this->thumbnail_image = $thumbnail_image;
     }
 
     public function getId(): UuidInterface
@@ -129,6 +132,16 @@ class Recipe implements \JsonSerializable
         $this->average_rating = $average_rating;
     }
 
+    public function getThumbnailImage(): ?string
+    {
+        return $this->thumbnail_image;
+    }
+
+    public function setThumbnailImage(?string $thumbnail_image): void
+    {
+        $this->thumbnail_image = $thumbnail_image;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -141,6 +154,7 @@ class Recipe implements \JsonSerializable
             'instructions' => $this->instructions,
             'rating_count' => $this->rating_count,
             'average_rating' => $this->average_rating,
+            'thumbnail_image' => $this->thumbnail_image,
         ];
     }
 }

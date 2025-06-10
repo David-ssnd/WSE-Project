@@ -193,15 +193,14 @@ body {
 
 .food-item {
     width: 100%;
-    padding-bottom: 0;
-    text-align: center;
+    max-width: 19rem;
+    aspect-ratio: 3 / 4;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     border-radius: 0.625rem;
     background-color: var(--food-item-bg);
-    position: relative;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .food-item:hover {
@@ -209,23 +208,26 @@ body {
 }
 
 .food-item img {
-    height: 80%;
-    width: calc(100%);
+    flex: 4;
+    width: 100%;
     object-fit: cover;
     border-radius: 0.625rem 0.625rem 0 0;
-    align-self: center;
+    min-height: 0;
 }
 
 .food-item p {
-    margin: 0rem;
     flex: 1;
-    align-content: center;
+    margin: 0;
     padding: 0.625rem;
     font-weight: bold;
     font-size: 1.25rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
 }
 
 /* modals */
@@ -251,6 +253,13 @@ body {
     max-width: 37.5rem;
     width: 90%;
     position: relative;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 45vh;
+    object-fit: contain;
+    border-radius: 0.625rem;
 }
 
 .signup-login form {
