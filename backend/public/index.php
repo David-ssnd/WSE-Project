@@ -1,5 +1,17 @@
 <?php
 
+// Enable CORS headers
+header("Access-Control-Allow-Origin: *"); // Allow all origins (use specific origins in production, e.g., "http://your-frontend.com")
+header("Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS"); // Allowed methods
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Allowed headers
+header("Access-Control-Max-Age: 86400"); // Cache preflight response for 1 day
+
+// Handle preflight OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204); // No content for preflight
+    exit;
+}
+
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Router\Router;
@@ -15,20 +27,18 @@ use App\Controller\SearchController;
 
 $router = new Router();
 
+// Authentication routes
+$router->post('/api/auth/register', AuthController::class, 'register');
+$router->post('/api/auth/login', AuthController::class, 'login');
+$router->get('/api/profile', ProfileController::class, 'getProfile');
+$router->patch('/api/profile', ProfileController::class, 'updateProfile');
 
-//authentication routes
-$router->post('/api/auth/register', AuthController::class, 'register');                 //✅
-$router->post('/api/auth/login', AuthController::class, 'login');                       //✅
-// Logout is useless in stateless JWT authentication
-$router->get('/api/profile', ProfileController::class, 'getProfile');                   //✅
-$router->patch('/api/profile', ProfileController::class, 'updateProfile');              //✅
-
-// user public profile
-$router->get('/api/user/{username}', UserController::class, 'getPublicProfile');        //✅
-$router->post('/api/user/{username}/follow', UserController::class, 'follow');          //✅
-$router->delete('/api/user/{username}/unfollow', UserController::class, 'unfollow');    //✅
-$router->get('/api/user/{username}/followers', UserController::class, 'getFollowers');  //✅
-$router->get('/api/user/{username}/following', UserController::class, 'getFollowing');  //✅
+// User public profile
+$router->get('/api/user/{username}', UserController::class, 'getPublicProfile');
+$router->post('/api/user/{username}/follow', UserController::class, 'follow');
+$router->delete('/api/user/{username}/unfollow', UserController::class, 'unfollow');
+$router->get('/api/user/{username}/followers', UserController::class, 'getFollowers');
+$router->get('/api/user/{username}/following', UserController::class, 'getFollowing');
 
 $router->get('/api/recipes', RecipeController::class, 'list');                          //✅
 $router->get('/api/recipes/{id:uuid}', RecipeController::class, 'detail');              //✅
@@ -36,7 +46,7 @@ $router->post('/api/recipes', RecipeController::class, 'create');               
 $router->patch('/api/recipes/{id:uuid}', RecipeController::class, 'update');            //✅
 $router->delete('/api/recipes/{id:uuid}', RecipeController::class, 'delete');           //✅
 
-// ingredients routes
+// Ingredients routes
 $router->get('/api/ingredients', IngredientController::class, 'list');
 $router->get('/api/ingredients/{id:uuid}', IngredientController::class, 'detail');
 $router->post('/api/ingredients', IngredientController::class, 'create');               

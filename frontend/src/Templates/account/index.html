@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krilo | Account</title>
+    <link rel="stylesheet" href="../resources/styles.css">
+    <link rel="icon" type="image/x-icon" href="../resources/krilo-logo-trim.png">
+</head>
+<body>
+    <header class="navbar">
+        <a href="../">
+            <img src="../resources/krilo-logo.png" alt="KriLo Logo" class="logo">
+        </a>
+        <button class="btn create-btn" onclick="window.location.href='../create_recipe/'">Create</button>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <span class="clear-icon">&times;</span>
+        </div>
+        <button class="profile-icon" onclick="window.location.href='../account/'">
+            <img src="../resources/avatar.png" alt="Profile" class="profile-img">
+        </button>
+    </header>
+    <div class="content-area account-page">
+        <div class="profile-header">
+            <div class="avatar">
+                <img src="../resources/avatar.png" alt="Avatar" class="avatar-img">
+                <input type="file" id="avatarUpload" accept="image/*" style="display:none;" onchange="previewImage(event)">
+                <label for="avatarUpload" class="edit-avatar-label">
+                    <span class="edit-avatar">
+                        <img src="../resources/edit-avatar.png" alt="Edit avatar" class="edit-avatar-img">
+                    </span>
+                </label>
+            </div>
+            <h2>Profile Nickname</h2>
+            <p>@profile_id</p>
+            <div class="follow-stats">
+                <p>Following: <strong>0</strong></p>
+                <p>Followers: <strong>0</strong></p>
+            </div>
+            <div class="tabs">
+                <button class="btn tab-btn" onclick="changeRecipes(1)">Created</button>
+                <button class="btn tab-btn" onclick="changeRecipes(0)">Saved</button>
+            </div>
+        </div>
+        <div class="recipes-feed">
+        </div>
+    </div>
+
+    <div id="foodModal" class="modal">
+        <div class="modal-content">
+            <h2 id="foodTitle">Food Title</h2>
+            <img id="foodImage" src="." alt="Food Image">
+            <p id="foodIngredients">Ingredients</p>
+            <div id="modal-buttons">
+                <button class="btn favoriteBtn">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button class="btn-reverse instructionsBtn" onclick="location.href='../recipe-page/';">Step-By-Step</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Discover amazing recipes and share your favorites with the world. Join our community of food lovers!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../">Home</a></li>
+                    <li><a href="../create_recipe/">Create Recipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/SkolaBoscaNDCa" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/spojenaskola/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/elonmusk" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: freizeit.krilo@gmail.com</p>
+                <p>Phone: +421 908 199 904</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Krilo Recipes. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/resources/account/script.js"></script>
+</body>
+</html>
