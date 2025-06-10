@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Fetching recipes
-    fetch('/resources/mainpage/recipes.json')
+    fetch('http://127.0.0.1:8081/api/recipes')
         .then(response => {
             if (!response.ok) {
             throw new Error('Network response was not ok ' + response);
