@@ -11,6 +11,7 @@ $router = new Router();
 //routes
 $router->get('/', HomeController::class, 'index');
 $router->get('/recipe-page/', RecipeController::class, 'index');
+$router->get('/create_recipe/', RecipeController::class, 'index');
 
 
 $router->dispatch();
