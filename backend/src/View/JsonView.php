@@ -8,7 +8,7 @@ class JsonView
      * Renders the provided data as a JSON response.
      *
      * @param mixed $data The data to be encoded as JSON.
-     * @param int   $statusCode HTTP status code (default is 200).
+     * @param int   $statusCode HTTP status code (default is 200).//
      * @return void
      */
     public function render(mixed $data, int $statusCode = 200): void
