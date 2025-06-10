@@ -135,3 +135,52 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
       }
   });
 });
+
+async function submitRecipe() {
+    const title = document.querySelector('.food-title').value;
+    const cookTime = parseInt(document.querySelector('#cook-time').value || 0);
+    const instructions = Array.from(document.querySelectorAll('.recipe-steps textarea'))
+        .map((textarea, i) => `Step ${i + 1}: ${textarea.value}`)
+        .join('\n');
+
+    const fileInput = document.querySelector('.create-recipe-file-input');
+    let thumbnailImage = null;
+    if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        thumbnailImage = await toBase64(file);
+    }
+
+    const data = {
+        user_id: 1, // TODO: Dynamicky získať prihláseného usera
+        title,
+        cook_time: cookTime,
+        instructions,
+        thumbnail_image: thumbnailImage
+    };
+
+    fetch("/recipe/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if (res.ok) {
+            alert("Recipe created!");
+            window.location.href = "/"; // alebo redirect na detail
+        } else {
+            return res.json().then(err => {
+                alert("Error: " + (err.message || "Unknown"));
+            });
+        }
+    })
+    .catch(err => alert("Network error: " + err));
+}
+
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}

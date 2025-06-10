@@ -57,24 +57,23 @@ class RecipeController
         }
     }
 
-    public function create(): void
+public function create(): void
 {
-    $data = json_decode(file_get_contents('php://input'), true);
+    header('Content-Type: application/json'); // ← ochrana pred mimo výstupom
 
-    // Validate required fields
+    $data = json_decode(file_get_contents('php://input'), true);
+    error_log("Raw POST: " . print_r($data, true));
+
     if (!isset($data['title']) || !isset($data['user_id'])) {
         $this->jsonView->render(['error' => 'Title and User ID are required'], 400);
         return;
     }
 
     try {
-        // Create a Recipe object
         $this->recipeModel->createRecipeFromData($data);
-
-        // Respond with success
         $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
     } catch (\Exception $e) {
-        // Handle errors
+        error_log("Exception: " . $e->getMessage());
         $this->jsonView->render(['error' => $e->getMessage()], 500);
     }
 }
