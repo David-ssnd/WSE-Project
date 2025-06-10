@@ -32,20 +32,22 @@ class AuthController
      */
     public function register()
     {
-        if (!$this->validateClientApplication()) return;
+        //if (!$this->validateClientApplication()) return;
 
         //extract json data from the request body
         $data = json_decode(file_get_contents('php://input'), true);
-        if(!isset($data['username']) || !isset($data['password'])) {
+        if(!isset($data['username']) || !isset($data['password']) || !isset($data['email'])) {
             $this->view->render(['error' => 'Invalid request'], 400);
             return;
         }
 
         //send to model
         try {
-            $user = $this->userModel->createUser($data['username'], $data['password']);
+            $user = $this->userModel->createUser($data['username'], $data['password'], $data['email']);
         }catch (\Exception $e) {
-            $this->view->render(['error' => 'User already exists'], 409);
+            $this->view->render([
+                'error' => 'User already exists. Username: ' . $data['username'] . ', Email: ' . $data['email'] . ', Password: ' . $data['password']
+            ], 409);
             return;
         }
 

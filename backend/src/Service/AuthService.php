@@ -90,9 +90,9 @@ class AuthService
      * Register method: Creates a new user with a hashed password.
      * @throws \Exception
      */
-    public function register(string $username, string $password): bool
+    public function register(string $username, string $password, string $email): bool
     {
-        return $this->userModel->createUser($username, $password);
+        return $this->userModel->createUser($username, $email, $password);
     }
 
     /**

@@ -142,17 +142,42 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
     loginModal.style.display = "none";
 });
 
-document.getElementById("signupForm").addEventListener("submit", (e) => {
-    var password1 = document.getElementById("password1").value;
-    var password2 = document.getElementById("password2").value;
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const username = e.target.username.value.trim();
+    const email = e.target.email.value.trim();
+    const password1 = e.target.password.value;
+    const password2 = e.target.confirm_password.value;
 
     if (password1 !== password2) {
         alert("Heslá sa musia zhodovať.");
-        event.preventDefault();
         return;
     }
 
-    e.preventDefault();
-    alert("Sign Up Successful!");
-    signupModal.style.display = "none";
+    try {
+        const response = await fetch("http://127.0.0.1:8081/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password1
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert("Error: " + (errorData.error || "Registration failed"));
+            return;
+        }
+
+        alert("Registration successful!");
+        signupModal.style.display = "none";
+        e.target.reset();
+    } catch (error) {
+        alert("Network error: " + error.message);
+    }
 });

@@ -66,9 +66,7 @@ class UserModel
             $userId,
             $userData['username'],
             $userData['password_hash'],
-            $userData['fullname'] ?? null,
-            $userData['email'] ?? null,
-            $userData['phone'] ?? null
+            $userData['email']
         );
 
         return $user;
@@ -84,7 +82,7 @@ class UserModel
     public function updateUserByUsername(string $userName, array $data): void
     {
         // Allowed fields for update
-        $allowedFields = ['fullname', 'email', 'phone'];
+        $allowedFields = ['email'];
 
         // Validate input data
         foreach ($data as $key => $value) {
@@ -122,15 +120,16 @@ class UserModel
      * @return bool
      * @throws \Exception
      */
-    public function createUser(string $username, string $password): User
+    public function createUser(string $username, string $password, string $email): User
     {
         // Check if the username already exists
-        $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = :username LIMIT 1");
+        $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = :username OR email = :email LIMIT 1");
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         if ($stmt->fetch()) {
-            throw new \Exception('User already exists');
+            throw new \Exception('Username or email already exists');
         }
         
         // Hash the password securely
@@ -142,16 +141,19 @@ class UserModel
                 'id'            => Uuid::uuid4(),
                 'username'      => $username,
                 'password_hash' => $hashedPassword,
+                'email'         => $email
             ]
         );
         
         $userId = $user->getId()->toString();
-        
+        $userEmail = $user->getEmail();
+
         // Insert the new user
-        $stmt = $this->pdo->prepare("INSERT INTO users (id, username, password_hash) VALUES (:id, :username, :password_hash)");
+        $stmt = $this->pdo->prepare("INSERT INTO users (id, username, password_hash, email) VALUES (:id, :username, :password_hash, :email)");
         $stmt->bindParam(':id', $userId, PDO::PARAM_STR);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->bindParam(':password_hash', $hashedPassword, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $userEmail, PDO::PARAM_STR);
         
         if (!$stmt->execute()) {
             throw new \Exception('User not saved');
@@ -189,6 +191,6 @@ class UserModel
     
     private function hydrate(array $data): User
     {
-        return new User($data['id'], $data['username'], $data['password_hash']);
+        return new User($data['id'], $data['username'], $data['password_hash'], $data['email']);
     }
 }

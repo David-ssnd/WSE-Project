@@ -23,95 +23,99 @@
     </header>
 
     <div class="content-area create-page">
-        <div class="recipe-info">
-            <div class="food-item create-recipe-food-item">
-                <div class="food-image">
-                    <div class="step-img-container">
-                        <img class="image-preview" alt="Image Preview" src = ".">
+        <form class="content-area create-page" action="/api/recipes/" method="POST" enctype="multipart/form-data">
+            <div class="recipe-info">
+                <div class="food-item create-recipe-food-item">
+                    <div class="food-image">
+                        <div class="step-img-container">
+                            <img class="image-preview" alt="Image Preview" src=".">
+                        </div>
+                        <button class="btn upload-btn" type="button">Upload Image</button>
+                        <input type="file" name="recipe-image" class="create-recipe-file-input" accept="image/*" style="display:none;">
                     </div>
-                    <button class="btn upload-btn">Upload Image</button>
-                    <input type="file" class="create-recipe-file-input" accept="image/*">
+                    <div class="food-details">
+                        <input type="text" name="recipe-title" placeholder="Enter food title" class="food-title">
+                    </div>
                 </div>
-                <div class="food-details">
-                    <input type="text" placeholder="Enter food title" class="food-title">
+                <table class="fridge-table">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ingredient-table">
+                        <tr>
+                            <td class="ingredient">
+                                <input type="text" name="ingredients[]" placeholder="Ingredient">
+                            </td>
+                            <td class="amount">
+                                <input type="text" name="amounts[]" placeholder="Amount">
+                            </td>
+                            <td class="actions">
+                                <button class="btn remove-btn" type="button" onclick="removeIngredient(this)">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <button class="fridge-add-btn" type="button" onclick="addIngredient()">Add Ingredient</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+            <div class="recipe-details-container">
+                <h3>Recipe Details</h3>
+                <div class="recipe-details">
+                    <div class="detail-item">
+                        <label for="prep-time">Preparation Time (mins):</label>
+                        <input type="number" name="prep-time" id="prep-time" min="0">
+                    </div>
+                    <div class="detail-item">
+                        <label for="cook-time">Cooking Time (mins):</label>
+                        <input type="number" name="cook-time" id="cook-time" min="0">
+                    </div>
+                    <div class="detail-item">
+                        <label for="temperature">Cooking Temperature (°C):</label>
+                        <input type="number" name="temperature" id="temperature" min="0">
+                    </div>
+                    <div class="detail-item">
+                        <label for="servings">Servings:</label>
+                        <input type="number" name="servings" id="servings" min="0">
+                    </div>
                 </div>
             </div>
-            <table class="fridge-table">
-                <thead>
-                    <tr>
-                        <th>Ingredient</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="ingredient">
-                            <input type="text" placeholder="Ingredient">
-                        </td>
-                        <td class="amount">
-                            <input type="text" placeholder="Amount">
-                        </td>
-                        <td class="actions">
-                            <button class="btn remove-btn">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <button class="fridge-add-btn">Add Ingredient</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="recipe-details-container">
-            <h3>Recipe Details</h3>
-            <form class="recipe-details">
-                <div class="detail-item">
-                    <label for="prep-time">Preparation Time (mins):</label>
-                    <input type="number" id="prep-time" min="0">
-                </div>
-                <div class="detail-item">
-                    <label for="cook-time">Cooking Time (mins):</label>
-                    <input type="number" id="cook-time" min="0">
-                </div>
-                <div class="detail-item">
-                    <label for="temperature">Cooking Temperature (°C):</label>
-                    <input type="number" id="temperature" min="0">
-                </div>
-                <div class="detail-item">
-                    <label for="servings">Servings:</label>
-                    <input type="number" id="servings" min="0">
-                </div>
-            </form>
-        </div>            
-
-        <div class="recipe-steps">
-            <div class="step">
-                <div class="food-image">
-                    <div class="step-img-container">
-                        <img class="image-preview" alt="Image Preview" src = ".">
+        
+            <div class="recipe-steps">
+                <div class="step">
+                    <div class="food-image">
+                        <div class="step-img-container">
+                            <img class="image-preview" alt="Image Preview" src=".">
+                        </div>
+                        <button class="btn upload-btn" type="button">Upload Image</button>
+                        <input type="file" name="step-image[]" class="create-recipe-file-input" accept="image/*" style="display:none;">
                     </div>
-                    <button class="btn upload-btn">Upload Image</button>
-                    <input type="file" class="create-recipe-file-input" accept="image/*">
+                    <div class="step-info">
+                        <h3>Step 1</h3>
+                        <textarea name="step-description[]" placeholder="Enter step description"></textarea>
+                    </div>
+                    <button class="btn remove-btn" type="button" onclick="removeStep(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <div class="step-info">
-                    <h3>Step 1</h3>
-                    <textarea placeholder="Enter step description"></textarea>
-                </div>
-                <button class="btn remove-btn" onclick="removeStep(this)">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
-        </div>
-        <div class="add-step">
-            <button class="btn add-step-btn" onclick="addStep()">Add Step</button>
-        </div>
-        <div class="create-recipe">
-            <button class="btn" onclick="submitRecipe()">Create recipe</button>
-        </div>
+        
+            <div class="add-step">
+                <button class="btn add-step-btn" type="button" onclick="addStep()">Add Step</button>
+            </div>
+        
+            <div class="create-recipe">
+                <button class="btn" type="submit">Create recipe</button>
+            </div>
+        </form>
     </div>
 
     <footer class="footer">
