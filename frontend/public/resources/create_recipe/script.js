@@ -68,26 +68,27 @@ fileInputs.forEach((fileInput, index) => {
 
 // Add and remove steps
 function addStep() {
-    const index = document.getElementsByClassName('step').length + 1;
-    const steps = document.getElementsByClassName('recipe-steps')[0];
-    const newStep = document.createElement('div');
-    newStep.classList.add('step');
-    newStep.innerHTML = `
-        <div class="food-image">
+  const index = document.getElementsByClassName('step').length + 1;
+  const steps = document.getElementsByClassName('recipe-steps')[0];
+  const newStep = document.createElement('div');
+  newStep.classList.add('step');
+  newStep.innerHTML = `
+      <div class="food-image">
           <div class="step-img-container">
-            <img class="image-preview" alt="Image Preview">
+              <img class="image-preview" alt="Image Preview" style="display: none;">
           </div>
-          <button class="btn upload-btn">Upload Image</button>
-          <input type="file" class="create-recipe-file-input" accept="image/*">
-        </div>
-        <div class="step-info">
-          <h3>Step ` + index + `</h3>
-          <textarea placeholder="Enter step description"></textarea>
-        </div>
-        <button class="btn remove-btn" onclick="removeStep(this)">
-        <i class="fas fa-times"></i>
-    `;
-    steps.appendChild(newStep);
+          <button class="btn upload-btn" type="button">Upload Image</button>
+          <input name="step-image[]" type="file" class="create-recipe-file-input" accept="image/*" style="display: none;">
+      </div>
+      <div class="step-info">
+          <h3>Step ${index}</h3>
+          <textarea name="step-description[]" placeholder="Enter step description"></textarea>
+      </div>
+      <button class="btn remove-btn" type="button" onclick="removeStep(this)">
+          <i class="fas fa-times"></i>
+      </button>
+  `;
+  steps.appendChild(newStep);
 
     // Add event listeners for new step
     const foodImage = newStep.querySelector('.food-image');
