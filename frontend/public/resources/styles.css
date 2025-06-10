@@ -719,6 +719,13 @@ body {
     gap: 1.25rem;
 }
 
+.create-recipe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .create-recipe-food-item {
     width: 40%;
     margin: 0;
@@ -728,6 +735,11 @@ body {
 
 .create-recipe-food-item:hover {
     box-shadow: inherit;
+}
+
+.create-recipe button {
+    font-size: 1.5rem;
+    align-items: center;
 }
 
 .food-image {
