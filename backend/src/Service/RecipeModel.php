@@ -61,6 +61,13 @@ class RecipeModel
         return $recipes;
     }
 
+    public function getRecipesByUser(string $userId): array
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM recipes WHERE user_id = :user_id ORDER BY created_at DESC');
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
+
     public function getRecipeById(string $id): ?Recipe
     {
         $stmt = $this->pdo->prepare('SELECT * FROM recipes WHERE id = :id LIMIT 1');
@@ -79,16 +86,15 @@ class RecipeModel
             $row['description'] ?? null,
             new \DateTime($row['created_at']),
             $row['cook_time'] ?? 0,
-            $row['instructions'] ?? null,
+            $row['thumbnail_image'] ?? null,
             $row['rating_count'] ?? 0,
             $row['average_rating'] ?? 0.0,
-            $row['thumbnail_image'] ?? null,
             $row['prep_time'] ?? 0,
             $row['temperature'] ?? 0,
-            $row['step_descriptions'] ? json_decode($row['step_descriptions'], true) : [],
-            $row['step_images'] ? json_decode($row['step_images'], true) : [],
+            (array) json_decode($row['step_descriptions'], true),
+            (array) json_decode($row['step_images'], true),
             $row['servings'] ?? 0,
-            $row['ingredients'] ? json_decode($row['ingredients'], true) : []
+            (array) json_decode($row['ingredients'], true)
         );
     }
 

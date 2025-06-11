@@ -73,16 +73,75 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
         
-            function displayFoodModal(recipe) {
+            async function isRecipeFavorited(recipeId) {
+                try {
+                    const response = await fetch("http://localhost:8081/api/profile/favorites", {
+                        credentials: 'include'
+                    });
+                    if (!response.ok) return false;
+            
+                    const favorites = await response.json();
+                    return favorites.some(fav => fav.id === recipeId);
+                } catch {
+                    return false;
+                }
+            }
+            
+            async function toggleFavorite(recipeId, isFavoritedNow) {
+                const method = isFavoritedNow ? 'DELETE' : 'POST';
+            
+                try {
+                    const response = await fetch(`http://localhost:8081/api/recipes/${recipeId}/favorite`, {
+                        method,
+                        credentials: 'include'
+                    });
+            
+                    if (!response.ok) {
+                        const errData = await response.json();
+                        alert("Failed to update favorite: " + (errData.error || "Unknown error"));
+                        return false;
+                    }
+                    alert("success");
+                    return true;
+                } catch (error) {
+                    console.error("Network error:", error);
+                    return false;
+                }
+            }
+
+            async function displayFoodModal(recipe) {
                 const foodModal = document.getElementById("foodModal");
                 const foodTitle = document.getElementById("foodTitle");
                 const foodImage = document.getElementById("foodImage");
                 const foodIngredients = document.getElementById("foodIngredients");
-        
+                const favoriteBtn = document.querySelector(".favoriteBtn i");
+                const stepByStepBtn = document.querySelector(".instructionsBtn");
+            
+                let isFavorited = await isRecipeFavorited(recipe.id); // need to fetch initial state
+                updateFavoriteIcon();
+
                 foodTitle.textContent = recipe.title;
                 foodImage.src = recipe.thumbnail_image;
                 foodIngredients.textContent = recipe.description;
-        
+
+                function updateFavoriteIcon() {
+                    favoriteBtn.classList.toggle("fas", isFavorited);
+                    favoriteBtn.classList.toggle("far", !isFavorited);
+                }
+
+                document.querySelector(".favoriteBtn").onclick = async () => {
+                    const success = await toggleFavorite(recipe.id, isFavorited);
+                    if (success) {
+                        isFavorited = !isFavorited;
+                        updateFavoriteIcon();
+                    }
+                };
+            
+                // ✅ Set the Step-By-Step button to link to the recipe page with ID
+                stepByStepBtn.onclick = () => {
+                    window.location.href = `/recipe-page/?id=${recipe.id}`;
+                };
+            
                 foodModal.style.display = "flex";
             }
         

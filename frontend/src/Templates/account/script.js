@@ -10,6 +10,26 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.value = "";
     });
     
+    async function fetchUserProfile() {
+        const response = await fetch("http://localhost:8081/api/profile", {
+            credentials: 'include'
+        });
+    
+        if (!response.ok) {
+            throw new Error("Failed to fetch user profile");
+        }
+    
+        return await response.json();
+    }
+    
+    function updateUserProfileUI(user) {
+        const profileNameEl = document.getElementById("profile-nickname");
+        const profileIdEl = document.getElementById("profile-id");
+    
+        profileNameEl.textContent = user.username || "Unknown";
+        profileIdEl.textContent = `@${user.username || "unknown"}`;
+    }
+
     fetch('created.json')
     .then(response => {
         if (!response.ok) {
@@ -97,6 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('There has been a problem with fetch operation:', error);
         });
 });
+
+
 
 function displayRecipes() {
     const feed = document.querySelector(".recipes-feed");

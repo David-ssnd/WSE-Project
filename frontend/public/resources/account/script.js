@@ -1,176 +1,141 @@
-var recipesCreated;
-var recipesSaved;
-var recipes;
+let recipesCreated = [];
+let recipesSaved = [];
+let recipes = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.querySelector(".search-bar input");
-    const clearIcon = document.querySelector(".clear-icon");
-    
-    clearIcon.addEventListener("click", () => {
-        searchInput.value = "";
+// Fetch created recipes from cookie-authenticated route
+async function fetchCreatedRecipes() {
+    const response = await fetch("http://localhost:8081/api/recipes/created", {
+        credentials: 'include' // sends the token cookie
     });
-    
-    fetch('/resources/account/created.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        recipesCreated = data;
-        changeRecipes(1);
-        
-        function displayRecipes() {
-            const feed = document.querySelector(".recipes-feed");
-            feed.innerHTML = "";
-            
-            recipes.forEach(recipe => {
-                const foodItem = document.createElement("div");
-                foodItem.classList.add("food-item");
-                
-                const foodImage = document.createElement("img");
-                foodImage.src = recipe.foto;
-                foodImage.alt = recipe.nazov;
-                
-                const foodName = document.createElement("p");
-                foodName.textContent = recipe.nazov;
-                
-                foodItem.appendChild(foodImage);
-                foodItem.appendChild(foodName);
-                
-                feed.appendChild(foodItem);
-                
-                foodItem.addEventListener("click", function() {
-                    displayFoodModal(recipe);
-                });
-            });
-        }
-
-        function changeRecipes(number) {
-            if(number == 1) {
-                recipes = recipesCreated;
-            }
-            else {
-                recipes = recipesSaved;
-            }
-            displayRecipes(recipes);
-        }
-        
-        function displayFoodModal(recipe) {
-            const foodModal = document.getElementById("foodModal");
-            const foodTitle = document.getElementById("foodTitle");
-            const foodImage = document.getElementById("foodImage");
-            const foodIngredients = document.getElementById("foodIngredients");
-            
-            foodTitle.textContent = recipe.nazov;
-            foodImage.src = recipe.foto;
-            foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
-            
-            foodModal.style.display = "flex";
-        }
-        
-        // Close modal
-        window.addEventListener('click', (event) => {
-            if (event.target === foodModal) {
-                foodModal.style.display = 'none';
-            }
-        });
-        
-        displayRecipes();
-    })
-    .catch(error => {
-        console.error('There has been a problem with fetch operation:', error);
-    });
-    
-    fetch('/resources/account/saved.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            recipesSaved = data;
-        })
-        .catch(error => {
-            console.error('There has been a problem with fetch operation:', error);
-        });
-});
-
-function displayRecipes() {
-    const feed = document.querySelector(".recipes-feed");
-    feed.innerHTML = "";
-    
-    recipes.forEach(recipe => {
-        const foodItem = document.createElement("div");
-        foodItem.classList.add("food-item");
-        
-        const foodImage = document.createElement("img");
-        foodImage.src = recipe.foto;
-        foodImage.alt = recipe.nazov;
-        
-        const foodName = document.createElement("p");
-        foodName.textContent = recipe.nazov;
-        
-        foodItem.appendChild(foodImage);
-        foodItem.appendChild(foodName);
-        
-        feed.appendChild(foodItem);
-        
-        foodItem.addEventListener("click", function() {
-            displayFoodModal(recipe);
-        });
-    });
+    if (!response.ok) throw new Error("Failed to fetch created recipes.");
+    return await response.json();
 }
 
-function changeRecipes(number) {
-    if(number == 1) {
-        recipes = recipesCreated;
-    }
-    else {
-        recipes = recipesSaved;
-    }
-    displayRecipes(recipes);
+// Fetch saved recipes from cookie-authenticated route
+async function fetchSavedRecipes() {
+    const response = await fetch("http://localhost:8081/api/recipes/saved", {
+        credentials: 'include'
+    });
+    if (!response.ok) throw new Error("Failed to fetch saved recipes.");
+    return await response.json();
 }
 
-
+// Display modal
 function displayFoodModal(recipe) {
     const foodModal = document.getElementById("foodModal");
     const foodTitle = document.getElementById("foodTitle");
     const foodImage = document.getElementById("foodImage");
     const foodIngredients = document.getElementById("foodIngredients");
-    
-    foodTitle.textContent = recipe.nazov;
-    foodImage.src = recipe.foto;
-    foodIngredients.textContent = `Ingredients: ${recipe.ingrediencie.join(", ")}`;
-    
+
+    foodTitle.textContent = recipe.title;
+    foodImage.src = recipe.thumbnail_image || "../resources/noimage.png";
+
+    const ingredientList = (recipe.ingredients || [])
+        .map(i => `${i.amount} ${i.ingredient}`)
+        .join(", ");
+    foodIngredients.textContent = `Ingredients: ${ingredientList}`;
+
     foodModal.style.display = "flex";
 }
 
-//change profile image
-function previewImage(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+// Display recipe cards
+function displayRecipes() {
+    const feed = document.querySelector(".recipes-feed");
+    feed.innerHTML = "";
 
-    reader.onload = function(e) {
-        const profileImage = document.getElementsByClassName('avatar-img');
-        profileImage[0].src = e.target.result;
+    recipes.forEach(recipe => {
+        const foodItem = document.createElement("div");
+        foodItem.classList.add("food-item");
 
-        const navbarImage = document.getElementsByClassName('profile-img');
-        navbarImage[0].src = e.target.result;
-    };
+        const foodImage = document.createElement("img");
+        foodImage.src = recipe.thumbnail_image || "../resources/noimage.png";
+        foodImage.alt = recipe.title;
 
-    if (file) {
-        reader.readAsDataURL(file);
-    }
+        const foodName = document.createElement("p");
+        foodName.textContent = recipe.title;
+
+        foodItem.appendChild(foodImage);
+        foodItem.appendChild(foodName);
+
+        foodItem.addEventListener("click", () => displayFoodModal(recipe));
+        feed.appendChild(foodItem);
+    });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.querySelector(".search-bar input");
-    const clearIcon = document.querySelector(".clear-icon");
+// Handle recipe switch
+function changeRecipes(type) {
+    recipes = (type === 1) ? recipesCreated : recipesSaved;
+    displayRecipes();
+}
 
-    clearIcon.addEventListener("click", () => {
-        searchInput.value = "";
+// Modal close behavior
+function setupModalClose() {
+    const foodModal = document.getElementById("foodModal");
+    window.addEventListener("click", (event) => {
+        if (event.target === foodModal) {
+            foodModal.style.display = "none";
+        }
     });
+}
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", async () => {
+
+    try {
+        const user = await fetchUserProfile();
+        updateUserProfileUI(user);
+    } catch (err) {
+        console.error("Error loading user profile:", err);
+    }
+
+    async function fetchUserProfile() {
+        const response = await fetch("http://localhost:8081/api/profile", {
+            credentials: 'include'
+        });
+    
+        if (!response.ok) {
+            throw new Error("Failed to fetch user profile");
+        }
+    
+        return await response.json();
+    }
+    
+    function updateUserProfileUI(user) {
+        const profileNameEl = document.getElementById("profile-nickname");
+        const profileIdEl = document.getElementById("profile-id");
+    
+        profileNameEl.textContent = user.username || "Unknown";
+        profileIdEl.textContent = `@${user.username || "unknown"}`;
+    }
+
+    try {
+        // Clear search input logic
+        const searchInput = document.querySelector(".search-bar input");
+        const clearIcon = document.querySelector(".clear-icon");
+        clearIcon.addEventListener("click", () => searchInput.value = "");
+
+        // Fetch created recipes
+        try {
+            recipesCreated = await fetchCreatedRecipes();
+        } catch (err) {
+            console.error("Failed to fetch created recipes:", err);
+            recipesCreated = [];
+        }
+
+        // Fetch saved recipes
+        try {
+            recipesSaved = await fetchSavedRecipes(); // This might fail
+        } catch (err) {
+            console.warn("Saved recipes not available:", err);
+            recipesSaved = [];
+        }
+
+        // Display created recipes by default
+        changeRecipes(1);
+
+        // Modal close behavior
+        setupModalClose();
+    } catch (error) {
+        console.error("Initialization error:", error);
+    }
 });

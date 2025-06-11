@@ -31,31 +31,56 @@ class FavoriteModel
 
     public function addFavorite(string $userId, string $recipeId): void
     {
-        $stmt = $this->pdo->prepare("INSERT INTO favorites (user_id, recipe_id) VALUES (:user_id, :recipe_id) ON CONFLICT DO NOTHING");
-        $stmt->bindParam(':user_id', $userId);
-        $stmt->bindParam(':recipe_id', $recipeId);
-        $stmt->execute();
+        $stmt = $this->pdo->prepare("
+            UPDATE users
+            SET favorites = array_append(favorites, :recipe_id)
+            WHERE id = :user_id AND NOT (:recipe_id = ANY(favorites))
+        ");
+        $stmt->execute([
+            ':user_id'   => $userId,
+            ':recipe_id' => $recipeId
+        ]);
     }
 
     public function removeFavorite(string $userId, string $recipeId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM favorites WHERE user_id = :user_id AND recipe_id = :recipe_id");
-        $stmt->bindParam(':user_id', $userId);
-        $stmt->bindParam(':recipe_id', $recipeId);
-        $stmt->execute();
+        $stmt = $this->pdo->prepare("
+            UPDATE users
+            SET favorites = array_remove(favorites, :recipe_id)
+            WHERE id = :user_id
+        ");
+        $stmt->execute([
+            ':user_id'   => $userId,
+            ':recipe_id' => $recipeId
+        ]);
     }
 
     public function getUserFavorites(string $userId): array
     {
         $stmt = $this->pdo->prepare("
-            SELECT r.id, r.title
-            FROM favorites f
-            JOIN recipes r ON r.id = f.recipe_id
-            WHERE f.user_id = :user_id
+            SELECT r.id, r.title, r.thumbnail_image
+            FROM users u
+            JOIN recipes r ON r.id = ANY(u.favorites)
+            WHERE u.id = :user_id
         ");
-        $stmt->bindParam(':user_id', $userId);
-        $stmt->execute();
+        $stmt->execute([':user_id' => $userId]);
 
         return $stmt->fetchAll();
+    }
+
+    public function isFavorite(string $userId, string $recipeId): bool
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT :recipe_id = ANY(favorites) AS is_fav
+            FROM users
+            WHERE id = :user_id
+        ");
+        $stmt->execute([
+            ':user_id'   => $userId,
+            ':recipe_id' => $recipeId
+        ]);
+        $result = $stmt->fetch();
+
+        return $result['is_fav'] ?? false;
     }
 }

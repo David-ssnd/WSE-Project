@@ -221,8 +221,7 @@ async function submitRecipe(event) {
 })
 .then(async res => {
   if (res.ok) {
-      alert("Recipe created successfullyyyyyy!");
-      //window.location.href = "/";
+      window.location.href = "/";
   } else {
       const contentType = res.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {

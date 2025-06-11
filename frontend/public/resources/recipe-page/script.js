@@ -8,10 +8,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    //const recipeData = await fetch('recipe.json').then(response => response.json());
+    // --- Handle dynamic recipe loading ---
+    const recipeId = getRecipeIdFromUrl();
 
-    //populateRecipe(recipeData.recipe);
+    if (!recipeId) {
+        alert("Recipe ID is missing from URL.");
+        return;
+    }
 
+    try {
+        const response = await fetch(`http://localhost:8081/api/recipes/${recipeId}`);
+        const data = await response.json();
+
+        if (data.error) {
+            document.querySelector(".content-area").innerHTML = `<p>Error: ${data.error}</p>`;
+        } else {
+            console.log("Fetched recipe data:", data);
+            populateRecipe(data.recipe || data); // adapt if `data` is the recipe object directly
+        }
+    } catch (error) {
+        console.error("Failed to load recipe:", error);
+        document.querySelector(".content-area").innerHTML = `<p>Failed to load recipe. Please try again later.</p>`;
+    }
+    // --- Star Rating UI ---
     const starContainer = document.getElementById('stars');
     const ratingInput = document.getElementById('rating');
     const maxStars = 5;
@@ -22,14 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         star.textContent = '★';
         star.dataset.value = i;
 
-        star.addEventListener('mouseover', () => {
-            updateStars(i);
-        });
-
-        star.addEventListener('mouseout', () => {
-            updateStars(ratingInput.value);
-        });
-
+        star.addEventListener('mouseover', () => updateStars(i));
+        star.addEventListener('mouseout', () => updateStars(ratingInput.value));
         star.addEventListener('click', () => {
             ratingInput.value = i;
             updateStars(i);
@@ -48,138 +61,71 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
+    function getRecipeIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("id"); // URL format: ?id=RECIPE_UUID
+    }
+
     function populateRecipe(recipe) {
-
-        document.querySelector(".food-item.recipe-food-item p").textContent = recipe.name;
-
-        document.querySelector(".food-item.recipe-food-item img").src = recipe.image;
-
+        if (!recipe || typeof recipe !== "object") {
+            console.error("Invalid recipe object:", recipe);
+            document.querySelector(".content-area").innerHTML = "<p>Invalid recipe data.</p>";
+            return;
+        }
+    
+        // Title and image
+        document.querySelector(".food-item.recipe-food-item p").textContent = recipe.title ?? "Untitled Recipe";
+        document.querySelector(".food-item.recipe-food-item img").src = recipe.thumbnail_image ?? "../resources/default-food.jpg";
+    
+        // Ingredients list
         const ingredientsList = document.querySelector(".recipe-ingredients ul");
         ingredientsList.innerHTML = '';
-        recipe.ingredients.forEach(ingredient => {
+        (recipe.ingredients || []).forEach(item => {
             const li = document.createElement("li");
-            li.textContent = ingredient;
+            li.textContent = `${item.amount} ${item.ingredient}`;
             ingredientsList.appendChild(li);
         });
-
-        document.getElementById("prep-time").textContent = recipe.details.preparation_time;
-        document.getElementById("cook-time").textContent = recipe.details.cooking_time;
-        document.getElementById("temperature").textContent = recipe.details.cooking_temperature;
-        document.getElementById("servings").textContent = recipe.details.servings;
-
-        // Populate recipe steps
+    
+        // Recipe details
+        document.getElementById("prep-time").textContent = recipe.prep_time ?? "N/A";
+        document.getElementById("cook-time").textContent = recipe.cook_time ?? "N/A";
+        document.getElementById("temperature").textContent = recipe.temperature ?? "N/A";
+        document.getElementById("servings").textContent = recipe.servings ?? "N/A";
+    
+        // Steps
         const stepsContainer = document.querySelector(".recipe-steps");
         stepsContainer.innerHTML = '';
-        recipe.steps.forEach(step => {
+    
+        const descriptions = recipe.step_descriptions || [];
+        const images = recipe.step_images || [];
+    
+        for (let i = 0; i < Math.max(descriptions.length, images.length); i++) {
             const stepDiv = document.createElement("div");
             stepDiv.classList.add("step");
-
+    
             const stepImage = document.createElement("img");
-            stepImage.src = step.image;
-            stepImage.alt = `Step ${step.step_number}`;
+            stepImage.src = images[i] ?? "../resources/default-step.jpg";
+            stepImage.alt = `Step ${i + 1}`;
             stepImage.classList.add("logo");
-
+    
             const stepInfo = document.createElement("div");
             stepInfo.classList.add("step-info");
-
+    
             const stepTitle = document.createElement("h3");
-            stepTitle.textContent = `Step ${step.step_number}`;
-
+            stepTitle.textContent = `Step ${i + 1}`;
+    
             const stepDescription = document.createElement("p");
-            stepDescription.textContent = step.description;
-
+            stepDescription.textContent = descriptions[i] ?? "No description provided.";
+    
             stepInfo.appendChild(stepTitle);
             stepInfo.appendChild(stepDescription);
             stepDiv.appendChild(stepImage);
             stepDiv.appendChild(stepInfo);
             stepsContainer.appendChild(stepDiv);
-        });
-
+        }
+    
+        // Ratings placeholder (your current data has none)
         const ratingsContainer = document.querySelector(".ratings");
-        ratingsContainer.innerHTML = '<h2>Ratings</h2>';
-        recipe.ratings.forEach(rating => {
-            const ratingDiv = document.createElement("div");
-            ratingDiv.classList.add("rating");
-
-            const ratingHeader = document.createElement("div");
-            ratingHeader.classList.add("rating-header");
-
-            const avatar = document.createElement("img");
-            avatar.src = "../resources/avatar.png";
-            avatar.alt = "Avatar";
-            avatar.classList.add("rating-avatar");
-
-            const name = document.createElement("h3");
-            name.textContent = rating.name;
-
-            const stars = document.createElement("p");
-            stars.textContent = "⭐".repeat(rating.stars);
-
-            const comment = document.createElement("p");
-            comment.classList.add("rating-comment");
-            comment.textContent = rating.comment;
-
-            const date = document.createElement("p");
-            date.classList.add("rating-date");
-            date.textContent = rating.date;
-
-            ratingHeader.appendChild(avatar);
-            ratingHeader.appendChild(name);
-            ratingHeader.appendChild(stars);
-            ratingDiv.appendChild(ratingHeader);
-            ratingDiv.appendChild(comment);
-            ratingDiv.appendChild(date);
-            ratingsContainer.appendChild(ratingDiv);
-        });
+        ratingsContainer.innerHTML = '<h2>Ratings</h2><p>No ratings yet.</p>';
     }
 });
-/*
-document.addEventListener("DOMContentLoaded", () => {
-    const recipeId = getRecipeIdFromUrl();
-
-    if (!recipeId) {
-        alert("Recipe ID is missing from URL.");
-        return;
-    }
-
-    fetch(`../../api/recipe/detail/${recipeId}`)  // uprav ak máš inú cestu
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                document.querySelector(".content-area").innerHTML = `<p>Error: ${data.error}</p>`;
-                return;
-            }
-
-            populateRecipeData(data);
-        })
-        .catch(error => {
-            console.error("Failed to load recipe:", error);
-        });
-});
-
-function getRecipeIdFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id"); // napr. ?id=RECIPE_UUID
-}
-
-function populateRecipeData(recipe) {
-    document.querySelector(".recipe-info .food-item img").src = recipe.thumbnail_image || "../resources/default-food.jpg";
-    document.querySelector(".recipe-info .food-item p").textContent = recipe.description || "";
-
-    // Napln detaily
-    document.getElementById("prep-time").textContent = recipe.prep_time || "N/A";
-    document.getElementById("cook-time").textContent = recipe.cook_time || "N/A";
-    document.getElementById("temperature").textContent = recipe.temperature || "N/A";
-    document.getElementById("servings").textContent = recipe.servings || "N/A";
-
-    // Inštrukcie (kroky)
-    const stepsDiv = document.querySelector(".recipe-steps");
-    if (recipe.instructions) {
-        const steps = recipe.instructions.split('\n');
-        steps.forEach((step, index) => {
-            const stepElem = document.createElement("p");
-            stepElem.textContent = `${index + 1}. ${step}`;
-            stepsDiv.appendChild(stepElem);
-        });
-    }
-}*/

@@ -38,9 +38,7 @@ class ProfileController
 
         $this->view->render([
             'username' => $user->getUsername(),
-            'fullname' => $user->getFullname(),
             'email'    => $user->getEmail(),
-            'phone'    => $user->getPhone()
         ], 200);
     }
 

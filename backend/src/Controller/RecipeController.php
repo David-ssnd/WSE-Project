@@ -41,6 +41,37 @@ class RecipeController
         }
     }
 
+    public function listByUser(): void
+{
+    header('Content-Type: application/json');
+
+    // Step 1: Authenticate user
+    if (!isset($_COOKIE['token'])) {
+        $this->jsonView->render(['error' => 'Authentication token missing'], 401);
+        return;
+    }
+
+    $jwt = $_COOKIE['token'];
+    $secret = getenv('JWT_SECRET');
+
+    try {
+        $decoded = JWT::decode($jwt, new Key($secret, 'HS256'));
+        $userId = $decoded->sub ?? null;
+
+        if (!$userId) {
+            $this->jsonView->render(['error' => 'Invalid token'], 401);
+            return;
+        }
+
+        // Step 2: Fetch recipes by user ID
+        $recipes = $this->recipeModel->getRecipesByUser($userId);
+        $this->jsonView->render($recipes, 200);
+
+    } catch (\Exception $e) {
+        $this->jsonView->render(['error' => 'Authentication failed: ' . $e->getMessage()], 401);
+    }
+}
+
     /**
      * @param string $id
      * @return void
