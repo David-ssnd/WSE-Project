@@ -25,18 +25,20 @@ class User implements \JsonSerializable
      * @var ?string
      */
     private ?string $email;
+    private ?string $profile_picture = null;
     
     /**
      * @param UuidInterface $id
      * @param string $username
      * @param string $passwordHash
      */
-    public function __construct(UuidInterface $id, string $username, string $passwordHash, string $email = null)
+    public function __construct(UuidInterface $id, string $username, string $passwordHash, string $email = null, ?string $profile_picture = null)
     {
         $this->id = $id;
         $this->username = $username;
         $this->passwordHash = $passwordHash;
         $this->email = $email;
+        $this->profile_picture = $profile_picture;
     }
     
     /**
@@ -95,12 +97,23 @@ class User implements \JsonSerializable
         $this->email = $email;
     }
 
+    public function getProfilePicture(): ?string
+    {
+        return $this->profile_picture;
+    }
+
+    public function setProfilePicture(?string $profile_picture): void
+    {
+        $this->profile_picture = $profile_picture;
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
             // 'id'       => $this->id->toString(),
             'username' => $this->username,
-            'email'    => $this->email
+            'email'    => $this->email,
+            'profile_picture' => $this->profile_picture
         ];
     }
 }

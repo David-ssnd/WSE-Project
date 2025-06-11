@@ -2,6 +2,19 @@
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.querySelector(".search-bar input");
   const clearIcon = document.querySelector(".clear-icon");
+  const profileImg = document.getElementById("profile-img");
+
+  fetch("http://localhost:8081/api/profile", { credentials: "include" })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to fetch profile");
+      return res.json();
+    })
+    .then(data => {
+      if (data.profile_picture) {
+        profileImg.src = data.profile_picture;
+      }
+    })
+    .catch(console.error);
 
   if (!searchInput || !clearIcon) return;
 

@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (token) {
         document.querySelector(".auth-buttons").style.display = "none";
         document.getElementById("profileIcon").style.display = "block";
+        updateProfileAvatar();
     } else {
         document.querySelector(".auth-buttons").style.display = "flex";
         document.getElementById("profileIcon").style.display = "none";
@@ -167,6 +168,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    async function updateProfileAvatar() {
+        try {
+            const response = await fetch('http://localhost:8081/api/profile', { credentials: 'include' });
+            if (!response.ok) throw new Error('Not logged in');
+            const profile = await response.json();
+            const profileIconImg = document.querySelector('#profileIcon img');
+            if (profile.profile_picture) {
+                profileIconImg.src = profile.profile_picture;
+            } else {
+                profileIconImg.src = '/resources/avatar.png';
+            }
+        } catch {
+            // fallback or do nothing
+        }
+    }
+
     async function displayFoodModal(recipe) {
         const foodModal = document.getElementById("foodModal");
         const foodTitle = document.getElementById("foodTitle");
@@ -226,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // table.addEventListener("click", (event) => {
 //     if (event.target.classList.contains("fridge-add-btn")) {
 //         const newRow = document.createElement("tr");
-//         newRow.innerHTML = `
+//         newRow.innerHTML = 
 //             <td class="ingredient">
 //                 <input type="text" placeholder="Ingredient">
 //             </td>
@@ -238,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //                     <i class="fas fa-times"></i>
 //                 </button>
 //             </td>
-//         `;
+//         ;
 //         table.insertBefore(newRow, table.lastElementChild);
 //     } else if (event.target.closest(".remove-btn")) {
 //         const row = event.target.closest("tr");
