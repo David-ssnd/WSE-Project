@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    const recipeData = await fetch('recipe.json').then(response => response.json());
+    //const recipeData = await fetch('recipe.json').then(response => response.json());
 
-    populateRecipe(recipeData.recipe);
+    //populateRecipe(recipeData.recipe);
 
     const starContainer = document.getElementById('stars');
     const ratingInput = document.getElementById('rating');
