@@ -1,5 +1,6 @@
 .env
 /backend/composer.lock
 /backend/vendor/
+/frontend/vendor/
 /data/
-*.log
+*.logs

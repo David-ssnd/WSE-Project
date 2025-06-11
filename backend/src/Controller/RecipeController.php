@@ -42,35 +42,35 @@ class RecipeController
     }
 
     public function listByUser(): void
-{
-    header('Content-Type: application/json');
+    {
+        header('Content-Type: application/json');
 
-    // Step 1: Authenticate user
-    if (!isset($_COOKIE['token'])) {
-        $this->jsonView->render(['error' => 'Authentication token missing'], 401);
-        return;
-    }
-
-    $jwt = $_COOKIE['token'];
-    $secret = getenv('JWT_SECRET');
-
-    try {
-        $decoded = JWT::decode($jwt, new Key($secret, 'HS256'));
-        $userId = $decoded->sub ?? null;
-
-        if (!$userId) {
-            $this->jsonView->render(['error' => 'Invalid token'], 401);
+        // Step 1: Authenticate user
+        if (!isset($_COOKIE['token'])) {
+            $this->jsonView->render(['error' => 'Authentication token missing'], 401);
             return;
         }
 
-        // Step 2: Fetch recipes by user ID
-        $recipes = $this->recipeModel->getRecipesByUser($userId);
-        $this->jsonView->render($recipes, 200);
+        $jwt = $_COOKIE['token'];
+        $secret = getenv('JWT_SECRET');
 
-    } catch (\Exception $e) {
-        $this->jsonView->render(['error' => 'Authentication failed: ' . $e->getMessage()], 401);
+        try {
+            $decoded = JWT::decode($jwt, new Key($secret, 'HS256'));
+            $userId = $decoded->sub ?? null;
+
+            if (!$userId) {
+                $this->jsonView->render(['error' => 'Invalid token'], 401);
+                return;
+            }
+
+            // Step 2: Fetch recipes by user ID
+            $recipes = $this->recipeModel->getRecipesByUser($userId);
+            $this->jsonView->render($recipes, 200);
+
+        } catch (\Exception $e) {
+            $this->jsonView->render(['error' => 'Authentication failed: ' . $e->getMessage()], 401);
+        }
     }
-}
 
     /**
      * @param string $id
@@ -91,104 +91,104 @@ class RecipeController
     }
 
     public function create(): void
-{
-    header('Content-Type: application/json');
+    {
+        header('Content-Type: application/json');
 
-    // Step 1: Get JSON input
-    $data = json_decode(file_get_contents('php://input'), true);
+        // Step 1: Get JSON input
+        $data = json_decode(file_get_contents('php://input'), true);
 
-    // Step 2: Get token from cookie
-    if (!isset($_COOKIE['token'])) {
-        $this->jsonView->render(['error' => 'Authentication token is missing'], 401);
-        return;
-    }
-
-    $jwt = $_COOKIE['token'];
-    $secret = getenv('JWT_SECRET');
-    if (!$secret) {
-        error_log("❌ JWT_SECRET is not set in the environment.");
-        $this->jsonView->render(['error' => 'Server misconfiguration: JWT secret missing'], 500);
-        return;
-    }
-
-    try {
-        // Step 3: Decode the token
-        $decoded = JWT::decode($jwt, new Key($secret, 'HS256'));
-        $userId = $decoded->sub ?? null;
-
-        if (!$userId) {
-            $this->jsonView->render(['error' => 'Invalid token: missing subject'], 401);
+        // Step 2: Get token from cookie
+        if (!isset($_COOKIE['token'])) {
+            $this->jsonView->render(['error' => 'Authentication token is missing'], 401);
             return;
         }
 
-        // Step 4: Validate input data
-        if (!isset($data['title'])) {
-            $this->jsonView->render(['error' => 'Title is required'], 400);
+        $jwt = $_COOKIE['token'];
+        $secret = getenv('JWT_SECRET');
+        if (!$secret) {
+            error_log("❌ JWT_SECRET is not set in the environment.");
+            $this->jsonView->render(['error' => "$secret - Server misconfiguration: JWT secret missing"], 500);
             return;
         }
 
-        // Step 5: Inject user ID into recipe data
         try {
-            $data['user_id'] = $userId;
-        } catch (\Throwable $e) {
-            $this->jsonView->render(['error' => 'Invalid user ID format'], 400);
+            // Step 3: Decode the token
+            $decoded = JWT::decode($jwt, new Key($secret, 'HS256'));
+            $userId = $decoded->sub ?? null;
+
+            if (!$userId) {
+                $this->jsonView->render(['error' => 'Invalid token: missing subject'], 401);
+                return;
+            }
+
+            // Step 4: Validate input data
+            if (!isset($data['title'])) {
+                $this->jsonView->render(['error' => 'Title is required'], 400);
+                return;
+            }
+
+            // Step 5: Inject user ID into recipe data
+            try {
+                $data['user_id'] = $userId;
+            } catch (\Throwable $e) {
+                $this->jsonView->render(['error' => 'Invalid user ID format'], 400);
+                return;
+            }
+
+            // Step 6: Call the model to insert recipe
+            $this->recipeModel->createRecipeFromData($data);
+
+            // Step 7: Respond with success
+            $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
+
+        } catch (\Firebase\JWT\ExpiredException $e) {
+            $this->jsonView->render(['error' => 'Token expired'], 401);
+        } catch (\Exception $e) {
+            error_log("JWT error: " . $e->getMessage());
+            $this->jsonView->render(['error' => 'Authentication failed'], 401);
+        }
+    }
+
+
+    public function update(string $id): void
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!$data || !isset($data['title'])) {
+            $this->jsonView->render(['error' => 'Title is required'], 442);
             return;
         }
 
-        // Step 6: Call the model to insert recipe
-        $this->recipeModel->createRecipeFromData($data);
+        try {
+            $existingRecipe = $this->recipeModel->getRecipeById($id);
+            if (!$existingRecipe) {
+                $this->jsonView->render(['error' => 'Recipe not found'], 404);
+                return;
+            }
 
-        // Step 7: Respond with success
-        $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
+            // Update mutable fields
+            $existingRecipe->setTitle($data['title']);
+            $existingRecipe->setDescription($data['description'] ?? null);
+            $existingRecipe->setCookTime($data['cook_time'] ?? 0);
+            // $existingRecipe->setInstructions($data['instructions'] ?? null);
 
-    } catch (\Firebase\JWT\ExpiredException $e) {
-        $this->jsonView->render(['error' => 'Token expired'], 401);
-    } catch (\Exception $e) {
-        error_log("JWT error: " . $e->getMessage());
-        $this->jsonView->render(['error' => 'Authentication failed'], 401);
-    }
-}
+            $this->recipeModel->updateRecipe($existingRecipe);
 
-
-public function update(string $id): void
-{
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    if (!$data || !isset($data['title'])) {
-        $this->jsonView->render(['error' => 'Title is required'], 442);
-        return;
-    }
-
-    try {
-        $existingRecipe = $this->recipeModel->getRecipeById($id);
-        if (!$existingRecipe) {
-            $this->jsonView->render(['error' => 'Recipe not found'], 404);
-            return;
+            $this->jsonView->render(['message' => 'Recipe updated successfully'], 200);
+        } catch (\Exception $e) {
+            $this->jsonView->render(['error' => $e->getMessage()], 500);
         }
-
-        // Update mutable fields
-        $existingRecipe->setTitle($data['title']);
-        $existingRecipe->setDescription($data['description'] ?? null);
-        $existingRecipe->setCookTime($data['cook_time'] ?? 0);
-        $existingRecipe->setInstructions($data['instructions'] ?? null);
-
-        $this->recipeModel->updateRecipe($existingRecipe);
-
-        $this->jsonView->render(['message' => 'Recipe updated successfully'], 200);
-    } catch (\Exception $e) {
-        $this->jsonView->render(['error' => $e->getMessage()], 500);
     }
-}
 
-public function delete(string $id): void
-{
-    try {
-        $this->recipeModel->deleteRecipe($id);
-        $this->jsonView->render(['message' => 'Recipe deleted successfully'], 200);
-    } catch (\Exception $e) {
-        $this->jsonView->render(['error' => $e->getMessage()], 500);
+    public function delete(string $id): void
+    {
+        try {
+            $this->recipeModel->deleteRecipe($id);
+            $this->jsonView->render(['message' => 'Recipe deleted successfully'], 200);
+        } catch (\Exception $e) {
+            $this->jsonView->render(['error' => $e->getMessage()], 500);
+        }
     }
-}
 }
 
 
