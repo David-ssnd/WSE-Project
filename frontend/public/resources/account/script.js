@@ -13,7 +13,7 @@ async function fetchCreatedRecipes() {
 
 // Fetch saved recipes from cookie-authenticated route
 async function fetchSavedRecipes() {
-    const response = await fetch("http://localhost:8081/api/recipes/saved", {
+    const response = await fetch("http://localhost:8081/api/profile/favorites", {
         credentials: 'include'
     });
     if (!response.ok) throw new Error("Failed to fetch saved recipes.");
@@ -26,17 +26,33 @@ function displayFoodModal(recipe) {
     const foodTitle = document.getElementById("foodTitle");
     const foodImage = document.getElementById("foodImage");
     const foodIngredients = document.getElementById("foodIngredients");
+    const stepByStepBtn = document.querySelector(".instructionsBtn");
 
     foodTitle.textContent = recipe.title;
     foodImage.src = recipe.thumbnail_image || "../resources/noimage.png";
 
-    const ingredientList = (recipe.ingredients || [])
+    let ingredients = [];
+    try {
+        ingredients = typeof recipe.ingredients === 'string'
+            ? JSON.parse(recipe.ingredients)
+            : recipe.ingredients || [];
+    } catch (e) {
+        console.error("Failed to parse ingredients:", e);
+    }
+
+    const ingredientList = ingredients
         .map(i => `${i.amount} ${i.ingredient}`)
         .join(", ");
     foodIngredients.textContent = `Ingredients: ${ingredientList}`;
 
+    // ✅ Link button dynamically using recipe ID
+    stepByStepBtn.onclick = () => {
+        window.location.href = `/recipe-page/?id=${recipe.id}`;
+    };
+
     foodModal.style.display = "flex";
 }
+
 
 // Display recipe cards
 function displayRecipes() {
