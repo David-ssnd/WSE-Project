@@ -1,12 +1,28 @@
 //search bar - clear icon
 document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.querySelector(".search-bar input");
-    const clearIcon = document.querySelector(".clear-icon");
+  const searchInput = document.querySelector(".search-bar input");
+  const clearIcon = document.querySelector(".clear-icon");
 
-    clearIcon.addEventListener("click", () => {
-        searchInput.value = "";
-    });
+  if (!searchInput || !clearIcon) return;
+
+  // Clear input when clear icon is clicked
+  clearIcon.addEventListener("click", () => {
+      searchInput.value = "";
+      searchInput.focus();
+  });
+
+  // Handle Enter key for search
+  searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+          const query = searchInput.value.trim();
+          if (query) {
+              window.location.href = `/?query=${encodeURIComponent(query)}`;
+          }
+      }
+  });
 });
+
+
 
 // Table - add and remove ingredients
 const table = document.getElementsByClassName("fridge-table")[0].querySelector("tbody");
