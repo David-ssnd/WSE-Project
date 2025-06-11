@@ -4,6 +4,7 @@ const clearIcon = document.querySelector(".clear-icon");
 
 clearIcon.addEventListener("click", () => {
     searchInput.value = "";
+    searchInput.dispatchEvent(new Event("input"));
     displayRecipes(); // reset to all recipes
 });
 
