@@ -98,6 +98,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => {
             console.error('There has been a problem with fetch operation:', error);
         });
+
+        document.getElementById("createBtn").addEventListener("click", () => {
+            const token = getCookie("token");
+        
+            if (token) {
+                window.location.href = "/create_recipe/";
+            } else {
+                signupModal.style.display = "flex"; // or loginModal if you prefer
+            }
+        });
 });
     
 // Table - add and remove ingredients

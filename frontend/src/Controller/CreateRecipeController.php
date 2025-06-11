@@ -38,38 +38,40 @@ class CreateRecipeController
         return;
     }
 
-    $title = $_POST['recipe-title'] ?? '';
-    $ingredients = $_POST['ingredients'] ?? [];
-    $amounts = $_POST['amounts'] ?? [];
-    $prepTime = $_POST['prep-time'] ?? 0;
-    $cookTime = $_POST['cook-time'] ?? 0;
-    $temperature = $_POST['temperature'] ?? 0;
-    $servings = $_POST['servings'] ?? 0;
-    $stepDescriptions = $_POST['step-description'] ?? [];
+    // Read and decode JSON body
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
 
-    $mainImage = $_FILES['recipe-image'] ?? null;
-    $stepImages = $_FILES['step-image'] ?? null;
-
-    // Example validation
-    if ($title === '' || empty($ingredients)) {
+    // Basic validation
+    if (!is_array($data)) {
         http_response_code(400);
-        echo "Invalid input";
+        echo json_encode(['message' => 'Invalid JSON']);
         return;
     }
 
-    // Example: iterate ingredients
+    // Extract and sanitize inputs
+    $title = $data['title'] ?? '';
+    $ingredients = $data['ingredients'] ?? [];
+    $prepTime = $data['prep_time'] ?? 0;
+    $cookTime = $data['cook_time'] ?? 0;
+    $temperature = $data['temperature'] ?? 0;
+    $servings = $data['servings'] ?? 0;
+    $stepDescriptions = $data['step_descriptions'] ?? [];
+    $stepImages = $data['step_images'] ?? [];
+    $thumbnailImage = $data['thumbnail_image'] ?? null;
+
+    if (trim($title) === '' || empty($ingredients)) {
+        http_response_code(400);
+        echo json_encode(['message' => 'Title and ingredients are required']);
+        return;
+    }
+
+    // Combine step descriptions with corresponding images
     $steps = [];
     foreach ($stepDescriptions as $i => $desc) {
-        $image = [
-            'name' => $stepImages['name'][$i] ?? null,
-            'type' => $stepImages['type'][$i] ?? null,
-            'tmp_name' => $stepImages['tmp_name'][$i] ?? null,
-            'error' => $stepImages['error'][$i] ?? null,
-            'size' => $stepImages['size'][$i] ?? null,
-        ];
         $steps[] = [
             'description' => $desc,
-            'image' => $image
+            'image' => $stepImages[$i] ?? null
         ];
     }
 
@@ -81,8 +83,8 @@ class CreateRecipeController
         'cookTime' => $cookTime,
         'temperature' => $temperature,
         'servings' => $servings,
-        'ingredients' => array_map(null, $ingredients, $amounts),
-        'mainImage' => $mainImage,
+        'thumbnailImage' => $thumbnailImage,
+        'ingredients' => $ingredients,
         'steps' => $steps
     ]);
 }

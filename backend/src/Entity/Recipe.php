@@ -13,10 +13,15 @@ class Recipe implements \JsonSerializable
     private ?string $description;
     private \DateTime $created_at;
     private int $cook_time;
-    private ?string $instructions = null;
+    private ?string $thumbnail_image = null;
     private int $rating_count = 0;
     private float $average_rating = 0.0;
-    private ?string $thumbnail_image = null;
+    private float $prep_time = 0;
+    private float $temperature = 0;
+    private array $step_descriptions = [];
+    private array $step_images = [];
+    private int $servings = 0;
+    private array $ingredients = [];
 
     public function __construct(
         $id,
@@ -25,10 +30,15 @@ class Recipe implements \JsonSerializable
         ?string $description,
         \DateTime $created_at,
         int $cook_time,
-        ?string $instructions = null,
+        ?string $thumbnail_image = null,
         int $rating_count = 0,
         float $average_rating = 0.0,
-        ?string $thumbnail_image = null
+        float $prep_time = 0,
+        float $temperature = 0,
+        array $step_descriptions = [],
+        array $step_images = [],
+        int $servings = 0,
+        array $ingredients = []
     ) {
         $this->id = is_string($id) ? Uuid::fromString($id) : $id;
         $this->user_id = is_string($user_id) ? Uuid::fromString($user_id) : $user_id;
@@ -36,10 +46,15 @@ class Recipe implements \JsonSerializable
         $this->description = $description;
         $this->created_at = $created_at;
         $this->cook_time = $cook_time;
-        $this->instructions = $instructions;
+        $this->thumbnail_image = $thumbnail_image;
         $this->rating_count = $rating_count;
         $this->average_rating = $average_rating;
-        $this->thumbnail_image = $thumbnail_image;
+        $this->prep_time = $prep_time;
+        $this->temperature = $temperature;
+        $this->step_descriptions = $step_descriptions;
+        $this->step_images = $step_images;
+        $this->servings = $servings;
+        $this->ingredients = $ingredients;
     }
 
     public function getId(): UuidInterface
@@ -102,16 +117,6 @@ class Recipe implements \JsonSerializable
         $this->cook_time = $cook_time;
     }
 
-    public function getInstructions(): ?string
-    {
-        return $this->instructions;
-    }
-
-    public function setInstructions(?string $instructions): void
-    {
-        $this->instructions = $instructions;
-    }
-
     public function getRatingCount(): int
     {
         return $this->rating_count;
@@ -142,6 +147,66 @@ class Recipe implements \JsonSerializable
         $this->thumbnail_image = $thumbnail_image;
     }
 
+    public function getPrepTime(): float
+    {
+        return $this->prep_time;
+    }
+
+    public function setPrepTime(float $prep_time): void
+    {
+        $this->prep_time = $prep_time;
+    }
+
+    public function getTemperature(): float
+    {
+        return $this->temperature;
+    }
+
+    public function setTemperature(float $temperature): void
+    {
+        $this->temperature = $temperature;
+    }
+
+    public function getStepDescriptions(): array
+    {
+        return $this->step_descriptions;
+    }
+
+    public function setStepDescriptions(array $step_descriptions): void
+    {
+        $this->step_descriptions = $step_descriptions;
+    }
+
+    public function getStepImages(): array
+    {
+        return $this->step_images;
+    }
+
+    public function setStepImages(array $step_images): void
+    {
+        $this->step_images = $step_images;
+    }
+
+    public function getServings(): int
+    {
+        return $this->servings;
+    }
+
+    public function setServings(int $servings): void
+    {
+        $this->servings = $servings;
+    }
+
+    public function getIngredients(): array
+    {
+        return $this->ingredients;
+    }
+
+    public function setIngredients(array $ingredients): void
+    {
+        $this->ingredients = $ingredients;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -151,10 +216,15 @@ class Recipe implements \JsonSerializable
             'description' => $this->description,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'cook_time' => $this->cook_time,
-            'instructions' => $this->instructions,
             'rating_count' => $this->rating_count,
             'average_rating' => $this->average_rating,
             'thumbnail_image' => $this->thumbnail_image,
+            'prep_time' => $this->prep_time,
+            'temperature' => $this->temperature,
+            'step_descriptions' => $this->step_descriptions,
+            'step_images' => $this->step_images,
+            'servings' => $this->servings,
+            'ingredients' => $this->ingredients
         ];
     }
 }

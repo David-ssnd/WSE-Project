@@ -47,10 +47,15 @@ class RecipeModel
                 $row['description'] ?? null,
                 new \DateTime($row['created_at']),
                 $row['cook_time'] ?? 0,
-                $row['instructions'] ?? null,
+                $row['thumbnail_image'] ?? '../resources/noimage.png',
                 $row['rating_count'] ?? 0,
                 $row['average_rating'] ?? 0.0,
-                $row['thumbnail_image'] ?? null
+                $row['prep_time'] ?? 0,
+                $row['temperature'] ?? 0,
+                (array) json_decode($row['step_descriptions'], true),
+                (array) json_decode($row['step_images'], true),
+                $row['servings'] ?? 0,
+                (array) json_decode($row['ingredients'], true)
             );
         }
         return $recipes;
@@ -77,13 +82,22 @@ class RecipeModel
             $row['instructions'] ?? null,
             $row['rating_count'] ?? 0,
             $row['average_rating'] ?? 0.0,
-            $row['thumbnail_image'] ?? null
+            $row['thumbnail_image'] ?? null,
+            $row['prep_time'] ?? 0,
+            $row['temperature'] ?? 0,
+            $row['step_descriptions'] ? json_decode($row['step_descriptions'], true) : [],
+            $row['step_images'] ? json_decode($row['step_images'], true) : [],
+            $row['servings'] ?? 0,
+            $row['ingredients'] ? json_decode($row['ingredients'], true) : []
         );
     }
 
     public function createRecipeFromData(array $data): void
-    {
+{
+    try {
         $id = $this->generateUniqueRamseyUUID();
+
+        error_log("Generated UUID: " . $id);
 
         $recipe = new Recipe(
             $id,
@@ -92,20 +106,42 @@ class RecipeModel
             $data['description'] ?? null,
             new \DateTime(),
             $data['cook_time'] ?? 0,
-            $data['instructions'] ?? null,
+            $data['thumbnail_image'] ?? '../resources/noimage.png',
             0, // rating_count
             0.0, // average_rating
-            $data['thumbnail_image'] ?? null
+            $data['prep_time'] ?? 0,
+            $data['temperature'] ?? 0,
+            $data['step_descriptions'] ?? [],
+            $data['step_images'] ?? [],
+            $data['servings'] ?? 0,
+            $data['ingredients'] ?? []
         );
 
+        error_log("Recipe object created successfully");
+
         $this->insertRecipe($recipe);
+
+        error_log("Recipe inserted successfully");
+
+    } catch (\Throwable $e) {
+        error_log("Error in createRecipeFromData: " . $e->getMessage());
+        error_log($e->getTraceAsString());
+        throw $e;  // Optionally rethrow to see the error in your dev environment
+    }
+}
+
+    function toPgTextArray(array $phpArray): string {
+        return '{' . implode(',', array_map(function ($item) {
+            if ($item === null) return 'NULL'; // or '""' if you prefer empty strings
+            return '"' . addslashes($item) . '"';
+        }, $phpArray)) . '}';
     }
 
     private function insertRecipe(Recipe $recipe): void
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, instructions, rating_count, average_rating, thumbnail_image)
-             VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :instructions, :rating_count, :average_rating, :thumbnail_image)'
+            'INSERT INTO recipes (id, user_id, title, description, created_at, cook_time, rating_count, average_rating, thumbnail_image, prep_time, temperature, step_descriptions, step_images, servings, ingredients)
+             VALUES (:id, :user_id, :title, :description, :created_at, :cook_time, :rating_count, :average_rating, :thumbnail_image, :prep_time, :temperature, :step_descriptions, :step_images, :servings, :ingredients)'
         );
 
         $stmt->execute([
@@ -115,30 +151,55 @@ class RecipeModel
             ':description' => $recipe->getDescription(),
             ':created_at' => $recipe->getCreatedAt()->format('Y-m-d H:i:s'),
             ':cook_time' => $recipe->getCookTime(),
-            ':instructions' => $recipe->getInstructions(),
             ':rating_count' => $recipe->getRatingCount(),
             ':average_rating' => $recipe->getAverageRating(),
-            ':thumbnail_image' => $recipe->getThumbnailImage()
+            ':thumbnail_image' => $recipe->getThumbnailImage(),
+            ':prep_time' => $recipe->getPrepTime(),
+            ':temperature' => $recipe->getTemperature(),
+            ':step_descriptions' => $this->toPgTextArray($recipe->getStepDescriptions()),
+            ':step_images' => $this->toPgTextArray($recipe->getStepImages()),
+            ':servings' => $recipe->getServings(),
+            ':ingredients' => json_encode($recipe->getIngredients())
         ]);
     }
 
     public function updateRecipe(Recipe $recipe): void
-    {
-        $stmt = $this->pdo->prepare(
-            'UPDATE recipes SET title = :title, description = :description, cook_time = :cook_time, instructions = :instructions, rating_count = :rating_count, average_rating = :average_rating, thumbnail_image = :thumbnail_image WHERE id = :id'
-        );
+{
+    $stmt = $this->pdo->prepare(
+        'UPDATE recipes 
+         SET title = :title,
+             description = :description,
+             cook_time = :cook_time,
+             instructions = :instructions,
+             rating_count = :rating_count,
+             average_rating = :average_rating,
+             thumbnail_image = :thumbnail_image,
+             prep_time = :prep_time,
+             temperature = :temperature,
+             step_descriptions = :step_descriptions,
+             step_images = :step_images,
+             servings = :servings,
+             ingredients = :ingredients
+         WHERE id = :id'
+    );
 
-        $stmt->execute([
-            ':id' => $recipe->getId(),
-            ':title' => $recipe->getTitle(),
-            ':description' => $recipe->getDescription(),
-            ':cook_time' => $recipe->getCookTime(),
-            ':instructions' => $recipe->getInstructions(),
-            ':rating_count' => $recipe->getRatingCount(),
-            ':average_rating' => $recipe->getAverageRating(),
-            ':thumbnail_image' => $recipe->getThumbnailImage()
-        ]);
-    }
+    $stmt->execute([
+        ':id' => $recipe->getId(),
+        ':title' => $recipe->getTitle(),
+        ':description' => $recipe->getDescription(),
+        ':cook_time' => $recipe->getCookTime(),
+        ':instructions' => $recipe->getInstructions(),
+        ':rating_count' => $recipe->getRatingCount(),
+        ':average_rating' => $recipe->getAverageRating(),
+        ':thumbnail_image' => $recipe->getThumbnailImage(),
+        ':prep_time' => $recipe->getPrepTime(),
+        ':temperature' => $recipe->getTemperature(),
+        ':step_descriptions' => json_encode($recipe->getStepDescriptions()),
+        ':step_images' => json_encode($recipe->getStepImages()),
+        ':servings' => $recipe->getServings(),
+        ':ingredients' => json_encode($recipe->getIngredients())
+    ]);
+}
 
     public function deleteRecipe(string $id): void
     {

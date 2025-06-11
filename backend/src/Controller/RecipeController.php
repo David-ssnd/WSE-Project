@@ -57,33 +57,54 @@ class RecipeController
         }
     }
 
-public function create(): void
-{
-    header('Content-Type: application/json'); // ← ochrana pred mimo výstupom
-
-    $data = json_decode(file_get_contents('php://input'), true);
-    error_log("Raw POST: " . print_r($data, true));
-
-    if (!isset($data['title']) || !isset($data['user_id'])) {
-        $this->jsonView->render(['error' => 'Title and User ID are required'], 400);
-        return;
+    public function create(): void
+    {
+        header('Content-Type: application/json');
+    
+        $data = json_decode(file_get_contents('php://input'), true);
+        // 🔒 Extract token from the cookie
+        if (!isset($_COOKIE['token'])) {
+            $this->jsonView->render(['error' => 'Authentication token is missing'], 401);
+            return;
+        }
+    
+        $jwt = $_COOKIE['token'];
+        $secret = $_ENV['JWT_SECRET'] ?? 'your_default_secret'; // Replace with your actual secret management
+    
+        try {
+            $decoded = JWT::decode($jwt, new Key($secret, 'HS256'));
+            $userId = $decoded->sub ?? null;
+    
+            if (!$userId) {
+                $this->jsonView->render(['error' => 'Invalid token: missing subject'], 401);
+                return;
+            }
+    
+            if (!isset($data['title'])) {
+                $this->jsonView->render(['error' => 'Title is required'], 409);
+                return;
+            }
+            // Inject user_id into the data
+            $data['user_id'] = $userId;
+    
+            $this->recipeModel->createRecipeFromData($data);
+            $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
+    
+        } catch (\Firebase\JWT\ExpiredException $e) {
+            $this->jsonView->render(['error' => 'Token expired'], 401);
+        } catch (\Exception $e) {
+            error_log("JWT error: " . $e->getMessage());
+            $this->jsonView->render(['error' => 'Authentication failed'], 401);
+        }
+            
     }
-
-    try {
-        $this->recipeModel->createRecipeFromData($data);
-        $this->jsonView->render(['message' => 'Recipe created successfully'], 201);
-    } catch (\Exception $e) {
-        error_log("Exception: " . $e->getMessage());
-        $this->jsonView->render(['error' => $e->getMessage()], 500);
-    }
-}
 
 public function update(string $id): void
 {
     $data = json_decode(file_get_contents('php://input'), true);
 
     if (!$data || !isset($data['title'])) {
-        $this->jsonView->render(['error' => 'Title is required'], 400);
+        $this->jsonView->render(['error' => 'Title is required'], 442);
         return;
     }
 

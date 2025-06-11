@@ -16,13 +16,13 @@ table.addEventListener("click", (event) => {
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
             <td class="ingredient">
-                <input type="text" placeholder="Ingredient">
+                <input type="text" name="ingredients[]" placeholder="Ingredient">
             </td>
             <td class="amount">
-                <input type="text" placeholder="Amount">
+                <input type="text" name="amounts[]" placeholder="Amount">
             </td>
             <td class="actions">
-                <button class="remove-btn">
+                <button class="remove-btn" type="button">
                     <i class="fas fa-times"></i>
                 </button>
             </td>
@@ -77,14 +77,14 @@ function addStep() {
           <div class="step-img-container">
             <img class="image-preview" alt="Image Preview">
           </div>
-          <button class="btn upload-btn">Upload Image</button>
-          <input type="file" class="create-recipe-file-input" accept="image/*">
+          <button class="btn upload-btn" type="button">Upload Image</button>
+          <input type="file" class="create-recipe-file-input" name="step-image[]" accept="image/*">
         </div>
         <div class="step-info">
           <h3>Step ` + index + `</h3>
-          <textarea placeholder="Enter step description"></textarea>
+          <textarea name="step-description[]" placeholder="Enter step description"></textarea>
         </div>
-        <button class="btn remove-btn" onclick="removeStep(this)">
+        <button class="btn remove-btn" type="button" onclick="removeStep(this)">
         <i class="fas fa-times"></i>
     `;
     steps.appendChild(newStep);
@@ -128,6 +128,26 @@ function reNumerate() {
   }
 }
 
+function parseJwt(token) {
+  try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join(''));
+
+      return JSON.parse(jsonPayload);
+  } catch (e) {
+      console.error("Invalid token", e);
+      return null;
+  }
+}
+
+function getTokenFromCookie(name = "token") {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+
 document.querySelectorAll('input[type="number"]').forEach(input => {
   input.addEventListener('input', () => {
       if (input.value < 1) {
@@ -136,51 +156,94 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
   });
 });
 
-async function submitRecipe() {
-    const title = document.querySelector('.food-title').value;
-    const cookTime = parseInt(document.querySelector('#cook-time').value || 0);
-    const instructions = Array.from(document.querySelectorAll('.recipe-steps textarea'))
-        .map((textarea, i) => `Step ${i + 1}: ${textarea.value}`)
-        .join('\n');
+async function submitRecipe(event) {
+  event.preventDefault();
 
-    const fileInput = document.querySelector('.create-recipe-file-input');
-    let thumbnailImage = null;
-    if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        thumbnailImage = await toBase64(file);
-    }
+  const title = document.querySelector('.food-title').value.trim();
+  const prepTime = parseInt(document.querySelector('#prep-time').value || 0);
+  const cookTime = parseInt(document.querySelector('#cook-time').value || 0);
+  const temperature = parseInt(document.querySelector('#temperature').value || 0);
+  const servings = parseInt(document.querySelector('#servings').value || 0);
 
-    const data = {
-        user_id: 1, // TODO: Dynamicky získať prihláseného usera
-        title,
-        cook_time: cookTime,
-        instructions,
-        thumbnail_image: thumbnailImage
-    };
+  // Ingredients
+  const ingredients = Array.from(document.querySelectorAll('input[name="ingredients[]"]'))
+      .map(input => input.value.trim());
+  const amounts = Array.from(document.querySelectorAll('input[name="amounts[]"]'))
+      .map(input => input.value.trim());
 
-    fetch("/recipe/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(res => {
-        if (res.ok) {
-            alert("Recipe created!");
-            window.location.href = "/"; // alebo redirect na detail
-        } else {
-            return res.json().then(err => {
-                alert("Error: " + (err.message || "Unknown"));
-            });
-        }
-    })
-    .catch(err => alert("Network error: " + err));
+  const ingredientList = ingredients.map((ing, i) => ({
+      ingredient: ing,
+      amount: amounts[i] || ""
+  }));
+
+  // Main thumbnail image (the one in .food-item)
+  const thumbnailInput = document.querySelector('.food-item .create-recipe-file-input');
+  let thumbnailImage = null;
+  if (thumbnailInput && thumbnailInput.files.length > 0) {
+      thumbnailImage = await toBase64(thumbnailInput.files[0]);
+  }
+
+  // Steps
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const stepDescriptions = [];
+  const stepImages = [];
+
+  for (let step of steps) {
+      const description = step.querySelector('textarea')?.value.trim() || "";
+      const fileInput = step.querySelector('input[type="file"]');
+      const image = fileInput && fileInput.files.length > 0 ? await toBase64(fileInput.files[0]) : null;
+
+      stepDescriptions.push(description);
+      stepImages.push(image);
+  }
+
+  const data = {
+      title,
+      prep_time: prepTime,
+      cook_time: cookTime,
+      temperature,
+      servings,
+      thumbnail_image: thumbnailImage,
+      ingredients: ingredientList,
+      step_descriptions: stepDescriptions,
+      step_images: stepImages
+  };
+
+  console.log("Sending recipe data:", data);
+
+  fetch("/api/recipes/", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    credentials: 'include', // This sends cookies with the request
+    body: JSON.stringify(data)
+})
+.then(async res => {
+  if (res.ok) {
+      alert("Recipe created successfully!");
+      //window.location.href = "/";
+  } else {
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+          const err = await res.json();
+          alert("Error: " + (err.message || "Failed to create recipe"));
+      } else {
+          const errText = await res.text();
+          alert("Error: " + errText);
+      }
+  }
+})
+  .catch(err => {
+      alert("Network error: " + err.message);
+  });
 }
 
 function toBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
+  return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+  });
 }
