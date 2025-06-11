@@ -211,7 +211,7 @@ async function submitRecipe(event) {
 
   console.log("Sending recipe data:", data);
 
-  fetch("/api/recipes/", {
+  fetch("http://localhost:8081/api/recipes", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -221,7 +221,7 @@ async function submitRecipe(event) {
 })
 .then(async res => {
   if (res.ok) {
-      alert("Recipe created successfully!");
+      alert("Recipe created successfullyyyyyy!");
       //window.location.href = "/";
   } else {
       const contentType = res.headers.get("content-type");

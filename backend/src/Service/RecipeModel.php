@@ -96,9 +96,9 @@ class RecipeModel
 {
     try {
         $id = $this->generateUniqueRamseyUUID();
-
+        echo "Generated UUID: " . $id . "\n";
         error_log("Generated UUID: " . $id);
-
+        error_log("Incoming data: " . print_r($data, true));
         $recipe = new Recipe(
             $id,
             $data['user_id'],
