@@ -219,33 +219,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Table - add and remove ingredients
-const table = document.getElementsByClassName("fridge-table")[0].querySelector("tbody");
+// // Table - add and remove ingredients - temporary unavailable
+// const table = document.getElementsByClassName("fridge-table")[0].querySelector("tbody");
 
-table.addEventListener("click", (event) => {
-    if (event.target.classList.contains("fridge-add-btn")) {
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td class="ingredient">
-                <input type="text" placeholder="Ingredient">
-            </td>
-            <td class="amount">
-                <input type="text" placeholder="Amount">
-            </td>
-            <td class="actions">
-                <button class="remove-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </td>
-        `;
-        table.insertBefore(newRow, table.lastElementChild);
-    } else if (event.target.closest(".remove-btn")) {
-        const row = event.target.closest("tr");
-        if (row) {
-            row.remove();
-        }
-    }
-});
+// table.addEventListener("click", (event) => {
+//     if (event.target.classList.contains("fridge-add-btn")) {
+//         const newRow = document.createElement("tr");
+//         newRow.innerHTML = `
+//             <td class="ingredient">
+//                 <input type="text" placeholder="Ingredient">
+//             </td>
+//             <td class="amount">
+//                 <input type="text" placeholder="Amount">
+//             </td>
+//             <td class="actions">
+//                 <button class="remove-btn">
+//                     <i class="fas fa-times"></i>
+//                 </button>
+//             </td>
+//         `;
+//         table.insertBefore(newRow, table.lastElementChild);
+//     } else if (event.target.closest(".remove-btn")) {
+//         const row = event.target.closest("tr");
+//         if (row) {
+//             row.remove();
+//         }
+//     }
+// });
 
 // Login and Signup Modals
 const loginModal = document.getElementById("loginModal");
