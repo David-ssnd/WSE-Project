@@ -133,3 +133,53 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 });
+/*
+document.addEventListener("DOMContentLoaded", () => {
+    const recipeId = getRecipeIdFromUrl();
+
+    if (!recipeId) {
+        alert("Recipe ID is missing from URL.");
+        return;
+    }
+
+    fetch(`../../api/recipe/detail/${recipeId}`)  // uprav ak máš inú cestu
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.querySelector(".content-area").innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+
+            populateRecipeData(data);
+        })
+        .catch(error => {
+            console.error("Failed to load recipe:", error);
+        });
+});
+
+function getRecipeIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id"); // napr. ?id=RECIPE_UUID
+}
+
+function populateRecipeData(recipe) {
+    document.querySelector(".recipe-info .food-item img").src = recipe.thumbnail_image || "../resources/default-food.jpg";
+    document.querySelector(".recipe-info .food-item p").textContent = recipe.description || "";
+
+    // Napln detaily
+    document.getElementById("prep-time").textContent = recipe.prep_time || "N/A";
+    document.getElementById("cook-time").textContent = recipe.cook_time || "N/A";
+    document.getElementById("temperature").textContent = recipe.temperature || "N/A";
+    document.getElementById("servings").textContent = recipe.servings || "N/A";
+
+    // Inštrukcie (kroky)
+    const stepsDiv = document.querySelector(".recipe-steps");
+    if (recipe.instructions) {
+        const steps = recipe.instructions.split('\n');
+        steps.forEach((step, index) => {
+            const stepElem = document.createElement("p");
+            stepElem.textContent = `${index + 1}. ${step}`;
+            stepsDiv.appendChild(stepElem);
+        });
+    }
+}*/
