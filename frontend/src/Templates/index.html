@@ -17,9 +17,17 @@
             <input type="text" placeholder="Search">
             <span class="clear-icon">&times;</span>
         </div>
-        <button class="btn-reverse login-btn">Log In</button>
-        <button class="btn signup-btn">Sign Up</button>
+
+        <div class="auth-buttons">
+            <button class="btn-reverse login-btn">Log In</button>
+            <button class="btn signup-btn">Sign Up</button>
+        </div>
+
+        <button class="profile-icon" id="profileIcon" style="display: none;" onclick="window.location.href='/account/'">
+            <img src="/resources/avatar.png" alt="Profile" class="profile-img">
+        </button>
     </header>
+
     <div class="content-area main-page">
         <div class="fridge-area">
             <div class="fridge">
@@ -61,7 +69,7 @@
             </div>
         </div>
         <div class="recipes-feed">
-            <!-- sem sa recepty dynamicky načítajú -->
+            <!-- Recipes load here dynamically -->
         </div>  
     </div>
     

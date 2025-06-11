@@ -6,7 +6,24 @@ clearIcon.addEventListener("click", () => {
     searchInput.value = "";
 });
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+    const token = getCookie("token");
+    console.log("Token on load:", token);  // 🔍 Debug
+
+    if (token) {
+        document.querySelector(".auth-buttons").style.display = "none";
+        document.getElementById("profileIcon").style.display = "block";
+    } else {
+        document.querySelector(".auth-buttons").style.display = "flex";
+        document.getElementById("profileIcon").style.display = "none";
+    }
+
     document.querySelectorAll('.ingredient input').forEach(input => {
         input.addEventListener('input', function () {
             this.value = this.value.replace(/[^a-zA-Zá-žÁ-Ž ]/g, '');
@@ -20,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Fetching recipes
-    fetch('http://127.0.0.1:8081/api/recipes')
+    fetch('http://localhost:8081/api/recipes')
         .then(response => {
             if (!response.ok) {
             throw new Error('Network response was not ok ' + response);
@@ -136,10 +153,37 @@ window.addEventListener("click", (e) => {
     }
 });
 
-document.getElementById("loginForm").addEventListener("submit", (e) => {
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    alert("Login Successful!");
-    loginModal.style.display = "none";
+
+    const usernameOrEmail = e.target.username_or_email.value.trim();
+    const password = e.target.password.value;
+
+    try {
+        const response = await fetch("http://localhost:8081/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                username: usernameOrEmail,
+                password: password
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert("Login failed: " + (errorData.error || "Unknown error"));
+            return;
+        }
+
+        loginModal.style.display = "none";
+        e.target.reset();
+        window.location.reload();
+    } catch (error) {
+        alert("Network error: " + error.message);
+    }
 });
 
 document.getElementById("signupForm").addEventListener("submit", async (e) => {
@@ -156,7 +200,7 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:8081/api/auth/register", {
+        const response = await fetch("http://localhost:8081/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -174,7 +218,6 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
             return;
         }
 
-        alert("Registration successful!");
         signupModal.style.display = "none";
         e.target.reset();
     } catch (error) {

@@ -43,9 +43,7 @@ class UserController
 
         $this->view->render([
             'username' => $username,
-            'fullname' => $user->getFullname(),
-            'email'    => $user->getEmail(),
-            'phone'    => $user->getPhone()
+            'email'    => $user->getEmail()
         ], 200);
     }
 
