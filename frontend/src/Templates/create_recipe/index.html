@@ -106,7 +106,8 @@
                     </div>
                     <div class="step-info">
                         <h3>Step 1</h3>
-                        <textarea name="step-description[]" placeholder="Enter step description"></textarea>
+                        <textarea name="step-description[]" placeholder="Enter step description" maxlength="300"></textarea>
+                        <div class="step-char-count" aria-live="polite" style="font-size: 0.875rem; color: var(--secondary); margin-top: 0.25rem;">0 / 300</div>
                     </div>
                     <button class="btn remove-btn" type="button" onclick="removeStep(this)">
                         <i class="fas fa-times"></i>
