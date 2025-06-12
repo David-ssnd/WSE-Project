@@ -66,7 +66,8 @@ class UserModel
             $userId,
             $userData['username'],
             $userData['password_hash'],
-            $userData['email']
+            $userData['email'],
+            $userData['profile_picture'] ?? null
         );
 
         return $user;
@@ -82,7 +83,7 @@ class UserModel
     public function updateUserByUsername(string $userName, array $data): void
     {
         // Allowed fields for update
-        $allowedFields = ['email'];
+        $allowedFields = ['email', 'profile_picture'];
 
         // Validate input data
         foreach ($data as $key => $value) {
@@ -141,7 +142,8 @@ class UserModel
                 'id'            => Uuid::uuid4(),
                 'username'      => $username,
                 'password_hash' => $hashedPassword,
-                'email'         => $email
+                'email'         => $email,
+                'profile_picture' => null // Default to null, can be updated later
             ]
         );
         
@@ -191,6 +193,6 @@ class UserModel
     
     private function hydrate(array $data): User
     {
-        return new User($data['id'], $data['username'], $data['password_hash'], $data['email']);
+        return new User($data['id'], $data['username'], $data['password_hash'], $data['email'], $data['profile_picture'] ?? null);
     }
 }

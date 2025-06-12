@@ -37,8 +37,9 @@ class ProfileController
         }
 
         $this->view->render([
-            'username' => $user->getUsername(),
-            'email'    => $user->getEmail(),
+            'username'        => $user->getUsername(),
+            'email'           => $user->getEmail(),
+            'profile_picture' => $user->getProfilePicture(),
         ], 200);
     }
 
@@ -50,12 +51,32 @@ class ProfileController
         $data = json_decode(file_get_contents('php://input'), true);
 
         try {
-            $user = $this->authService->updateUserByToken($data);
+            $user = $this->authService->getUserFromToken();
         } catch (\Exception $e) {
             $this->view->render(['error' => $e->getMessage()], 401);
             return;
         }
+        
+        if (!isset($data['profile_picture'])) {
+            $this->view->render(['error' => 'Missing profile_picture'], 400);
+            return;
+        }
 
-        $this->view->render($user, 200); // 200 - OK
+        $base64 = $data['profile_picture'];
+
+        // Validate base64
+        if (!preg_match('/^data:image\/(png|jpe?g);base64,/', $base64)) {
+            $this->view->render(['error' => 'Invalid image data format.'], 400);
+            return;
+        }
+
+        try {
+            $this->authService->updateProfilePictureByToken($base64);
+        } catch (\Exception $e) {
+            $this->view->render(['error' => $e->getMessage()], 500);
+            return;
+        }
+
+        $this->view->render(['message' => 'Profile picture updated'], 200);
     }
 }

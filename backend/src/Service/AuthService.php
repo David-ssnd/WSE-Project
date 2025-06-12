@@ -60,6 +60,15 @@ class AuthService
         }
     }
 
+    public function updateProfilePictureByToken(string $base64): void
+    {
+        $user = $this->getUserFromToken();
+        $username = $user->getUsername();
+
+        $userModel = new UserModel();
+        $userModel->updateUserByUsername($username, ['profile_picture' => $base64]);
+    }
+
     public function validateToken(): \stdClass
     {
 

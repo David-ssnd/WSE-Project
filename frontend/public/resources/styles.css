@@ -581,6 +581,57 @@ body {
 
 /* Recipe page */
 
+.recipe-description {
+    width: calc(100%); /* account for padding */
+    background-color: var(--navbar);;
+    border-radius: 0.625rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-family: inherit;
+    color: var(--primary);
+    box-sizing: border-box;
+}
+
+.recipe-description label {
+    font-size: var(--fs-4);
+    font-weight: 600;
+    color: var(--secondary);
+    user-select: none;
+}
+
+.recipe-description textarea {
+    width: 100%;
+    min-height: 4.5rem; /* roughly 3 rows */
+    max-height: 9rem;
+    padding: 0.75rem 1rem;
+    font-size: var(--fs-3);
+    line-height: 1.4;
+    color: var(--primary);
+    background-color: var(--background);
+    border: 1.5px solid var(--secondary);
+    border-radius: 0.5rem;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 0.25s ease;
+    box-sizing: border-box;
+}
+
+.recipe-description textarea::placeholder {
+    color: var(--search-bar-placeholder);
+    font-style: italic;
+}
+
+.recipe-description textarea:focus {
+    outline: none;
+    border-color: var(--button-bg);
+    background-color: white;
+    box-shadow: 0 0 6px rgba(230, 108, 44, 0.5);
+}
+
+
+
 .recipe-info {
     width: calc(100% - 2.5rem); /* lebo padding */
     position: relative;
