@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    const profileImg = document.querySelector(".profile-icon img");
+
+    fetch("http://localhost:8081/api/profile", { credentials: "include" })
+    .then(res => {
+        if (!res.ok) throw new Error("Profile fetch failed");
+        return res.json();
+    })
+    .then(data => {
+        if (data.profile_picture) {
+        profileImg.src = data.profile_picture;
+        }
+    })
+    .catch(console.error);
+
+
   function getRecipeIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get("id");
