@@ -31,20 +31,17 @@ class SearchModel
 
     public function searchRecipes(string $query): array
     {
-        try {
-            $stmt = $this->pdo->prepare(
-                "SELECT *, GREATEST(similarity(title, :query), similarity(description, :query)) AS sim
-                 FROM recipes
-                 WHERE title % :query OR description % :query
-                 ORDER BY sim DESC
-                 LIMIT 20"
-            );
+        
+        $stmt = $this->pdo->prepare(
+            "SELECT *, GREATEST(similarity(title, :query), similarity(description, :query)) AS sim
+                FROM recipes
+                WHERE title % :query OR description % :query
+                ORDER BY sim DESC
+                LIMIT 20"
+        );
 
-            $stmt->bindParam(':query', $query);
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            throw new \Exception("Search failed: " . $e->getMessage());
-        }
+        $stmt->bindParam(':query', $query);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

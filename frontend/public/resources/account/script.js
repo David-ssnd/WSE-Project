@@ -253,8 +253,6 @@ async function fetchUserProfile() {
 
 function updateUserProfileUI(user) {
     const profileNameEl = document.getElementById("profile-nickname");
-    const profileIdEl = document.getElementById("profile-id");
 
     profileNameEl.textContent = user.username || "Unknown";
-    profileIdEl.textContent = `@${user.username || "unknown"}`;
 }

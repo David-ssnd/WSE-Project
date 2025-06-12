@@ -18,6 +18,7 @@ class SearchController
 
     public function searchRecipes(): void
     {
+        // zabranit pristupu z vonku
         try {
             $query = $_GET['query'] ?? '';
 
