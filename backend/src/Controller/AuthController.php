@@ -123,7 +123,7 @@ class AuthController
         setcookie("token", $token, [
             'expires' => time() + 3600,
             'path' => '/',
-            'secure' => false,           // <-- allow HTTP
+            'secure' => true,           // <-- allow HTTP
             'httponly' => false,         // <-- allow JS access
             'samesite' => 'None'          // safer for localhost
         ]);
