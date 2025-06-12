@@ -28,6 +28,7 @@ use App\Controller\RecipeController;
 use App\Controller\IngredientController;
 use App\Controller\RatingController;
 use App\Controller\CommentController;
+use App\Controller\ReviewController;
 use App\Controller\FavoriteController;
 use App\Controller\SearchController;
 
@@ -60,12 +61,10 @@ $router->post('/api/ingredients', IngredientController::class, 'create');
 $router->patch('/api/ingredients/{id:uuid}', IngredientController::class, 'update');
 $router->delete('/api/ingredients/{id:uuid}', IngredientController::class, 'delete');
 
-// ratings and comments routes
-$router->post('/api/recipes/{id:uuid}/rate', RatingController::class, 'rate');          //✅
-$router->get('/api/recipes/{id:uuid}/ratings', RatingController::class, 'getRatings');  //✅
-$router->post('/api/recipes/{id:uuid}/comments', CommentController::class, 'add');      //✅
-$router->get('/api/recipes/{id:uuid}/comments', CommentController::class, 'get');       //✅
-$router->delete('/api/comments/{id:uuid}', CommentController::class, 'delete');         //✅ neimplementovane na FE
+$router->post('/api/recipes/{id:uuid}/review', ReviewController::class, 'submitReview');
+$router->get('/api/recipes/{id:uuid}/reviews', ReviewController::class, 'getReviews');
+$router->delete('/api/reviews/{id:uuid}', ReviewController::class, 'deleteReview');
+
 
 // favorites routes
 $router->post('/api/recipes/{id:uuid}/favorite', FavoriteController::class, 'add');     //✅

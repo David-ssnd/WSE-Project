@@ -62,6 +62,7 @@ class AuthService
 
     public function validateToken(): \stdClass
     {
+
         $token = $_COOKIE['token'] ?? null;
 
         if (!$token) {

@@ -123,9 +123,9 @@ class AuthController
         setcookie("token", $token, [
             'expires' => time() + 3600,
             'path' => '/',
-            'secure' => true,
-            'httponly' => false,
-            'samesite' => 'None'
+            'secure' => false,           // <-- allow HTTP
+            'httponly' => false,         // <-- allow JS access
+            'samesite' => 'None'          // safer for localhost
         ]);
     }
 }
