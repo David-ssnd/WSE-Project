@@ -134,12 +134,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const reviewEl = document.createElement("div");
                 reviewEl.classList.add("review-item");
                 reviewEl.innerHTML = `
-                    <strong>${review.user ?? 'Anonymous'}</strong> 
+                    <strong>${review.username ?? 'Anonymous'}</strong> 
                     <span>${"★".repeat(review.rating)}${"☆".repeat(maxStars - review.rating)}</span>
                     <p>${review.comment ?? ''}</p>
                 `;
 
-                if (currentUser && review.user === currentUser) {
+                if (currentUser && review.username === currentUser) {
                     const delBtn = document.createElement("button");
                     delBtn.textContent = "Delete";
                     delBtn.addEventListener("click", async () => {
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const userRatingContainer = document.querySelector(".user-rating");
             if (userRatingContainer && currentUser) {
-                const myReview = data.find(r => r.user === currentUser);
+                const myReview = data.find(r => r.username === currentUser);
                 if (myReview) {
                     ratingInput.value = myReview.rating;
                     updateStars(myReview.rating);

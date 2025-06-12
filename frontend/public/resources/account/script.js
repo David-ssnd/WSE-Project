@@ -2,7 +2,6 @@ let recipesCreated = [];
 let recipesSaved = [];
 let recipes = [];
 
-// Fetch created recipes from cookie-authenticated route
 async function fetchCreatedRecipes() {
     const response = await fetch("http://localhost:8081/api/recipes/created", {
         credentials: 'include'
@@ -11,26 +10,12 @@ async function fetchCreatedRecipes() {
     return await response.json();
 }
 
-// Fetch saved recipes from cookie-authenticated route
 async function fetchSavedRecipes() {
     const response = await fetch("http://localhost:8081/api/profile/favorites", {
         credentials: 'include'
     });
     if (!response.ok) throw new Error("Failed to fetch saved recipes.");
     return await response.json();
-}
-
-async function isRecipeFavorited(recipeId) {
-    try {
-        const res = await fetch("http://localhost:8081/api/profile/favorites", {
-            credentials: 'include'
-        });
-        if (!res.ok) return false;
-        const favorites = await res.json();
-        return favorites.some(fav => fav.id === recipeId);
-    } catch {
-        return false;
-    }
 }
 
 async function toggleFavorite(recipeId, isFavoritedNow) {
@@ -60,7 +45,7 @@ async function displayFoodModal(recipe) {
     const favoriteBtnIcon = document.querySelector(".favoriteBtn i");
     const stepByStepBtn = document.querySelector(".instructionsBtn");
 
-    let isFavorited = await isRecipeFavorited(recipe.id);
+    let isFavorited = recipesSaved.some(fav => fav.id === recipe.id);
 
     function updateFavoriteIcon() {
         favoriteBtnIcon.classList.toggle("fas", isFavorited);
@@ -185,7 +170,6 @@ function previewImage(event) {
 
         const result = await response.json();
         if (response.ok) {
-            // Update avatar image src immediately with the new image
             const avatarImg = document.querySelector(".avatar-img");
             avatarImg.src = base64Image;
         } else {
@@ -197,11 +181,10 @@ function previewImage(event) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-
     document.querySelector("#profile-picture-input")?.addEventListener("change", function () {
         const file = this.files[0];
         if (!file) return;
-    
+
         const previewUrl = URL.createObjectURL(file);
         const avatarImg = document.querySelector(".avatar-img");
         avatarImg.src = previewUrl;
@@ -235,19 +218,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
 
-        try {
-            recipesCreated = await fetchCreatedRecipes();
-        } catch (err) {
-            console.error("Failed to fetch created recipes:", err);
-            recipesCreated = [];
-        }
+        const [created, saved] = await Promise.all([
+            fetchCreatedRecipes().catch(err => {
+                console.error("Failed to fetch created recipes:", err);
+                return [];
+            }),
+            fetchSavedRecipes().catch(err => {
+                console.warn("Saved recipes not available:", err);
+                return [];
+            })
+        ]);
 
-        try {
-            recipesSaved = await fetchSavedRecipes();
-        } catch (err) {
-            console.warn("Saved recipes not available:", err);
-            recipesSaved = [];
-        }
+        recipesCreated = created;
+        recipesSaved = saved;
 
         changeRecipes(1);
         setupModalClose();
