@@ -102,8 +102,6 @@ class RecipeModel
 {
     try {
         $id = $this->generateUniqueRamseyUUID();
-        error_log("Generated UUID: " . $id);
-        error_log("Incoming data: " . print_r($data, true));
 
         $stepDescriptions = $data['step_descriptions'] ?? [];
         $stepImages = $data['step_images'] ?? [];
@@ -132,9 +130,8 @@ class RecipeModel
             $data['ingredients'] ?? []
         );
 
-        error_log("Recipe object created successfully");
         $this->insertRecipe($recipe);
-        error_log("Recipe inserted successfully");
+
 
     } catch (\Throwable $e) {
         error_log("Error in createRecipeFromData: " . $e->getMessage());
@@ -247,7 +244,6 @@ class RecipeModel
             $count = (int) $stmt->fetchColumn();
         } while ($count > 0);
 
-        error_log("Generated UUID: " . $uuid);
         return $uuid;
     }
 }

@@ -31,7 +31,7 @@ class FavoriteModel
 
     public function addFavorite(string $userId, string $recipeId): void
 {
-    error_log("Adding favorite for user $userId, recipe $recipeId");
+
 
     $stmt = $this->pdo->prepare("
         UPDATE users
@@ -43,11 +43,7 @@ class FavoriteModel
         ':recipe_id' => $recipeId
     ]);
 
-    if ($stmt->rowCount() === 0) {
-        error_log("Favorite not added — either user not found or recipe already in favorites.");
-    } else {
-        error_log("✅ Favorite added successfully.");
-    }
+
 }
 
     public function removeFavorite(string $userId, string $recipeId): void
